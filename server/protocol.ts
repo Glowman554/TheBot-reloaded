@@ -4,7 +4,9 @@ export namespace from_server {
 		message_send_ack = 2,
 		internal_error_pkg = 3,
 		config_response = 4,
-		key_auth_response = 5
+		key_auth_response = 5,
+		message_send_media = 6,
+		set_bot_status = 7
 	};
 
 	export interface message_send_pkg {
@@ -29,6 +31,23 @@ export namespace from_server {
 
 	export interface key_auth_response_pkg {
 		success: boolean;
+	};
+
+	export enum message_send_media_pkg_type {
+		picture = 1,
+		video = 2,
+		sticker = 3,
+		audio = 4
+	};
+
+	export interface message_send_media_pkg {
+		type: message_send_media_pkg_type;
+		path: string;
+		id: number;
+	};
+
+	export interface set_bot_status_pkg {
+		status: string;
 	};
 
 	export interface pkg {
@@ -91,6 +110,30 @@ export namespace from_server {
 
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.key_auth_response,
+			data: pkg
+		}));
+	}
+
+	export async function send_message_media(type: message_send_media_pkg_type, path: string, id: number, socket: WebSocket) {
+		var pkg: from_server.message_send_media_pkg = {
+			type: type,
+			path: path,
+			id: id
+		};
+
+		await socket.send(JSON.stringify({
+			id: from_server.pkg_ids.message_send_media,
+			data: pkg
+		}));
+	}
+
+	export async function send_set_bot_status(status: string, socket: WebSocket) {
+		var pkg: from_server.set_bot_status_pkg = {
+			status: status
+		};
+
+		await socket.send(JSON.stringify({
+			id: from_server.pkg_ids.set_bot_status,
 			data: pkg
 		}));
 	}

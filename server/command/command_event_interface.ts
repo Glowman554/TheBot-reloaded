@@ -45,9 +45,43 @@ export class CommandEventImpl implements CommandEventInterface {
 		});
 	}
 
-	send_picture_message(file: string): Promise<void> { return new Promise((resolve, reject) => { log("command_event", "TODO: implement"); reject(); }); }
-	send_video_message(file: string): Promise<void> { return new Promise((resolve, reject) => { log("command_event", "TODO: implement"); reject(); }); }
-	send_sticker_message(file: string): Promise<void> { return new Promise((resolve, reject) => { log("command_event", "TODO: implement"); reject(); }); }
-	send_audio_message(file: string): Promise<void> { return new Promise((resolve, reject) => { log("command_event", "TODO: implement"); reject(); }); }
-	set_bot_status(status: string): Promise<void> { return new Promise((resolve, reject) => { log("command_event", "TODO: implement"); reject(); }); }
+	send_picture_message(file: string): Promise<void> {
+		return new Promise((resolve, reject) => { 
+			from_server.send_message_media(from_server.message_send_media_pkg_type.picture, file, this.pkg.id, this.websocket).then(() => {
+				resolve();
+			});
+		})
+	}
+
+	send_video_message(file: string): Promise<void> {
+		return new Promise((resolve, reject) => {
+			from_server.send_message_media(from_server.message_send_media_pkg_type.video, file, this.pkg.id, this.websocket).then(() => {
+				resolve();
+			});
+		});
+	}
+
+	send_sticker_message(file: string): Promise<void> {
+		return new Promise((resolve, reject) => {
+			from_server.send_message_media(from_server.message_send_media_pkg_type.sticker, file, this.pkg.id, this.websocket).then(() => {
+				resolve();
+			});
+		});
+	}
+
+	send_audio_message(file: string): Promise<void> {
+		return new Promise((resolve, reject) => {
+			from_server.send_message_media(from_server.message_send_media_pkg_type.audio, file, this.pkg.id, this.websocket).then(() => {
+				resolve();
+			});
+		});
+	}
+
+	set_bot_status(status: string): Promise<void> {
+		return new Promise((resolve, reject) => {
+			from_server.send_set_bot_status(status, this.websocket).then(() => {
+				resolve();
+			});
+		});
+	}
 }

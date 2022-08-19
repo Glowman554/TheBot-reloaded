@@ -5,7 +5,16 @@ export var from_server = {
 	message_send_ack: 2,
 	internal_error: 3,
 	config_response: 4,
-	key_auth_response: 5
+	key_auth_response: 5,
+	message_send_media: 6,
+	set_bot_status: 7,
+
+	message_send_media_pkg_type: {
+		picture: 1,
+		video: 2,
+		sticker: 3,
+		audio: 4
+	}
 };
 
 export var to_server = {

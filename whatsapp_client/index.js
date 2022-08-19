@@ -42,6 +42,8 @@ add_handler(from_server.message_send, handle_message_send);
 add_handler(from_server.message_send_ack, handle_message_ack);
 add_handler(from_server.key_auth_response, handle_key_auth_response);
 add_handler(from_server.internal_error, handle_internal_error);
+add_handler(from_server.message_send_media, handle_message_send_media);
+add_handler(from_server.set_bot_status, handle_set_bot_status);
 
 connect_server('ws://localhost:8080/', process.argv[2]);
 
@@ -123,4 +125,18 @@ export function handle_key_auth_response(pkg) {
 	} else {
 		log("Auth success!");
 	}
+}
+
+export function handle_message_send_media(pkg) {
+	log("Answering to message " + pkg.id + " with " + pkg.path);
+
+
+	client.sendMessage(message_get(pkg.id).from, wwebjs.MessageMedia.fromFilePath(pkg.path), {
+		sendMediaAsSticker: pkg.type == from_server.message_send_media_pkg_type.sticker
+	});
+}
+
+export function handle_set_bot_status(pkg) {
+	log("Setting bot status to " + pkg.status);
+	client.setStatus(pkg.status);
 }

@@ -1,5 +1,5 @@
 import { loadable } from "../../loadable.ts";
-import { command_manager, CommandEvent, CommandResponse, Command, CommandExecutor, fail } from "../command.ts";
+import { command_manager, CommandEvent, CommandResponse, Command, CommandExecutor, fail, empty } from "../command.ts";
 
 export default class Utils implements loadable {
 	load(): void {
@@ -32,6 +32,20 @@ export default class Utils implements loadable {
 					is_response: true,
 					response: event.interface.args.join(" ")
 				};
+			}
+		} as CommandExecutor, undefined));
+
+		command_manager.add_command(new Command("test","", "", {
+			execute: async (event: CommandEvent): Promise<CommandResponse> => {
+				if (event.interface.args.length != 0) {
+					return fail;
+				}
+
+				event.interface.send_sticker_message("/home/janick/Pictures/Screenshot_20220814_010201.png");
+				event.interface.send_picture_message("/home/janick/Pictures/Screenshot_20220814_010201.png");
+				event.interface.set_bot_status("#test");
+	
+				return empty;
 			}
 		} as CommandExecutor, undefined));
 	}

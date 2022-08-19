@@ -43,10 +43,12 @@ export interface CommandEventInterface {
 	chat_id: string;
 
 	send_message(message: string): Promise<void>;
+
 	send_picture_message(file: string): Promise<void>;
 	send_video_message(file: string): Promise<void>;
 	send_sticker_message(file: string): Promise<void>;
 	send_audio_message(file: string): Promise<void>;
+
 	set_bot_status(status: string): Promise<void>;
 
 	files: string[]|undefined;

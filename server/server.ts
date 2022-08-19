@@ -89,6 +89,10 @@ async function reqHandler(req: Request) {
 			}
 		}
 	}
+	ws.onclose = async (e) => {
+		log("server", "Client disconnected");
+	}
+	
 	return response;
 }
 

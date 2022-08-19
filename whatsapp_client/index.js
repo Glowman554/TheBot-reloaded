@@ -2,11 +2,10 @@ import wwebjs from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 
 import { log } from './log.js';
-import { send_to_server, connect_server, config_get } from './server.js';
+import { to_server, from_server } from 'bot_server_client/protocol.js';
+import { connect_server, add_handler, set_logger, connection } from 'bot_server_client/client.js';
 
 var messages = {};
-
-// TODO: rewrite this shit
 
 function message_cleanup() {
 	// delete messages older than 5 minutes
@@ -38,7 +37,13 @@ function message_delete(id) {
 	delete messages[id];
 }
 
-connect_server('ws://localhost:8080/');
+set_logger(log);
+add_handler(from_server.message_send, handle_message_send);
+add_handler(from_server.message_send_ack, handle_message_ack);
+add_handler(from_server.key_auth_response, handle_key_auth_response);
+add_handler(from_server.internal_error, handle_internal_error);
+
+connect_server('ws://localhost:8080/', process.argv[2]);
 
 const client = new wwebjs.Client({
 	authStrategy: new wwebjs.LocalAuth()
@@ -63,19 +68,7 @@ client.on('message', async msg => {
 
 	log("Message from " + msg.from + ": " + msg.body);
 
-	var pkg = {
-		id: 2,
-		data: {
-			message: msg.body,
-			chat_id: msg.from,
-			user_id: msg.author || msg.from,
-			id: message_register(msg),
-			quote_text: msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined,
-			mentions: msg.mentionedIds
-		}
-	}
-
-	send_to_server(pkg);
+	to_server.send_on_message(msg.body, msg.author || msg.from, msg.mentionedIds, msg.from, msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined, message_register(msg));
 });
 
 client.initialize();

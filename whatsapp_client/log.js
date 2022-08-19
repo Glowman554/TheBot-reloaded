@@ -1,11 +1,5 @@
-import { send_to_server } from "./server.js";
+import { to_server } from "bot_server_client/protocol.js";
 
 export function log(msg) {
-	send_to_server({
-		id: 1,
-		data: {
-			message: msg,
-			client_name: "whatsapp"
-		}
-	});
+	to_server.send_log(msg, "whatsapp");
 }

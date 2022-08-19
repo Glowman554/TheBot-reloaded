@@ -20,6 +20,8 @@ export function connect_server(url) {
 			console.log("-> " + data);
 			connection.sendUTF(data);
 		}
+		connection.send("auth:" + process.argv[2]);
+
 		log('WebSocket Client Connected');
 		connection.on('error', function(error) {
 			socket = null;

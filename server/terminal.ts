@@ -25,6 +25,7 @@ function input() {
 async function main() {
 	ws = new WebSocket("ws://localhost:8080");
 	ws.onopen = async () => {
+		ws.send("auth:" + prompt("key >"));
 		log("Connected");
 		log(String(await to_server.config_get("root", "port", ws)));
 		input();

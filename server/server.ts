@@ -48,13 +48,32 @@ async function reqHandler(req: Request) {
 	const { socket: ws, response } = Deno.upgradeWebSocket(req);
 	log("server", "New client connected");
 
+	var client_authenticated = false;
+
 	ws.onmessage = async (e) => {
-		var pkg = JSON.parse(e.data) as to_server.pkg;
-		try {
-			await handle_pkg(pkg, ws);
-		} catch (e) {
-			log("error", "Oepsi woepsie: " + e);
-			from_server.send_internal_error(String(e), pkg, ws);
+		if (!client_authenticated) {
+			if (String(e.data).startsWith("auth:")) {
+				var auth_data = String(e.data).substring(5);
+				log("server", `Authenticating client using key ${auth_data}`);
+				if (auth_data == config.get("ws_key")) {
+					client_authenticated = true;
+					log("server", "Client authenticated");
+				} else {
+					log("server", "Client authentication failed");
+					ws.close();
+				}
+			} else {
+				log("server", "Invalid authentication data (" + String(e.data) + ")");
+				ws.close();
+			}
+		} else {
+			var pkg = JSON.parse(e.data) as to_server.pkg;
+			try {
+				await handle_pkg(pkg, ws);
+			} catch (e) {
+				log("error", "Oepsi woepsie: " + e);
+				from_server.send_internal_error(String(e), pkg, ws);
+			}
 		}
 	}
 	return response;

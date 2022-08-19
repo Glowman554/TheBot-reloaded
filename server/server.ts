@@ -50,7 +50,19 @@ async function reqHandler(req: Request) {
 
 	var client_authenticated = false;
 
+	if (Boolean(config.get("log_packets"))) {
+		var old_send = ws.send;
+		ws.send = async (data: string | Blob | ArrayBufferView | ArrayBufferLike) => {
+			log("pkg", "-> " + data);
+			await old_send.call(ws, data);
+		}
+	}
+
 	ws.onmessage = async (e) => {
+		if (Boolean(config.get("log_packets"))) {
+			log("pkg", "<- " + e.data);
+		}
+
 		if (!client_authenticated) {
 			if (String(e.data).startsWith("auth:")) {
 				var auth_data = String(e.data).substring(5);

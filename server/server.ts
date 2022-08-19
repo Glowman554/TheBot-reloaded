@@ -6,6 +6,8 @@ import { log } from "./logger.ts";
 import { CommandEventImpl } from "./command/command_event_interface.ts";
 import { command_manager, CommandEvent, Command, CommandExecutor, CommandResponse } from "./command/command.ts";
 
+import { config } from "./config.ts";
+
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
 
@@ -52,38 +54,44 @@ async function reqHandler(req: Request) {
 	return response;
 }
 
-serve(reqHandler, { port: 8080 });
+function main() {
+	config.parse();
 
-command_manager.add_command(new Command("crash", "Crash the bot!", "Use '#crash' to crash the bot! (Admin only)", {
-	execute: async (event: CommandEvent): Promise<CommandResponse> => {
-		throw new Error("Crash!");
-	}
-} as CommandExecutor, "crash"));
+	serve(reqHandler, { port: Number(config.get("port")) });
 
-command_manager.add_command(new Command("ping", "Ping the bot!", "Use '#ping' to ping the bot!", {
-	execute: async (event: CommandEvent): Promise<CommandResponse> => {
-		if (event.interface.args.length != 0) {
+	command_manager.add_command(new Command("crash", "Crash the bot!", "Use '#crash' to crash the bot! (Admin only)", {
+		execute: async (event: CommandEvent): Promise<CommandResponse> => {
+			throw new Error("Crash!");
 		}
+	} as CommandExecutor, "crash"));
 
-		return {
-			is_response: true,
-			response: "Pong!"
-		};
-	}
-} as CommandExecutor, undefined));
+	command_manager.add_command(new Command("ping", "Ping the bot!", "Use '#ping' to ping the bot!", {
+		execute: async (event: CommandEvent): Promise<CommandResponse> => {
+			if (event.interface.args.length != 0) {
+			}
 
-command_manager.add_command(new Command("say", "Say something to the chat!", "Use '#say <message>' to say something to the chat!", {
-	execute: async (event: CommandEvent): Promise<CommandResponse> => {
-		if (event.interface.args.length == 0) {
 			return {
 				is_response: true,
-				response: "You need to specify a message!"
+				response: "Pong!"
 			};
 		}
+	} as CommandExecutor, undefined));
 
-		return {
-			is_response: true,
-			response: event.interface.args.join(" ")
-		};
-	}
-} as CommandExecutor, undefined));
+	command_manager.add_command(new Command("say", "Say something to the chat!", "Use '#say <message>' to say something to the chat!", {
+		execute: async (event: CommandEvent): Promise<CommandResponse> => {
+			if (event.interface.args.length == 0) {
+				return {
+					is_response: true,
+					response: "You need to specify a message!"
+				};
+			}
+
+			return {
+				is_response: true,
+				response: event.interface.args.join(" ")
+			};
+		}
+	} as CommandExecutor, undefined));
+}
+
+main();

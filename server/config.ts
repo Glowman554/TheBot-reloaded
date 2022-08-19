@@ -53,4 +53,10 @@ class ConfigParser {
 	}
 }
 
-export var config = new ConfigParser(Deno.readTextFileSync("config.cfg"));
+export var config: ConfigParser;
+export function init_config(config_file: string): void {
+	log("config", "Loading config from " + config_file);
+
+	config = new ConfigParser(Deno.readTextFileSync(config_file));
+	config.parse();
+}

@@ -4,9 +4,9 @@ import { to_server, from_server } from "./protocol.ts";
 import { log } from "./logger.ts";
 
 import { CommandEventImpl } from "./command/command_event_interface.ts";
-import { command_manager, CommandEvent, Command, CommandExecutor, CommandResponse } from "./command/command.ts";
+import { command_manager, CommandEvent, Command, CommandExecutor, CommandResponse, init_command_manager } from "./command/command.ts";
 
-import { config } from "./config.ts";
+import { config, init_config } from "./config.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
@@ -92,14 +92,17 @@ async function reqHandler(req: Request) {
 	ws.onclose = async (e) => {
 		log("server", "Client disconnected");
 	}
-	
+
 	return response;
 }
 
 function main() {
-	config.parse();
+	init_config("config.cfg");
+	init_command_manager(String(config.get("command_prefix")));
 
-	serve(reqHandler, { port: Number(config.get("port")) });
+	serve(reqHandler, { port: Number(config.get("port")), onListen: (params) => {
+		log("server", "Listening on " + params.hostname + ":" + params.port);
+	} });
 
 	command_manager.add_command(new Command("crash", "Crash the bot!", "Use '#crash' to crash the bot! (Admin only)", {
 		execute: async (event: CommandEvent): Promise<CommandResponse> => {

@@ -161,4 +161,9 @@ export class CommandManager {
 	}
 }
 
-export var command_manager = new CommandManager("fox!");
+export var command_manager: CommandManager;
+export function init_command_manager(prefix: string): void {
+	log("command", "Initializing command manager with prefix " + prefix);
+
+	command_manager = new CommandManager(prefix);
+}

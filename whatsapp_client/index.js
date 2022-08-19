@@ -52,7 +52,6 @@ client.on('qr', (qr) => {
 
 client.on('ready', async () => {
 	log('Client is ready!');
-	log(String(await config_get("root","port")));
 });
 
 client.on('message', async msg => {
@@ -120,5 +119,13 @@ export function handle_internal_error(pkg) {
 		client.sendMessage(message_get(pkg.cause.data.id).from, "Internal error: " + pkg.message);
 	} else {
 		log("Error not caused by a on_message pkg. Can't send informative message.");
+	}
+}
+
+export function handle_key_auth_response(pkg) {
+	if (!pkg.success) {
+		throw new Error("Auth failed!");
+	} else {
+		log("Auth success!");
 	}
 }

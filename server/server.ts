@@ -58,13 +58,14 @@ async function reqHandler(req: Request) {
 				if (auth_data == config.get("ws_key")) {
 					client_authenticated = true;
 					log("server", "Client authenticated");
+					await from_server.send_key_auth_response(true, ws);
 				} else {
 					log("server", "Client authentication failed");
-					ws.close();
+					await from_server.send_key_auth_response(false, ws);
 				}
 			} else {
 				log("server", "Invalid authentication data (" + String(e.data) + ")");
-				ws.close();
+				await from_server.send_key_auth_response(false, ws);
 			}
 		} else {
 			var pkg = JSON.parse(e.data) as to_server.pkg;

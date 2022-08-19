@@ -1,4 +1,4 @@
-import { handle_message_ack, handle_message_send, handle_internal_error } from "./index.js";
+import { handle_message_ack, handle_message_send, handle_internal_error, handle_key_auth_response } from "./index.js";
 import { log } from "./log.js";
 import  websocket from "websocket";
 var socket;
@@ -106,6 +106,7 @@ var handlers = [];
 handlers[1] = handle_message_send;
 handlers[2] = handle_message_ack;
 handlers[3] = handle_internal_error;
+handlers[5] = handle_key_auth_response;
 
 export function handle_from_server(pkg) {
 	if (handlers[pkg.id]) {

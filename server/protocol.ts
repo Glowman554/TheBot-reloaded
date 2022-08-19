@@ -4,6 +4,7 @@ export namespace from_server {
 		message_send_ack = 2,
 		internal_error_pkg = 3,
 		config_response = 4,
+		key_auth_response = 5
 	};
 
 	export interface message_send_pkg {
@@ -24,6 +25,10 @@ export namespace from_server {
 		config: object|string;
 		section: string;
 		key: string;
+	};
+
+	export interface key_auth_response_pkg {
+		success: boolean;
 	};
 
 	export interface pkg {
@@ -75,6 +80,17 @@ export namespace from_server {
 	
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.config_response,
+			data: pkg
+		}));
+	}
+
+	export async function send_key_auth_response(success: boolean, socket: WebSocket) {
+		var pkg: from_server.key_auth_response_pkg = {
+			success: success
+		};
+
+		await socket.send(JSON.stringify({
+			id: from_server.pkg_ids.key_auth_response,
 			data: pkg
 		}));
 	}

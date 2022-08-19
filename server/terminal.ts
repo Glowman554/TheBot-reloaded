@@ -27,7 +27,6 @@ async function main() {
 	ws.onopen = async () => {
 		ws.send("auth:" + prompt("key >"));
 		log("Connected");
-		log(String(await to_server.config_get("root", "port", ws)));
 		input();
 	}
 	ws.onmessage = (event) => {
@@ -38,6 +37,12 @@ async function main() {
 				break;
 			case from_server.pkg_ids.message_send:
 				console.log(pkg.data.message);
+				break;
+			case from_server.pkg_ids.key_auth_response:
+				console.log("Auth success: " + pkg.data.success);
+				if (!pkg.data.success) {
+					Deno.exit(1);
+				}
 				break;
 		}
 	}

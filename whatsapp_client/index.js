@@ -6,6 +6,8 @@ import { send_to_server, connect_server, config_get } from './server.js';
 
 var messages = {};
 
+// TODO: rewrite this shit
+
 function message_cleanup() {
 	// delete messages older than 5 minutes
 	var now = new Date();

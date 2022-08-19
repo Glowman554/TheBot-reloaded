@@ -19,6 +19,10 @@ async function handle_log_pkg(pkg: to_server.log_pkg, socket: WebSocket) {
 	log(pkg.client_name, pkg.message);
 }
 
+async function handle_config_request(pkg: to_server.config_request_pkg, socket: WebSocket) {
+	await from_server.send_config_response(config.get(pkg.key, pkg.section), pkg.section, pkg.key, socket);
+}
+
 async function handle_pkg(pkg:to_server.pkg, socket: WebSocket) {
 	switch (pkg.id) {
 		case to_server.pkg_ids.on_message:
@@ -27,9 +31,11 @@ async function handle_pkg(pkg:to_server.pkg, socket: WebSocket) {
 		case to_server.pkg_ids.log:
 			await handle_log_pkg(pkg.data as to_server.log_pkg, socket);
 			break;
-		default:
-			console.log(`Unknown package id: ${pkg.id}`);
+		case to_server.pkg_ids.config_request:
+			await handle_config_request(pkg.data as to_server.config_request_pkg, socket);
 			break;
+		default:
+			throw new Error(`Unknown package id: ${pkg.id}`);
 	}
 }
 

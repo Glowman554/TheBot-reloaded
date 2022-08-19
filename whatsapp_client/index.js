@@ -2,7 +2,7 @@ import wwebjs from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 
 import { log } from './log.js';
-import { send_to_server, connect_server } from './server.js';
+import { send_to_server, connect_server, config_get } from './server.js';
 
 var messages = {};
 
@@ -50,8 +50,9 @@ client.on('qr', (qr) => {
 	});
 });
 
-client.on('ready', () => {
+client.on('ready', async () => {
 	log('Client is ready!');
+	log(String(await config_get("root","port")));
 });
 
 client.on('message', async msg => {

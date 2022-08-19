@@ -2,7 +2,8 @@ export namespace from_server {
 	export enum pkg_ids {
 		message_send = 1,
 		message_send_ack = 2,
-		internal_error_pkg = 3
+		internal_error_pkg = 3,
+		config_response = 4,
 	};
 
 	export interface message_send_pkg {
@@ -17,6 +18,12 @@ export namespace from_server {
 	export interface internal_error_pkg {
 		message: string;
 		cause: to_server.pkg;
+	};
+
+	export interface config_response_pkg {
+		config: object|string;
+		section: string;
+		key: string;
 	};
 
 	export interface pkg {
@@ -58,12 +65,26 @@ export namespace from_server {
 			data: pkg
 		}));
 	}
+
+	export async function send_config_response(config: object|string, section: string, key: string, socket: WebSocket) {
+		var pkg: from_server.config_response_pkg = {
+			config: config,
+			section: section,
+			key: key
+		};
+	
+		await socket.send(JSON.stringify({
+			id: from_server.pkg_ids.config_response,
+			data: pkg
+		}));
+	}
 }
 
 export namespace to_server {
 	export enum pkg_ids {
 		log = 1,
-		on_message = 2
+		on_message = 2,
+		config_request = 3
 	};
 
 	export interface on_message_pkg {
@@ -80,6 +101,11 @@ export namespace to_server {
 	export interface log_pkg {
 		message: string;
 		client_name: string;
+	};
+
+	export interface config_request_pkg {
+		section: string;
+		key: string;
 	};
 
 	export interface pkg {
@@ -113,5 +139,42 @@ export namespace to_server {
 			id: to_server.pkg_ids.on_message,
 			data: pkg
 		}));
+	}
+
+	export async function send_config_request(section: string, key: string, socket: WebSocket) {
+		var pkg: to_server.config_request_pkg = {
+			section: section,
+			key: key
+		};
+	
+		await socket.send(JSON.stringify({
+			id: to_server.pkg_ids.config_request,
+			data: pkg
+		}));
+	}
+
+
+	export function config_get(section: string, key: string, socket: WebSocket): Promise<object|string> {
+		return new Promise((resolve, reject) => {
+			var old_wsonmessage = socket.onmessage;
+			socket.onmessage = async (event) => {
+				var pkg = JSON.parse(event.data);
+				if (pkg.id == from_server.pkg_ids.config_response) {
+					var cr_pkg = pkg.data as from_server.config_response_pkg;
+					if (cr_pkg.section == section && cr_pkg.key == key) {
+						socket.onmessage = old_wsonmessage;
+						resolve(cr_pkg.config);
+					} else {
+						socket.onmessage = old_wsonmessage;
+						reject(new Error("Invalid config response"));
+					}
+				} else {
+					socket.onmessage = old_wsonmessage;
+					reject(new Error("Invalid config response"));
+				}
+			}
+
+			send_config_request(section, key, socket);
+		});
 	}
 }

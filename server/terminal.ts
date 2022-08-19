@@ -23,9 +23,10 @@ function input() {
 }
 
 async function main() {
-	ws = new WebSocket("ws://localhost:8080")
-	ws.onopen = () => {
+	ws = new WebSocket("ws://localhost:8080");
+	ws.onopen = async () => {
 		log("Connected");
+		log(String(await to_server.config_get("root", "port", ws)));
 		input();
 	}
 	ws.onmessage = (event) => {

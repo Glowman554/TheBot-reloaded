@@ -1,3 +1,5 @@
+import { log } from "./logger.ts";
+
 class ConfigParser {
 	config: string;
 
@@ -13,6 +15,7 @@ class ConfigParser {
 		for (var line of lines) {
 			if (line.startsWith(":")) {
 				section = line.substring(1).trim();
+				log("config", `now in section ${section}`);
 			} else if (line.startsWith(";")) {
 				// Comment
 			} else {
@@ -23,6 +26,7 @@ class ConfigParser {
 
 				if (this.config_sections[section] == null) {
 					this.config_sections[section] = {};
+					log("config", `created section ${section}`);
 				}
 
 				try {
@@ -30,10 +34,10 @@ class ConfigParser {
 				} catch (e) {
 					this.config_sections[section][parts[0].trim()] = parts[1].trim();
 				}
+				log("config", `parsed ${parts[0].trim()} as ${typeof this.config_sections[section][parts[0].trim()]}`);
+				log("config", `${parts[0].trim()} = ${this.config_sections[section][parts[0].trim()]}`);
 			}
 		}
-
-		console.log(this.config_sections);
 	}
 
 	get(key: string, section: string = "root"): object|string {

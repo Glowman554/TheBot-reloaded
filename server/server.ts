@@ -8,6 +8,8 @@ import { command_manager, CommandEvent, Command, CommandExecutor, CommandRespons
 
 import { config, init_config } from "./config.ts";
 
+import { load_all_loadables } from "./loadable.ts";
+
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
 
@@ -104,39 +106,7 @@ function main() {
 		log("server", "Listening on " + params.hostname + ":" + params.port);
 	} });
 
-	command_manager.add_command(new Command("crash", "Crash the bot!", "Use '#crash' to crash the bot! (Admin only)", {
-		execute: async (event: CommandEvent): Promise<CommandResponse> => {
-			throw new Error("Crash!");
-		}
-	} as CommandExecutor, "crash"));
-
-	command_manager.add_command(new Command("ping", "Ping the bot!", "Use '#ping' to ping the bot!", {
-		execute: async (event: CommandEvent): Promise<CommandResponse> => {
-			if (event.interface.args.length != 0) {
-			}
-
-			return {
-				is_response: true,
-				response: "Pong!"
-			};
-		}
-	} as CommandExecutor, undefined));
-
-	command_manager.add_command(new Command("say", "Say something to the chat!", "Use '#say <message>' to say something to the chat!", {
-		execute: async (event: CommandEvent): Promise<CommandResponse> => {
-			if (event.interface.args.length == 0) {
-				return {
-					is_response: true,
-					response: "You need to specify a message!"
-				};
-			}
-
-			return {
-				is_response: true,
-				response: event.interface.args.join(" ")
-			};
-		}
-	} as CommandExecutor, undefined));
+	load_all_loadables();
 }
 
 main();

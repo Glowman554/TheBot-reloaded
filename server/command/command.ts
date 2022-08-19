@@ -1,5 +1,15 @@
 import { log } from "../logger.ts";
 
+export var fail = {
+	is_response: true,
+	response: "Something is wrong!"
+} as CommandResponse;
+
+export var empty = {
+	is_response: false,
+	response: undefined
+} as CommandResponse;
+
 export interface CommandResponse {
 	is_response: boolean;
 	response: string|undefined;

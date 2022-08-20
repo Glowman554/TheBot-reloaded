@@ -62,7 +62,7 @@ async function reqHandler(req: Request) {
 
 	var client_authenticated = false;
 
-	if (Boolean(config.get("log_packets"))) {
+	if (Boolean(config.get("log_packets", "websocket"))) {
 		var old_send = ws.send;
 		ws.send = async (data: string | Blob | ArrayBufferView | ArrayBufferLike) => {
 			log("pkg", "s -> c " + data);
@@ -71,7 +71,7 @@ async function reqHandler(req: Request) {
 	}
 
 	ws.onmessage = async (e) => {
-		if (Boolean(config.get("log_packets"))) {
+		if (Boolean(config.get("log_packets", "websocket"))) {
 			log("pkg", "s <- c " + e.data);
 		}
 
@@ -79,7 +79,7 @@ async function reqHandler(req: Request) {
 			if (String(e.data).startsWith("auth:")) {
 				var auth_data = String(e.data).substring(5);
 				log("server", `Authenticating client using key ${auth_data}`);
-				if (auth_data == config.get("ws_key")) {
+				if (auth_data == config.get("key", "websocket")) {
 					client_authenticated = true;
 					log("server", "Client authenticated");
 					await from_server.send_key_auth_response(true, ws);
@@ -117,7 +117,7 @@ function main() {
 	init_tmp_files();
 	init_command_manager(String(config.get("command_prefix")));
 
-	serve(reqHandler, { port: Number(config.get("port")), onListen: (params) => {
+	serve(reqHandler, { port: Number(config.get("port", "websocket")), onListen: (params) => {
 		log("server", "Listening on " + params.hostname + ":" + params.port);
 	} });
 

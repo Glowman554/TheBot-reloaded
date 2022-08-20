@@ -36,7 +36,7 @@ export function init_tmp_files(): void {
 }
 
 export function get_temp_file(extension: string, expire_after = 1000 * 60): string {
-	var tmp_dir = String(config.get("tmp_dir"));
+	var tmp_dir = String(config.get("tmp_folder"));
 	if (!tmp_dir.endsWith("/")) {
 		tmp_dir += "/";
 	}

@@ -99,7 +99,11 @@ async function reqHandler(req: Request) {
 }
 
 function main() {
-	init_config("config.cfg");
+	var config_file = "config.cfg";
+	if (Deno.args.length > 0) {
+		config_file = Deno.args[0];
+	}
+	init_config(config_file);
 	init_command_manager(String(config.get("command_prefix")));
 
 	serve(reqHandler, { port: Number(config.get("port")), onListen: (params) => {

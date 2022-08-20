@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bot_server_client": "^1.0.11",
+    "bot_server_client": "^1.0.12",
     "qrcode-terminal": "^0.12.0",
     "websocket": "^1.0.34",
     "whatsapp-web.js": "^1.17.1"

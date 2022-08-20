@@ -6,6 +6,8 @@ import { Client, ActivityType } from 'discord.js';
 
 import { readFileSync } from "fs";
 
+import download from "download";
+
 var messages = {};
 
 function message_cleanup() {
@@ -54,15 +56,46 @@ var client = new Client({
 });
 var client_logged_in = false;
 
-client.on('messageCreate', msg => {
+client.on('messageCreate', async msg => {
 	if (msg.author.bot) {
 		return;
 	}
 
 	log("Message from " + msg.author.username + ": " + msg.content);
 
+	var files = [];
+	if (connection) {
+		for (var i of msg.attachments.values()) {
+			var tmp_file = await helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, connection);
+			log("Downloading " + i.url + " to " + tmp_file);
+			await download(i.url, tmp_file.split("/").slice(0, -1).join("/"), {
+				filename: tmp_file.split("/").pop()
+			});
+			files.push(tmp_file);
+		}
+
+		if (msg.reference) {
+			var attachments = (await msg.channel.messages.fetch(msg.reference.messageId)).attachments;
+			for (var i of attachments.values()) {
+				var tmp_file = await helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, connection);
+				log("Downloading " + i.url + " to " + tmp_file);
+				await download(i.url, tmp_file.split("/").slice(0, -1).join("/"), {
+					filename: tmp_file.split("/").pop()
+				});
+				files.push(tmp_file);
+			}
+		}
+	}
+
+	log("Files:\n" + JSON.stringify(files, null, "\t"));
+
+	var quote_text = undefined;
+	if (msg.reference) {
+		quote_text = (await msg.channel.messages.fetch(msg.reference.messageId)).content;
+	}
+
 	var id = message_register(msg);
-	to_server.send_on_message(msg.content, msg.author.id, msg.channelId, [], undefined, id);
+	to_server.send_on_message(msg.content, msg.author.id, msg.channelId, [], quote_text, files, id);
 });
 
 client.on('ready', () => {

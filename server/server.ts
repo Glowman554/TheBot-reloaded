@@ -28,7 +28,8 @@ async function handle_config_request(pkg: to_server.config_request_pkg, socket: 
 }
 
 async function handle_tmp_file_request(pkg: to_server.tmp_file_request_pkg, socket: WebSocket) {
-	await from_server.send_tmp_file_response(get_temp_file(pkg.ext, pkg.ttl), pkg.ext, socket);
+	var file = get_temp_file(pkg.ext, pkg.ttl);
+	await from_server.send_tmp_file_response(Deno.realPathSync(file.split("/").slice(0, -1).join("/")) + "/" + file.split("/").pop(), pkg.ext, socket);
 }
 
 async function handle_pkg(pkg:to_server.pkg, socket: WebSocket) {

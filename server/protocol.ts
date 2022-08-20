@@ -173,6 +173,8 @@ export namespace to_server {
 		mentions: string[]|undefined;
 		quote_text: string|undefined;
 
+		files: string[]|undefined;
+
 		id: number;
 	}
 
@@ -208,13 +210,14 @@ export namespace to_server {
 		}));
 	}
 
-	export async function send_on_message(msg: string, user_id: string, chat_id: string, mentions: string[]|undefined, quote_text: string|undefined, id: number, socket: WebSocket) {
+	export async function send_on_message(msg: string, user_id: string, chat_id: string, mentions: string[]|undefined, quote_text: string|undefined, files: string[]|undefined, id: number, socket: WebSocket) {
 		var pkg: to_server.on_message_pkg = {
 			message: msg,
 			user_id: user_id,
 			chat_id: chat_id,
 			mentions: mentions,
 			quote_text: quote_text,
+			files: files,
 			id: id
 		};
 	

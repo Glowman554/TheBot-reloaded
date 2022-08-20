@@ -36,13 +36,14 @@ export var to_server = {
 		});
 	},
 
-	send_on_message: async (msg, user_id, chat_id, mentions, quote_text, id) => {
+	send_on_message: async (msg, user_id, chat_id, mentions, quote_text, files, id) => {
 		var pkg = {
 			message: msg,
 			user_id: user_id,
 			chat_id: chat_id,
 			mentions: mentions,
 			quote_text: quote_text,
+			files: files,
 			id: id
 		};
 	

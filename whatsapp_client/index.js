@@ -79,7 +79,7 @@ async function client_init() {
 
 		log("Message from " + msg.from + ": " + msg.body);
 
-		to_server.send_on_message(msg.body, msg.author || msg.from, msg.mentionedIds, msg.from, msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined, message_register(msg));
+		to_server.send_on_message(msg.body, msg.author || msg.from, msg.mentionedIds, msg.from, msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined, [], message_register(msg));
 	});
 
 	client.initialize();

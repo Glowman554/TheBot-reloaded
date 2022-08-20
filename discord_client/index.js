@@ -57,6 +57,9 @@ client.on('messageCreate', msg => {
 	if (msg.author.bot) {
 		return;
 	}
+
+	log("Message from " + msg.author.username + ": " + msg.content);
+
 	var id = message_register(msg);
 	to_server.send_on_message(msg.content, msg.author.id, msg.channelId, [], undefined, id);
 });
@@ -75,6 +78,8 @@ export async function handle_key_auth_response(pkg) {
 }
 
 export async function handle_message_send(pkg) {
+	log("Answering to message " + pkg.id + " with " + pkg.message);
+
 	var msg = message_get(pkg.id);
 	if (!msg) {
 		log("message " + pkg.id + " not found");
@@ -84,6 +89,8 @@ export async function handle_message_send(pkg) {
 }
 
 export async function handle_message_send_media(pkg) {
+	log("Answering to message " + pkg.id + " with " + pkg.path);
+
 	var msg = message_get(pkg.id);
 	if (!msg) {
 		log("message " + pkg.id + " not found");
@@ -103,6 +110,8 @@ export async function handle_internal_error(pkg) {
 }
 
 export async function handle_set_bot_status(pkg) {
+	log("Setting bot status to " + pkg.status);
+
 	client.user.setActivity({
 		type: ActivityType.Streaming,
 		url: "https://twitch.tv/glowman434",

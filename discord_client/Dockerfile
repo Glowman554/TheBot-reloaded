@@ -6,4 +6,4 @@ COPY . .
 
 RUN npm install
 
-ENTRYPOINT [ "node", ".", "thebestbot" ]
+ENTRYPOINT [ "node", ".", "/data/connection.json" ]

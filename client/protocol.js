@@ -81,8 +81,7 @@ export var helper = {
 						reject(new Error("Invalid config response"));
 					}
 				} else {
-					socket.onmessage = old_wsonmessage;
-					reject(new Error("Invalid config response"));
+					old_wsonmessage(event);
 				}
 			}
 

@@ -10,4 +10,4 @@ COPY . .
 RUN npm install
 RUN chmod -R o+rwx node_modules/puppeteer/.local-chromium
 
-ENTRYPOINT [ "node", ".", "thebestbot" ]
+ENTRYPOINT [ "node", ".", "/data/connection.json" ]

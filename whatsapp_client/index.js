@@ -5,7 +5,8 @@ import { log } from './log.js';
 import { to_server, from_server, helper } from 'bot_server_client/protocol.js';
 import { connect_server, add_handler, set_logger, connection } from 'bot_server_client/client.js';
 
-import { readFileSync } from "fs";
+import { readFileSync, writeFileSync } from "fs";
+import { extension } from 'mime-types';
 
 var messages = {};
 
@@ -77,9 +78,42 @@ async function client_init() {
 			return;
 		}
 
+		var files = [];
+
+		if (connection) {
+			if (msg.hasQuotedMsg) {
+				var quote = await msg.getQuotedMessage();
+				if (quote.hasMedia) {
+					var media = await quote.downloadMedia();
+					var data = Buffer.from(media.data, "base64");
+
+					var file = await helper.tmp_file_get(media.filename ? media.filename.split(".")[0] : extension(media.mimetype), 1000 * 60 * 5, connection);
+
+					log("writing " + file + " with " + data.length + " bytes");
+
+					writeFileSync(file, data);
+					files.push(file);
+				}
+			}
+
+			if (msg.hasMedia) {
+				var media = await msg.downloadMedia();
+				var data = Buffer.from(media.data, "base64");
+
+				var file = await helper.tmp_file_get(media.filename ? media.filename.split(".")[0] : extension(media.mimetype), 1000 * 60 * 5, connection);
+
+				log("writing " + file + " with " + data.length + " bytes");
+
+				writeFileSync(file, data);
+				files.push(file);
+			}
+		}
+
+		log("Files:\n" + JSON.stringify(files, null, "\t"));
+
 		log("Message from " + msg.from + ": " + msg.body);
 
-		to_server.send_on_message(msg.body, msg.author || msg.from, msg.mentionedIds, msg.from, msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined, [], message_register(msg));
+		to_server.send_on_message(msg.body, msg.author || msg.from, msg.from, msg.mentionedIds, msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined, files, message_register(msg));
 	});
 
 	client.initialize();

@@ -10,6 +10,8 @@ import { config, init_config } from "./config.ts";
 
 import { load_all_loadables } from "./loadable.ts";
 
+import { init_tmp_files } from "./utils.ts";
+
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
 
@@ -104,6 +106,7 @@ function main() {
 		config_file = Deno.args[0];
 	}
 	init_config(config_file);
+	init_tmp_files();
 	init_command_manager(String(config.get("command_prefix")));
 
 	serve(reqHandler, { port: Number(config.get("port")), onListen: (params) => {

@@ -47,7 +47,8 @@ export class CommandEventImpl implements CommandEventInterface {
 
 	send_picture_message(file: string): Promise<void> {
 		return new Promise((resolve, reject) => { 
-			from_server.send_message_media(from_server.message_send_media_pkg_type.picture, file, this.pkg.id, this.websocket).then(() => {
+			var absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.picture, absolute_file, this.pkg.id, this.websocket).then(() => {
 				resolve();
 			});
 		})
@@ -55,7 +56,8 @@ export class CommandEventImpl implements CommandEventInterface {
 
 	send_video_message(file: string): Promise<void> {
 		return new Promise((resolve, reject) => {
-			from_server.send_message_media(from_server.message_send_media_pkg_type.video, file, this.pkg.id, this.websocket).then(() => {
+			var absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.video, absolute_file, this.pkg.id, this.websocket).then(() => {
 				resolve();
 			});
 		});
@@ -63,7 +65,8 @@ export class CommandEventImpl implements CommandEventInterface {
 
 	send_sticker_message(file: string): Promise<void> {
 		return new Promise((resolve, reject) => {
-			from_server.send_message_media(from_server.message_send_media_pkg_type.sticker, file, this.pkg.id, this.websocket).then(() => {
+			var absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.sticker, absolute_file, this.pkg.id, this.websocket).then(() => {
 				resolve();
 			});
 		});
@@ -71,7 +74,8 @@ export class CommandEventImpl implements CommandEventInterface {
 
 	send_audio_message(file: string): Promise<void> {
 		return new Promise((resolve, reject) => {
-			from_server.send_message_media(from_server.message_send_media_pkg_type.audio, file, this.pkg.id, this.websocket).then(() => {
+			var absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.audio, absolute_file, this.pkg.id, this.websocket).then(() => {
 				resolve();
 			});
 		});

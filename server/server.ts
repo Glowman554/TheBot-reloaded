@@ -10,7 +10,7 @@ import { config, init_config } from "./config.ts";
 
 import { load_all_loadables } from "./loadable.ts";
 
-import { init_tmp_files } from "./utils.ts";
+import { init_tmp_files, get_temp_file } from "./utils.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
@@ -27,6 +27,10 @@ async function handle_config_request(pkg: to_server.config_request_pkg, socket: 
 	await from_server.send_config_response(config.get(pkg.key, pkg.section), pkg.section, pkg.key, socket);
 }
 
+async function handle_tmp_file_request(pkg: to_server.tmp_file_request_pkg, socket: WebSocket) {
+	await from_server.send_tmp_file_response(get_temp_file(pkg.ext, pkg.ttl), pkg.ext, socket);
+}
+
 async function handle_pkg(pkg:to_server.pkg, socket: WebSocket) {
 	switch (pkg.id) {
 		case to_server.pkg_ids.on_message:
@@ -37,6 +41,9 @@ async function handle_pkg(pkg:to_server.pkg, socket: WebSocket) {
 			break;
 		case to_server.pkg_ids.config_request:
 			await handle_config_request(pkg.data as to_server.config_request_pkg, socket);
+			break;
+		case to_server.pkg_ids.tmp_file_request:
+			await handle_tmp_file_request(pkg.data as to_server.tmp_file_request_pkg, socket);
 			break;
 		default:
 			throw new Error(`Unknown package id: ${pkg.id}`);

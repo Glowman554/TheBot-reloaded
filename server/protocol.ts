@@ -6,7 +6,8 @@ export namespace from_server {
 		config_response = 4,
 		key_auth_response = 5,
 		message_send_media = 6,
-		set_bot_status = 7
+		set_bot_status = 7,
+		tmp_file_response = 8
 	};
 
 	export interface message_send_pkg {
@@ -48,6 +49,11 @@ export namespace from_server {
 
 	export interface set_bot_status_pkg {
 		status: string;
+	};
+
+	export interface tmp_file_response_pkg {
+		path: string;
+		ext: string;
 	};
 
 	export interface pkg {
@@ -137,13 +143,26 @@ export namespace from_server {
 			data: pkg
 		}));
 	}
+
+	export async function send_tmp_file_response(path: string, ext: string, socket: WebSocket) {
+		var pkg: from_server.tmp_file_response_pkg = {
+			path: path,
+			ext: ext
+		};
+
+		await socket.send(JSON.stringify({
+			id: from_server.pkg_ids.tmp_file_response,
+			data: pkg
+		}));
+	}
 }
 
 export namespace to_server {
 	export enum pkg_ids {
 		log = 1,
 		on_message = 2,
-		config_request = 3
+		config_request = 3,
+		tmp_file_request = 4
 	};
 
 	export interface on_message_pkg {
@@ -165,6 +184,11 @@ export namespace to_server {
 	export interface config_request_pkg {
 		section: string;
 		key: string;
+	};
+
+	export interface tmp_file_request_pkg {
+		ext: string;
+		ttl: number;
 	};
 
 	export interface pkg {
@@ -208,6 +232,18 @@ export namespace to_server {
 	
 		await socket.send(JSON.stringify({
 			id: to_server.pkg_ids.config_request,
+			data: pkg
+		}));
+	}
+
+	export async function send_tmp_file_request(ext: string, ttl: number, socket: WebSocket) {
+		var pkg: to_server.tmp_file_request_pkg = {
+			ext: ext,
+			ttl: ttl
+		};
+
+		await socket.send(JSON.stringify({
+			id: to_server.pkg_ids.tmp_file_request,
 			data: pkg
 		}));
 	}

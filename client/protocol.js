@@ -8,6 +8,7 @@ export var from_server = {
 	key_auth_response: 5,
 	message_send_media: 6,
 	set_bot_status: 7,
+	tmp_file_response: 8,
 
 	message_send_media_pkg_type: {
 		picture: 1,
@@ -21,6 +22,7 @@ export var to_server = {
 	log: 1,
 	on_message: 2,
 	config_request: 3,
+	tmp_file_request: 4,
 
 	send_log: async (msg, client_name) => {
 		var pkg = {
@@ -60,6 +62,18 @@ export var to_server = {
 			id: to_server.config_request,
 			data: pkg
 		});
+	},
+
+	send_tmp_file_request: async (ext, ttl) => {
+		var pkg = {
+			ext: ext,
+			ttl: ttl
+		};
+	
+		send_to_server({
+			id: to_server.tmp_file_request,
+			data: pkg
+		});
 	}
 
 };
@@ -85,7 +99,30 @@ export var helper = {
 				}
 			}
 
-			to_server.send_config_request(section, key, socket);
+			to_server.send_config_request(section, key);
+		});
+	},
+
+	tmp_file_get: (ext, ttl, socket) => {
+		return new Promise((resolve, reject) => {
+			var old_wsonmessage = socket.onmessage;
+			socket.onmessage = async (event) => {
+				var pkg = JSON.parse(event.data);
+				if (pkg.id == from_server.tmp_file_response) {
+					var cr_pkg = pkg.data;
+					if (cr_pkg.ext == ext) {
+						socket.onmessage = old_wsonmessage;
+						resolve(cr_pkg.path);
+					} else {
+						socket.onmessage = old_wsonmessage;
+						reject(new Error("Invalid tmp file response"));
+					}
+				} else {
+					old_wsonmessage(event);
+				}
+			}
+
+			to_server.send_tmp_file_request(ext, ttl);
 		});
 	}
 }

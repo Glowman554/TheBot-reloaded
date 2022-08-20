@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bot_server_client": "^1.0.6",
+    "bot_server_client": "^1.0.11",
     "discord.js": "^14.2.0"
   }
 }

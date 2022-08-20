@@ -51,7 +51,7 @@ var connection_info = JSON.parse(readFileSync(process.argv[2]).toString());
 
 connect_server(connection_info.url, connection_info.key);
 
-var client;
+var client = null;
 async function client_init() {
 	client = new wwebjs.Client({
 		authStrategy: new wwebjs.LocalAuth(),
@@ -134,7 +134,9 @@ export function handle_key_auth_response(pkg) {
 		throw new Error("Auth failed!");
 	} else {
 		log("Auth success!");
-		client_init();
+		if (!client) {
+			client_init();
+		}
 	}
 }
 

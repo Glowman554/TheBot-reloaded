@@ -52,6 +52,7 @@ connect_server(connection_info.url, connection_info.key);
 var client = new Client({
 	intents: [ 0b11111111111111111 ]
 });
+var client_logged_in = false;
 
 client.on('messageCreate', msg => {
 	if (msg.author.bot) {
@@ -73,7 +74,10 @@ export async function handle_key_auth_response(pkg) {
 		throw new Error("Auth failed!");
 	} else {
 		log("Auth success!");
-		client.login(String(await helper.config_get("discord", "token", connection)));
+		if (!client_logged_in) {
+			client.login(String(await helper.config_get("discord", "token", connection)));
+			client_logged_in = true;
+		}
 	}
 }
 

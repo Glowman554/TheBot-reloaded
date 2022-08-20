@@ -43,7 +43,7 @@ add_handler(from_server.internal_error, handle_internal_error);
 add_handler(from_server.message_send_media, handle_message_send_media);
 add_handler(from_server.set_bot_status, handle_set_bot_status);
 
-connect_server('ws://localhost:8080/', process.argv[2]);
+connect_server('ws://server:8080/', process.argv[2]);
 
 var client = new Client({
 	intents: [ 0b11111111111111111 ]

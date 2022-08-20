@@ -1,0 +1,19 @@
+version: "3.9"
+services:
+  discord-client:
+    build: discord_client
+    volumes:
+      - ./data:/data
+    restart: always
+  whatsapp-client:
+    build: whatsapp_client
+    volumes:
+      - ./data:/data
+    restart: always
+  server:
+    build: server
+    volumes:
+      - ./data:/data
+    ports:
+      - "8080:8080"
+    restart: always

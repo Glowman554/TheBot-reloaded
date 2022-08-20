@@ -2,7 +2,7 @@ import wwebjs from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 
 import { log } from './log.js';
-import { to_server, from_server } from 'bot_server_client/protocol.js';
+import { to_server, from_server, helper } from 'bot_server_client/protocol.js';
 import { connect_server, add_handler, set_logger, connection } from 'bot_server_client/client.js';
 
 var messages = {};
@@ -45,35 +45,41 @@ add_handler(from_server.internal_error, handle_internal_error);
 add_handler(from_server.message_send_media, handle_message_send_media);
 add_handler(from_server.set_bot_status, handle_set_bot_status);
 
-connect_server('ws://localhost:8080/', process.argv[2]);
+connect_server('ws://server:8080/', process.argv[2]);
 
-const client = new wwebjs.Client({
-	authStrategy: new wwebjs.LocalAuth()
-});
-
-client.on('qr', (qr) => {
-	// Generate and scan this code with your phone
-	log('QR code: ' + qr);
-	qrcode.generate(qr, { small: true }, (qr) => {
-		log(qr);
+var client;
+async function client_init() {
+	client = new wwebjs.Client({
+		authStrategy: new wwebjs.LocalAuth(),
+		puppeteer: {
+			args: await helper.config_get("whatsapp", "puppeteer_args", connection)
+		}
 	});
-});
 
-client.on('ready', async () => {
-	log('Client is ready!');
-});
+	client.on('qr', (qr) => {
+		// Generate and scan this code with your phone
+		log('QR code: ' + qr);
+		qrcode.generate(qr, { small: true }, (qr) => {
+			log(qr);
+		});
+	});
 
-client.on('message', async msg => {
-	if (msg.fromMe) {
-		return;
-	}
+	client.on('ready', async () => {
+		log('Client is ready!');
+	});
 
-	log("Message from " + msg.from + ": " + msg.body);
+	client.on('message', async msg => {
+		if (msg.fromMe) {
+			return;
+		}
 
-	to_server.send_on_message(msg.body, msg.author || msg.from, msg.mentionedIds, msg.from, msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined, message_register(msg));
-});
+		log("Message from " + msg.from + ": " + msg.body);
 
-client.initialize();
+		to_server.send_on_message(msg.body, msg.author || msg.from, msg.mentionedIds, msg.from, msg.hasQuotedMsg ? (await msg.getQuotedMessage()).body : undefined, message_register(msg));
+	});
+
+	client.initialize();
+}
 
 
 export async function handle_message_send(pkg) {
@@ -124,6 +130,7 @@ export function handle_key_auth_response(pkg) {
 		throw new Error("Auth failed!");
 	} else {
 		log("Auth success!");
+		client_init();
 	}
 }
 

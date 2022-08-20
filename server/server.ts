@@ -65,14 +65,14 @@ async function reqHandler(req: Request) {
 	if (Boolean(config.get("log_packets"))) {
 		var old_send = ws.send;
 		ws.send = async (data: string | Blob | ArrayBufferView | ArrayBufferLike) => {
-			log("pkg", "-> " + data);
+			log("pkg", "s -> c " + data);
 			await old_send.call(ws, data);
 		}
 	}
 
 	ws.onmessage = async (e) => {
 		if (Boolean(config.get("log_packets"))) {
-			log("pkg", "<- " + e.data);
+			log("pkg", "s <- c " + e.data);
 		}
 
 		if (!client_authenticated) {

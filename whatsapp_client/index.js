@@ -1,12 +1,12 @@
-import wwebjs from 'whatsapp-web.js';
-import qrcode from 'qrcode-terminal';
+import wwebjs from "whatsapp-web.js";
+import qrcode from "qrcode-terminal";
 
-import { log, set_remote_log } from './log.js';
-import { to_server, from_server, helper } from 'bot_server_client/protocol.js';
-import { connect_server, add_handler, set_logger, connection } from 'bot_server_client/client.js';
+import { log, set_remote_log } from "./log.js";
+import { from_server, helper, to_server } from "bot_server_client/protocol.js";
+import { add_handler, connect_server, connection, set_logger } from "bot_server_client/client.js";
 
 import { readFileSync, writeFileSync } from "fs";
-import { extension } from 'mime-types';
+import { extension } from "mime-types";
 
 var messages = {};
 
@@ -59,23 +59,23 @@ async function client_init() {
 	client = new wwebjs.Client({
 		authStrategy: new wwebjs.LocalAuth(),
 		puppeteer: {
-			args: await helper.config_get("whatsapp", "puppeteer_args", connection)
-		}
+			args: await helper.config_get("whatsapp", "puppeteer_args", connection),
+		},
 	});
 
-	client.on('qr', (qr) => {
+	client.on("qr", (qr) => {
 		// Generate and scan this code with your phone
-		log('QR code: ' + qr);
+		log("QR code: " + qr);
 		qrcode.generate(qr, { small: true }, (qr) => {
 			log(qr);
 		});
 	});
 
-	client.on('ready', async () => {
-		log('Client is ready!');
+	client.on("ready", async () => {
+		log("Client is ready!");
 	});
 
-	client.on('message', async msg => {
+	client.on("message", async (msg) => {
 		if (msg.fromMe) {
 			return;
 		}
@@ -121,7 +121,6 @@ async function client_init() {
 	client.initialize();
 }
 
-
 export async function handle_message_send(pkg) {
 	log("Answering to message " + pkg.id + " with " + pkg.message);
 	var mentions = [];
@@ -130,24 +129,24 @@ export async function handle_message_send(pkg) {
 		if (parseInt(i) == 0) {
 			continue; // first index isn't mention
 		}
-		
+
 		var mention = pkg.message.split("@")[i].split(" ")[0];
-		
+
 		if (isNaN(parseInt(mention)) || mention == "") {
 			continue;
 		}
-		
+
 		try {
 			var contact = await client.getContactById(mention + "@c.us");
-	
+
 			mentions.push(contact);
 		} catch (e) {
 			log(`Error getting contact ${mention}`);
-		}	
+		}
 	}
 
 	client.sendMessage(message_get(pkg.id).from, pkg.message, {
-		mentions: mentions
+		mentions: mentions,
 	});
 }
 
@@ -179,9 +178,8 @@ export function handle_key_auth_response(pkg) {
 export function handle_message_send_media(pkg) {
 	log("Answering to message " + pkg.id + " with " + pkg.path);
 
-
 	client.sendMessage(message_get(pkg.id).from, wwebjs.MessageMedia.fromFilePath(pkg.path), {
-		sendMediaAsSticker: pkg.type == from_server.message_send_media_pkg_type.sticker
+		sendMediaAsSticker: pkg.type == from_server.message_send_media_pkg_type.sticker,
 	});
 }
 

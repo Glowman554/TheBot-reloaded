@@ -1,20 +1,20 @@
 {
-  "name": "wa-test",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "bot_server_client": "^1.0.12",
-    "mime-types": "^2.1.35",
-    "qrcode-terminal": "^0.12.0",
-    "websocket": "^1.0.34",
-    "whatsapp-web.js": "^1.17.1"
-  }
+	"name": "wa-test",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "ISC",
+	"dependencies": {
+		"bot_server_client": "^1.0.12",
+		"mime-types": "^2.1.35",
+		"qrcode-terminal": "^0.12.0",
+		"websocket": "^1.0.34",
+		"whatsapp-web.js": "^1.17.1"
+	}
 }

@@ -1,8 +1,8 @@
-import { log, set_remote_log } from './log.js';
-import { from_server, to_server, helper } from "bot_server_client/protocol.js";
-import { connect_server, add_handler, connection, set_logger} from "bot_server_client/client.js";
+import { log, set_remote_log } from "./log.js";
+import { from_server, helper, to_server } from "bot_server_client/protocol.js";
+import { add_handler, connect_server, connection, set_logger } from "bot_server_client/client.js";
 
-import { Client, ActivityType } from 'discord.js';
+import { ActivityType, Client } from "discord.js";
 
 import { readFileSync } from "fs";
 
@@ -52,11 +52,11 @@ set_remote_log(connection_info.remote_log);
 connect_server(connection_info.url, connection_info.key);
 
 var client = new Client({
-	intents: [ 0b11111111111111111 ]
+	intents: [0b11111111111111111],
 });
 var client_logged_in = false;
 
-client.on('messageCreate', async msg => {
+client.on("messageCreate", async (msg) => {
 	if (msg.author.bot) {
 		return;
 	}
@@ -69,7 +69,7 @@ client.on('messageCreate', async msg => {
 			var tmp_file = await helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, connection);
 			log("Downloading " + i.url + " to " + tmp_file);
 			await download(i.url, tmp_file.split("/").slice(0, -1).join("/"), {
-				filename: tmp_file.split("/").pop()
+				filename: tmp_file.split("/").pop(),
 			});
 			files.push(tmp_file);
 		}
@@ -80,7 +80,7 @@ client.on('messageCreate', async msg => {
 				var tmp_file = await helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, connection);
 				log("Downloading " + i.url + " to " + tmp_file);
 				await download(i.url, tmp_file.split("/").slice(0, -1).join("/"), {
-					filename: tmp_file.split("/").pop()
+					filename: tmp_file.split("/").pop(),
 				});
 				files.push(tmp_file);
 			}
@@ -98,7 +98,7 @@ client.on('messageCreate', async msg => {
 	to_server.send_on_message(msg.content, msg.author.id, msg.channelId, [], quote_text, files, id);
 });
 
-client.on('ready', () => {
+client.on("ready", () => {
 	log("ready");
 });
 
@@ -134,7 +134,7 @@ export async function handle_message_send_media(pkg) {
 		return;
 	}
 	msg.channel.send({
-		files: [ pkg.path ]
+		files: [pkg.path],
 	});
 }
 
@@ -152,6 +152,6 @@ export async function handle_set_bot_status(pkg) {
 	client.user.setActivity({
 		type: ActivityType.Streaming,
 		url: "https://twitch.tv/glowman434",
-		name: pkg.status
+		name: pkg.status,
 	});
 }

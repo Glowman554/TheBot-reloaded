@@ -14,8 +14,8 @@ export var from_server = {
 		picture: 1,
 		video: 2,
 		sticker: 3,
-		audio: 4
-	}
+		audio: 4,
+	},
 };
 
 export var to_server = {
@@ -27,12 +27,12 @@ export var to_server = {
 	send_log: async (msg, client_name) => {
 		var pkg = {
 			message: msg,
-			client_name: client_name
+			client_name: client_name,
 		};
-	
+
 		send_to_server({
 			id: to_server.log,
-			data: pkg
+			data: pkg,
 		});
 	},
 
@@ -44,41 +44,39 @@ export var to_server = {
 			mentions: mentions,
 			quote_text: quote_text,
 			files: files,
-			id: id
+			id: id,
 		};
-	
+
 		send_to_server({
 			id: to_server.on_message,
-			data: pkg
+			data: pkg,
 		});
 	},
 
 	send_config_request: async (section, key) => {
 		var pkg = {
 			section: section,
-			key: key
+			key: key,
 		};
-	
+
 		send_to_server({
 			id: to_server.config_request,
-			data: pkg
+			data: pkg,
 		});
 	},
 
 	send_tmp_file_request: async (ext, ttl) => {
 		var pkg = {
 			ext: ext,
-			ttl: ttl
+			ttl: ttl,
 		};
-	
+
 		send_to_server({
 			id: to_server.tmp_file_request,
-			data: pkg
+			data: pkg,
 		});
-	}
-
+	},
 };
-
 
 export var helper = {
 	config_get: (section, key, socket) => {
@@ -98,7 +96,7 @@ export var helper = {
 				} else {
 					old_wsonmessage(event);
 				}
-			}
+			};
 
 			to_server.send_config_request(section, key);
 		});
@@ -121,9 +119,9 @@ export var helper = {
 				} else {
 					old_wsonmessage(event);
 				}
-			}
+			};
 
 			to_server.send_tmp_file_request(ext, ttl);
 		});
-	}
-}
+	},
+};

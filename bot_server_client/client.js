@@ -1,4 +1,4 @@
-import  websocket from "websocket";
+import websocket from "websocket";
 
 export var socket = null;
 export var connection = null;
@@ -18,48 +18,47 @@ export function connect_server(url, key) {
 	logger("Connecting to " + url);
 	socket = new websocket.client();
 
-	socket.on('connectFailed', function(error) {
+	socket.on("connectFailed", function (error) {
 		socket = null;
 		connection = null;
-		logger('Connect Error: ' + error.toString());
+		logger("Connect Error: " + error.toString());
 		setTimeout(() => connect_server(url, key), 5000);
 	});
-	
-	socket.on('connect', function(con) {
+
+	socket.on("connect", function (con) {
 		connection = con;
-		connection.send = function(data) {
+		connection.send = function (data) {
 			// logger("-> " + data);
 			connection.sendUTF(data);
-		}
+		};
 		connection.send("auth:" + key);
 
-		logger('WebSocket Client Connected');
-		connection.on('error', function(error) {
+		logger("WebSocket Client Connected");
+		connection.on("error", function (error) {
 			socket = null;
 			connection = null;
 			logger("Connection Error: " + error.toString());
 			setTimeout(() => connect_server(url, key), 5000);
 		});
-		connection.on('close', function() {
+		connection.on("close", function () {
 			socket = null;
 			connection = null;
-			logger('echo-protocol Connection Closed');
+			logger("echo-protocol Connection Closed");
 			setTimeout(() => connect_server(url, key), 5000);
 		});
-		connection.on('message', function(message) {
-			
-			if (message.type === 'utf8') {
+		connection.on("message", function (message) {
+			if (message.type === "utf8") {
 				// logger("<- " + message.utf8Data);
 
 				connection.onmessage({
-					data: message.utf8Data
+					data: message.utf8Data,
 				});
 			}
 		});
 
-		connection.onmessage = function(message) {
+		connection.onmessage = function (message) {
 			handle_from_server(JSON.parse(message.data));
-		}
+		};
 	});
 
 	socket.connect(url);

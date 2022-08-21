@@ -1,4 +1,5 @@
 import { log } from "../logger.ts";
+import { check_permission } from "./permission.ts";
 
 export var fail = {
 	is_response: true,
@@ -85,11 +86,6 @@ export class CommandEvent {
 
 		this.interface.args = this.get_arguments(this.interface.args);
 	}
-}
-
-function check_permission(user: string, permission: string|undefined): boolean {
-	// TODO: implement permissions
-	return !(permission == "blacklist");
 }
 
 export class CommandManager {

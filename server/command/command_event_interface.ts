@@ -28,7 +28,7 @@ export class CommandEventImpl implements CommandEventInterface {
 		this.user = pkg.user_id;
 		this.chat_id = pkg.chat_id;
 
-		this.files = undefined; // TODO implement this
+		this.files = pkg.files;
 		this.mentions = pkg.mentions;
 		this.quote_text = pkg.quote_text;
 

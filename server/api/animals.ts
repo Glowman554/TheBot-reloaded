@@ -6,3 +6,23 @@ export async function get_fox(): Promise<string> {
 
 	return fox.image;
 }
+
+export async function get_dog(): Promise<string> {
+	var dog = await (await fetch("https://dog.ceo/api/breeds/image/random")).json() as {
+		message: string;
+		status: string;
+	};
+
+	return dog.message;
+}
+
+export async function get_cat(): Promise<string> {
+	var cat = await (await fetch("https://api.thecatapi.com/v1/images/search")).json() as {
+		id: string;
+		url: string;
+		width: number;
+		height: number;
+	}[]
+
+	return cat[0].url;
+}

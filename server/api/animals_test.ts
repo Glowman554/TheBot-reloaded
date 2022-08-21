@@ -1,7 +1,6 @@
-import { get_fox, get_cat, get_dog } from "./animals.ts";
+import { get_cat, get_dog, get_fox } from "./animals.ts";
 import { assert } from "https://deno.land/std@0.152.0/testing/asserts.ts";
 import { download_to_tmp_file } from "./download.ts";
-
 
 Deno.test("get_fox", async (t) => {
 	var fox: string;

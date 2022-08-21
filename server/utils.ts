@@ -6,9 +6,9 @@ export function get_file_extension(file: string): string {
 }
 
 var tmp_files: {
-	file: string,
-	created: number,
-	expire: number,
+	file: string;
+	created: number;
+	expire: number;
 }[] = [];
 
 var expire_interval: number;
@@ -17,9 +17,9 @@ export function init_tmp_files(): void {
 	expire_interval = setInterval(() => {
 		var now = Date.now();
 		var tmp_files_cpy = Object.assign([], tmp_files) as {
-			file: string,
-			created: number,
-			expire: number,
+			file: string;
+			created: number;
+			expire: number;
 		}[];
 		for (var i = 0; i < tmp_files_cpy.length; i++) {
 			var file = tmp_files_cpy[i];
@@ -32,7 +32,7 @@ export function init_tmp_files(): void {
 				break;
 			}
 		}
-	} , 1000);
+	}, 1000);
 }
 
 export function get_temp_file(extension: string, expire_after = 1000 * 60): string {

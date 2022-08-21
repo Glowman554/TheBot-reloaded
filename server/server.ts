@@ -1,16 +1,16 @@
 import { serve } from "https://deno.land/std/http/mod.ts";
 
-import { to_server, from_server } from "./protocol.ts";
+import { from_server, to_server } from "./protocol.ts";
 import { log } from "./logger.ts";
 
 import { CommandEventImpl } from "./command/command_event_interface.ts";
-import { command_manager, CommandEvent, Command, CommandExecutor, CommandResponse, init_command_manager } from "./command/command.ts";
+import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, init_command_manager } from "./command/command.ts";
 
 import { config, init_config } from "./config.ts";
 
 import { load_all_loadables } from "./loadable.ts";
 
-import { init_tmp_files, get_temp_file } from "./utils.ts";
+import { get_temp_file, init_tmp_files } from "./utils.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
@@ -32,7 +32,7 @@ async function handle_tmp_file_request(pkg: to_server.tmp_file_request_pkg, sock
 	await from_server.send_tmp_file_response(Deno.realPathSync(file.split("/").slice(0, -1).join("/")) + "/" + file.split("/").pop(), pkg.ext, socket);
 }
 
-async function handle_pkg(pkg:to_server.pkg, socket: WebSocket) {
+async function handle_pkg(pkg: to_server.pkg, socket: WebSocket) {
 	switch (pkg.id) {
 		case to_server.pkg_ids.on_message:
 			await handle_on_message_pkg(pkg.data as to_server.on_message_pkg, socket);
@@ -67,7 +67,7 @@ async function reqHandler(req: Request) {
 		ws.send = async (data: string | Blob | ArrayBufferView | ArrayBufferLike) => {
 			log("pkg", "s -> c " + data);
 			await old_send.call(ws, data);
-		}
+		};
 	}
 
 	ws.onmessage = async (e) => {
@@ -100,10 +100,10 @@ async function reqHandler(req: Request) {
 				from_server.send_internal_error(String(e), pkg, ws);
 			}
 		}
-	}
+	};
 	ws.onclose = async (e) => {
 		log("server", "Client disconnected");
-	}
+	};
 
 	return response;
 }
@@ -117,9 +117,12 @@ function main() {
 	init_tmp_files();
 	init_command_manager(String(config.get("command_prefix")));
 
-	serve(reqHandler, { port: Number(config.get("port", "websocket")), onListen: (params) => {
-		log("server", "Listening on " + params.hostname + ":" + params.port);
-	} });
+	serve(reqHandler, {
+		port: Number(config.get("port", "websocket")),
+		onListen: (params) => {
+			log("server", "Listening on " + params.hostname + ":" + params.port);
+		},
+	});
 
 	load_all_loadables();
 }

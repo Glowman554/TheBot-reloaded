@@ -1,7 +1,7 @@
 import { config } from "./config.ts";
 
-export function log(module: string, message: string): void  {
-	console.log(message.split("\n").map(line =>`[${module}] ${line}`).join("\n"));
+export function log(module: string, message: string): void {
+	console.log(message.split("\n").map((line) => `[${module}] ${line}`).join("\n"));
 
 	var log_folder = null;
 	if (config) {
@@ -11,6 +11,6 @@ export function log(module: string, message: string): void  {
 	}
 
 	if (log_folder) {
-		Deno.writeTextFileSync(`${log_folder}/${module}.txt`, message.split("\n").map(line =>`[${new Date().toLocaleString()}] ${line}`).join("\n") + "\n", { append: true });
+		Deno.writeTextFileSync(`${log_folder}/${module}.txt`, message.split("\n").map((line) => `[${new Date().toLocaleString()}] ${line}`).join("\n") + "\n", { append: true });
 	}
 }

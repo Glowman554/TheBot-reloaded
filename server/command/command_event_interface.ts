@@ -1,7 +1,6 @@
 import { CommandEventInterface } from "./command.ts";
-import { to_server, from_server } from "../protocol.ts";
+import { from_server, to_server } from "../protocol.ts";
 import { log } from "../logger.ts";
-
 
 export class CommandEventImpl implements CommandEventInterface {
 	websocket: WebSocket;
@@ -12,13 +11,13 @@ export class CommandEventImpl implements CommandEventInterface {
 	user: string;
 	chat_id: string;
 
-	files: string[]|undefined;
+	files: string[] | undefined;
 
-	mentions: string[]|undefined;
-	quote_text: string|undefined;
+	mentions: string[] | undefined;
+	quote_text: string | undefined;
 
 	args: string[];
-	
+
 	pkg: to_server.on_message_pkg;
 
 	constructor(websocket: WebSocket, pkg: to_server.on_message_pkg) {
@@ -46,12 +45,12 @@ export class CommandEventImpl implements CommandEventInterface {
 	}
 
 	send_picture_message(file: string): Promise<void> {
-		return new Promise((resolve, reject) => { 
+		return new Promise((resolve, reject) => {
 			var absolute_file = Deno.realPathSync(file);
 			from_server.send_message_media(from_server.message_send_media_pkg_type.picture, absolute_file, this.pkg.id, this.websocket).then(() => {
 				resolve();
 			});
-		})
+		});
 	}
 
 	send_video_message(file: string): Promise<void> {

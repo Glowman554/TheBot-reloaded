@@ -3,7 +3,7 @@ import { log } from "./logger.ts";
 class ConfigParser {
 	config: string;
 
-	config_sections: { [key: string]: { [key: string]: object|string } } = {};
+	config_sections: { [key: string]: { [key: string]: object | string } } = {};
 
 	constructor(config: string) {
 		this.config = config;
@@ -40,7 +40,7 @@ class ConfigParser {
 		}
 	}
 
-	get(key: string, section: string = "root"): object|string {
+	get(key: string, section: string = "root"): object | string {
 		if (this.config_sections[section] == null) {
 			throw new Error(`Section ${section} not found`);
 		}

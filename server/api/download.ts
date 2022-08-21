@@ -7,7 +7,7 @@ export async function download_to_tmp_file(url: string, ttl = 1000 * 60): Promis
 	log("download", `Downloading ${url} to ${file}`);
 	await download(url, {
 		dir: file.split("/").slice(0, -1).join("/"),
-		file: file.split("/").pop() as string
+		file: file.split("/").pop() as string,
 	});
 
 	return file;

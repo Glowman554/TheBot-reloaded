@@ -8,7 +8,7 @@ export type loadable = { load(): void };
 var loadables: loadable[] = [
 	new utils(),
 	new fun(),
-	new animals()
+	new animals(),
 ];
 
 export function load_all_loadables(): void {

@@ -3,13 +3,13 @@ import { log } from "../logger.ts";
 
 var default_roles: string[] = [];
 
-export function check_permission(user: string, permission: string|undefined): boolean {
+export function check_permission(user: string, permission: string | undefined): boolean {
 	if (permission == undefined) {
 		return true;
 	}
 
 	var permission_file = String(config.get("permissions_file"));
-	var permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as {[key: string]: string[]};
+	var permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as { [key: string]: string[] };
 	// log("debug", "permissions: " + JSON.stringify(permissions, null, "\t"));
 
 	var loaded_user = permissions[user];

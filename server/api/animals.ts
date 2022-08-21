@@ -22,7 +22,7 @@ export async function get_cat(): Promise<string> {
 		url: string;
 		width: number;
 		height: number;
-	}[]
+	}[];
 
 	return cat[0].url;
 }

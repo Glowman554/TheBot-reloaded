@@ -7,116 +7,116 @@ export namespace from_server {
 		key_auth_response = 5,
 		message_send_media = 6,
 		set_bot_status = 7,
-		tmp_file_response = 8
-	};
+		tmp_file_response = 8,
+	}
 
 	export interface message_send_pkg {
 		message: string;
 		id: number;
-	};
+	}
 
 	export interface message_send_ack_pkg {
 		id: number;
-	};
+	}
 
 	export interface internal_error_pkg {
 		message: string;
 		cause: to_server.pkg;
-	};
+	}
 
 	export interface config_response_pkg {
-		config: object|string;
+		config: object | string;
 		section: string;
 		key: string;
-	};
+	}
 
 	export interface key_auth_response_pkg {
 		success: boolean;
-	};
+	}
 
 	export enum message_send_media_pkg_type {
 		picture = 1,
 		video = 2,
 		sticker = 3,
-		audio = 4
-	};
+		audio = 4,
+	}
 
 	export interface message_send_media_pkg {
 		type: message_send_media_pkg_type;
 		path: string;
 		id: number;
-	};
+	}
 
 	export interface set_bot_status_pkg {
 		status: string;
-	};
+	}
 
 	export interface tmp_file_response_pkg {
 		path: string;
 		ext: string;
-	};
+	}
 
 	export interface pkg {
 		id: pkg_ids;
 		data: any;
 	}
 
-	export async function send_message(msg: string, id:number, socket: WebSocket) {
+	export async function send_message(msg: string, id: number, socket: WebSocket) {
 		var pkg: from_server.message_send_pkg = {
 			message: msg,
-			id: id
+			id: id,
 		};
-	
+
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.message_send,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
 	export async function send_message_ack(id: number, socket: WebSocket) {
 		var pkg: from_server.message_send_ack_pkg = {
-			id: id
+			id: id,
 		};
 
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.message_send_ack,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
 	export async function send_internal_error(msg: string, cause: to_server.pkg, socket: WebSocket) {
 		var pkg: from_server.internal_error_pkg = {
 			message: msg,
-			cause: cause
+			cause: cause,
 		};
-	
+
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.internal_error_pkg,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
-	export async function send_config_response(config: object|string, section: string, key: string, socket: WebSocket) {
+	export async function send_config_response(config: object | string, section: string, key: string, socket: WebSocket) {
 		var pkg: from_server.config_response_pkg = {
 			config: config,
 			section: section,
-			key: key
+			key: key,
 		};
-	
+
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.config_response,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
 	export async function send_key_auth_response(success: boolean, socket: WebSocket) {
 		var pkg: from_server.key_auth_response_pkg = {
-			success: success
+			success: success,
 		};
 
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.key_auth_response,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
@@ -124,35 +124,35 @@ export namespace from_server {
 		var pkg: from_server.message_send_media_pkg = {
 			type: type,
 			path: path,
-			id: id
+			id: id,
 		};
 
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.message_send_media,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
 	export async function send_set_bot_status(status: string, socket: WebSocket) {
 		var pkg: from_server.set_bot_status_pkg = {
-			status: status
+			status: status,
 		};
 
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.set_bot_status,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
 	export async function send_tmp_file_response(path: string, ext: string, socket: WebSocket) {
 		var pkg: from_server.tmp_file_response_pkg = {
 			path: path,
-			ext: ext
+			ext: ext,
 		};
 
 		await socket.send(JSON.stringify({
 			id: from_server.pkg_ids.tmp_file_response,
-			data: pkg
+			data: pkg,
 		}));
 	}
 }
@@ -162,18 +162,18 @@ export namespace to_server {
 		log = 1,
 		on_message = 2,
 		config_request = 3,
-		tmp_file_request = 4
-	};
+		tmp_file_request = 4,
+	}
 
 	export interface on_message_pkg {
 		message: string;
 		user_id: string;
 		chat_id: string;
 
-		mentions: string[]|undefined;
-		quote_text: string|undefined;
+		mentions: string[] | undefined;
+		quote_text: string | undefined;
 
-		files: string[]|undefined;
+		files: string[] | undefined;
 
 		id: number;
 	}
@@ -181,17 +181,17 @@ export namespace to_server {
 	export interface log_pkg {
 		message: string;
 		client_name: string;
-	};
+	}
 
 	export interface config_request_pkg {
 		section: string;
 		key: string;
-	};
+	}
 
 	export interface tmp_file_request_pkg {
 		ext: string;
 		ttl: number;
-	};
+	}
 
 	export interface pkg {
 		id: pkg_ids;
@@ -201,16 +201,16 @@ export namespace to_server {
 	export async function send_log(msg: string, client_name: string, socket: WebSocket) {
 		var pkg: to_server.log_pkg = {
 			message: msg,
-			client_name: client_name
+			client_name: client_name,
 		};
-	
+
 		await socket.send(JSON.stringify({
 			id: to_server.pkg_ids.log,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
-	export async function send_on_message(msg: string, user_id: string, chat_id: string, mentions: string[]|undefined, quote_text: string|undefined, files: string[]|undefined, id: number, socket: WebSocket) {
+	export async function send_on_message(msg: string, user_id: string, chat_id: string, mentions: string[] | undefined, quote_text: string | undefined, files: string[] | undefined, id: number, socket: WebSocket) {
 		var pkg: to_server.on_message_pkg = {
 			message: msg,
 			user_id: user_id,
@@ -218,41 +218,40 @@ export namespace to_server {
 			mentions: mentions,
 			quote_text: quote_text,
 			files: files,
-			id: id
+			id: id,
 		};
-	
+
 		await socket.send(JSON.stringify({
 			id: to_server.pkg_ids.on_message,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
 	export async function send_config_request(section: string, key: string, socket: WebSocket) {
 		var pkg: to_server.config_request_pkg = {
 			section: section,
-			key: key
+			key: key,
 		};
-	
+
 		await socket.send(JSON.stringify({
 			id: to_server.pkg_ids.config_request,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
 	export async function send_tmp_file_request(ext: string, ttl: number, socket: WebSocket) {
 		var pkg: to_server.tmp_file_request_pkg = {
 			ext: ext,
-			ttl: ttl
+			ttl: ttl,
 		};
 
 		await socket.send(JSON.stringify({
 			id: to_server.pkg_ids.tmp_file_request,
-			data: pkg
+			data: pkg,
 		}));
 	}
 
-
-	export function config_get(section: string, key: string, socket: WebSocket): Promise<object|string> {
+	export function config_get(section: string, key: string, socket: WebSocket): Promise<object | string> {
 		return new Promise((resolve, reject) => {
 			var old_wsonmessage = socket.onmessage;
 			socket.onmessage = async (event) => {
@@ -270,7 +269,7 @@ export namespace to_server {
 					socket.onmessage = old_wsonmessage;
 					reject(new Error("Invalid config response"));
 				}
-			}
+			};
 
 			send_config_request(section, key, socket);
 		});

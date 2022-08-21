@@ -3,17 +3,17 @@ import { check_permission } from "./permission.ts";
 
 export var fail = {
 	is_response: true,
-	response: "Something is wrong!"
+	response: "Something is wrong!",
 } as CommandResponse;
 
 export var empty = {
 	is_response: false,
-	response: undefined
+	response: undefined,
 } as CommandResponse;
 
 export interface CommandResponse {
 	is_response: boolean;
-	response: string|undefined;
+	response: string | undefined;
 }
 
 export interface CommandExecutor {
@@ -23,11 +23,11 @@ export interface CommandExecutor {
 export class Command {
 	name: string;
 	help: string;
-	help_long: string|undefined;
+	help_long: string | undefined;
 	executor: CommandExecutor;
-	perm: string|undefined;
+	perm: string | undefined;
 
-	constructor(name: string, help: string, help_long: string|undefined, executor: CommandExecutor, perm: string|undefined) {
+	constructor(name: string, help: string, help_long: string | undefined, executor: CommandExecutor, perm: string | undefined) {
 		this.name = name;
 		this.help = help;
 		this.help_long = help_long;
@@ -52,29 +52,28 @@ export interface CommandEventInterface {
 
 	set_bot_status(status: string): Promise<void>;
 
-	files: string[]|undefined;
-	mentions: string[]|undefined;
+	files: string[] | undefined;
+	mentions: string[] | undefined;
 
-	quote_text: string|undefined;
+	quote_text: string | undefined;
 
 	args: string[];
 }
 
 export class CommandEvent {
-
 	interface: CommandEventInterface;
 
 	get_arguments(array: string[]): string[] {
 		// just remove the first element of the array
 		// yes i know it could be done more easily but it works im not going to touch it
 
-		if(array.length < 2) {
+		if (array.length < 2) {
 			return [];
 		}
 
 		var new_array: string[] = [];
 
-		for(var i = 1; i < array.length; i++) {
+		for (var i = 1; i < array.length; i++) {
 			new_array.push(array[i]);
 		}
 
@@ -97,7 +96,7 @@ export class CommandManager {
 		this.commands = [];
 	}
 
-	add_command(command: Command): void  {
+	add_command(command: Command): void {
 		command.name = this.prefix + command.name;
 
 		for (var i in this.commands) {
@@ -125,10 +124,10 @@ export class CommandManager {
 					}
 
 					return command_event.interface.send_message(help_message);
-				
+
 				case 1:
 					var help_message = `${this.prefix + command_event.interface.args[0]} Help!\n\n`;
-					var command = this.commands.find(x => x.name === this.prefix + command_event.interface.args[0]);
+					var command = this.commands.find((x) => x.name === this.prefix + command_event.interface.args[0]);
 
 					if (command !== undefined) {
 						if (command.help_long !== undefined) {
@@ -141,12 +140,12 @@ export class CommandManager {
 					} else {
 						return command_event.interface.send_message("Command not found!");
 					}
-				
+
 				default:
 					return command_event.interface.send_message("Do you relay need help with help!");
 			}
 		} else {
-			var command = this.commands.find(x => x.name === command_event.interface.command);
+			var command = this.commands.find((x) => x.name === command_event.interface.command);
 
 			if (command === undefined) {
 				return;

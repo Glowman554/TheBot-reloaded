@@ -1,4 +1,4 @@
-import { to_server, from_server } from "./protocol.ts";
+import { from_server, to_server } from "./protocol.ts";
 import * as readline from "https://deno.land/x/readline@v1.1.0/mod.ts";
 
 var ws: WebSocket;
@@ -28,7 +28,7 @@ async function main() {
 		ws.send("auth:" + prompt("key >"));
 		log("Connected");
 		input();
-	}
+	};
 	ws.onmessage = (event) => {
 		var pkg = JSON.parse(event.data) as from_server.pkg;
 		switch (pkg.id) {
@@ -45,7 +45,7 @@ async function main() {
 				}
 				break;
 		}
-	}
+	};
 }
 
 main();

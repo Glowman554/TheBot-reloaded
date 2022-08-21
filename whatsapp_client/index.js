@@ -1,7 +1,7 @@
 import wwebjs from 'whatsapp-web.js';
 import qrcode from 'qrcode-terminal';
 
-import { log } from './log.js';
+import { log, set_remote_log } from './log.js';
 import { to_server, from_server, helper } from 'bot_server_client/protocol.js';
 import { connect_server, add_handler, set_logger, connection } from 'bot_server_client/client.js';
 
@@ -49,6 +49,8 @@ add_handler(from_server.message_send_media, handle_message_send_media);
 add_handler(from_server.set_bot_status, handle_set_bot_status);
 
 var connection_info = JSON.parse(readFileSync(process.argv[2]).toString());
+
+set_remote_log(connection_info.remote_log);
 
 connect_server(connection_info.url, connection_info.key);
 

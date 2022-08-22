@@ -1,8 +1,8 @@
-import { log } from '../logger.ts';
+import { log } from "../logger.ts";
 interface DockerContainer {
 	name: string;
 	status: string;
-};
+}
 
 export class DockerApi {
 	url: string;

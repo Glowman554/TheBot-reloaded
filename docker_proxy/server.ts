@@ -18,7 +18,7 @@ async function main() {
 		return new Response(`Hello World\n`);
 	}, "GET");
 
-	docker.get_handlers().forEach(r => router.add(r.path, r.handler, r.method));
+	docker.get_handlers().forEach((r) => router.add(r.path, r.handler, r.method));
 
 	serve(reqHandler, {
 		port: 0xded,

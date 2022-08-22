@@ -1,7 +1,7 @@
 import { log } from "../logger.ts";
 interface DockerContainer {
 	name: string;
-	status: string;
+	state: string;
 }
 
 export class DockerApi {

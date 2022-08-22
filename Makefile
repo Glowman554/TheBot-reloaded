@@ -26,3 +26,6 @@ run-whatsapp-client:
 
 run-discord-client:
 	(cd discord_client; node . ../connection.json)
+
+run-docker-proxy:
+	(cd docker_proxy; deno run --unstable -A server.ts)

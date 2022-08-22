@@ -23,6 +23,8 @@ async function main() {
 
 	config_gen_add("permissions", "admin", ["crash"]);
 
+	config_gen_add("docker", "proxy", "http://localhost:3565/docker/");
+
 	config_gen_add("discord", "token", undefined);
 
 	config_gen_add("whatsapp", "puppeteer_args", ["--no-sandbox"]);

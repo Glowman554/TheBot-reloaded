@@ -8,6 +8,9 @@ export class DockerApi {
 	url: string;
 
 	constructor(url: string) {
+		if (url.endsWith("/")) {
+			url = url.substring(0, url.length - 1);
+		}
 		log("docker", "url: " + url);
 		this.url = url;
 	}
@@ -36,4 +39,11 @@ export class DockerApi {
 		log("docker", "removing container: " + name);
 		await fetch(this.url + "/remove?name=" + name);
 	}
+}
+
+export var docker: DockerApi;
+
+export function init_docker_api(url: string) {
+	log("docker", "Initializing docker api...");
+	docker = new DockerApi(url);
 }

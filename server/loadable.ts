@@ -2,6 +2,7 @@ import { log } from "./logger.ts";
 import utils from "./command/commands/util.ts";
 import fun from "./command/commands/fun.ts";
 import animals from "./command/commands/animals.ts";
+import docker from "./command/commands/docker.ts";
 
 export type loadable = { load(): void };
 
@@ -9,6 +10,7 @@ var loadables: loadable[] = [
 	new utils(),
 	new fun(),
 	new animals(),
+	new docker(),
 ];
 
 export function load_all_loadables(): void {

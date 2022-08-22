@@ -43,7 +43,7 @@ export class ConfigParser {
 			}
 		}
 
-		log("config", this.gen());
+		// log("config", this.gen());
 	}
 
 	get(key: string, section: string = "root"): object | string {

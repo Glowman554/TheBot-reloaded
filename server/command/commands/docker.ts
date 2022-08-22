@@ -30,38 +30,54 @@ export default class Docker implements loadable {
 								is_response: true,
 								response: message,
 							};
-							break;
-
 						
 						case "start":
 							if (event.interface.args.length != 2) {
 								return fail;
 							}
-							break;
+
+							await docker.start(event.interface.args[1]);
+							return {
+								is_response: true,
+								response: "Successfully started " + event.interface.args[1]
+							}
 						
 						case "stop":
 							if (event.interface.args.length != 2) {
 								return fail;
 							}
-							break;
+
+							await docker.stop(event.interface.args[1]);
+							return {
+								is_response: true,
+								response: "Successfully stopped " + event.interface.args[1]
+							}
 						
 						case "restart":
 							if (event.interface.args.length != 2) {
 								return fail;
 							}
-							break;
+
+							await docker.restart(event.interface.args[1]);
+							return {
+								is_response: true,
+								response: "Successfully restarted " + event.interface.args[1]
+							}
 						
 						case "remove":
 							if (event.interface.args.length != 2) {
 								return fail;
 							}
-							break;
+							
+							await docker.remove(event.interface.args[1]);
+							return {
+								is_response: true,
+								response: "Successfully removed  " + event.interface.args[1]
+							}
 						
 						default:
 							return fail;
 					}
-					
-					return empty;
 				},
 			} as CommandExecutor, "docker"),
 		);

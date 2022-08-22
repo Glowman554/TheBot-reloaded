@@ -1,14 +1,21 @@
 version: "3.9"
 services:
-  discord-client:
+  discord_client:
     build: discord_client
     volumes:
       - ./data:/data
     restart: always
-  whatsapp-client:
+  whatsapp_client:
     build: whatsapp_client
     volumes:
       - ./data:/data
+    restart: always
+  docker_proxy:
+    build: docker_proxy
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - "3565:3565"
     restart: always
   server:
     build: server

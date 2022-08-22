@@ -26,10 +26,23 @@ async function main() {
 	config_gen_add("discord", "token", undefined);
 
 	config_gen_add("whatsapp", "puppeteer_args", ["--no-sandbox"]);
-
 	var cfg: ConfigSections = {};
+	var cfg_override: { [key: string]: any } = {};
+
+	try {
+		cfg_override = JSON.parse(Deno.readTextFileSync(Deno.args[0]));
+	} catch (e) {
+		console.log("No config override file found");
+	}
+
 	for (var gen of config_gen) {
+		var save_in_config_override = true;
 		var default_value = gen.default !== undefined ? JSON.stringify(gen.default) : undefined;
+		if (cfg_override[":" + gen.section + "." + gen.key] !== undefined) {
+			default_value = cfg_override[":" + gen.section + "." + gen.key];
+			console.log("Overriding " + gen.section + "." + gen.key + " with " + default_value);
+			save_in_config_override = false;
+		}
 
 		var input = prompt(":" + gen.section + "." + gen.key + (default_value !== undefined ? " [" + default_value + "]" : "") + ": ");
 		if (!input && default_value === undefined) {
@@ -43,14 +56,21 @@ async function main() {
 		}
 		try {
 			cfg[gen.section][gen.key] = JSON.parse(value);
+			if (save_in_config_override && default_value != value) {
+				cfg_override[":" + gen.section + "." + gen.key] = JSON.parse(value);
+			}
 		} catch (e) {
 			cfg[gen.section][gen.key] = value;
+			if (save_in_config_override && default_value != value) {
+				cfg_override[":" + gen.section + "." + gen.key] = value;
+			}
 		}
 	}
 
 	var config_parser = new ConfigParser("");
 	config_parser.config_sections = cfg;
 
+	Deno.writeTextFileSync(Deno.args[0], JSON.stringify(cfg_override, null, "\t"));
 	Deno.writeTextFileSync("./config.cfg", config_parser.gen());
 }
 

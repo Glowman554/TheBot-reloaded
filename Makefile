@@ -17,3 +17,12 @@ up-detach: build
 
 down:
 	sudo docker-compose down
+
+run-server:
+	(cd server; deno run -A server.ts)
+
+run-whatsapp-client:
+	(cd whatsapp_client; node . ../connection.json)
+
+run-discord-client:
+	(cd discord_client; node . ../connection.json)

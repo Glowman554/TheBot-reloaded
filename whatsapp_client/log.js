@@ -4,7 +4,7 @@ var remote_log = false;
 
 export function log(msg) {
 	if (remote_log) {
-		to_server.send_log(msg, "discord");
+		to_server.send_log(msg, "whatsapp");
 	} else {
 		console.log(msg);
 	}

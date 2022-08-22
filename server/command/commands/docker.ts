@@ -19,7 +19,7 @@ export default class Docker implements loadable {
 							if (event.interface.args.length != 1) {
 								return fail;
 							}
-							
+
 							var containers = await docker.list();
 							var message = "";
 							for (var container of containers) {
@@ -30,7 +30,7 @@ export default class Docker implements loadable {
 								is_response: true,
 								response: message,
 							};
-						
+
 						case "start":
 							if (event.interface.args.length != 2) {
 								return fail;
@@ -39,9 +39,9 @@ export default class Docker implements loadable {
 							await docker.start(event.interface.args[1]);
 							return {
 								is_response: true,
-								response: "Successfully started " + event.interface.args[1]
-							}
-						
+								response: "Successfully started " + event.interface.args[1],
+							};
+
 						case "stop":
 							if (event.interface.args.length != 2) {
 								return fail;
@@ -50,9 +50,9 @@ export default class Docker implements loadable {
 							await docker.stop(event.interface.args[1]);
 							return {
 								is_response: true,
-								response: "Successfully stopped " + event.interface.args[1]
-							}
-						
+								response: "Successfully stopped " + event.interface.args[1],
+							};
+
 						case "restart":
 							if (event.interface.args.length != 2) {
 								return fail;
@@ -61,20 +61,20 @@ export default class Docker implements loadable {
 							await docker.restart(event.interface.args[1]);
 							return {
 								is_response: true,
-								response: "Successfully restarted " + event.interface.args[1]
-							}
-						
+								response: "Successfully restarted " + event.interface.args[1],
+							};
+
 						case "remove":
 							if (event.interface.args.length != 2) {
 								return fail;
 							}
-							
+
 							await docker.remove(event.interface.args[1]);
 							return {
 								is_response: true,
-								response: "Successfully removed  " + event.interface.args[1]
-							}
-						
+								response: "Successfully removed  " + event.interface.args[1],
+							};
+
 						default:
 							return fail;
 					}

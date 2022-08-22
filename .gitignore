@@ -5,3 +5,4 @@ logs
 config.cfg
 connection.json
 tmp
+permissions.json

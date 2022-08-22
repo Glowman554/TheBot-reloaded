@@ -1,9 +1,13 @@
 import { log } from "./logger.ts";
 
-class ConfigParser {
+export interface ConfigSections {
+	[key: string]: { [key: string]: object | string };
+}
+
+export class ConfigParser {
 	config: string;
 
-	config_sections: { [key: string]: { [key: string]: object | string } } = {};
+	config_sections: ConfigSections = {};
 
 	constructor(config: string) {
 		this.config = config;
@@ -38,6 +42,8 @@ class ConfigParser {
 				log("config", `${parts[0].trim()} = ${this.config_sections[section][parts[0].trim()]}`);
 			}
 		}
+
+		log("config", this.gen());
 	}
 
 	get(key: string, section: string = "root"): object | string {
@@ -50,6 +56,18 @@ class ConfigParser {
 		}
 
 		return this.config_sections[section][key];
+	}
+
+	gen(): string {
+		var output = "";
+		for (var section in this.config_sections) {
+			output += `:${section}\n`;
+			for (var key in this.config_sections[section]) {
+				output += `${key}=${JSON.stringify(this.config_sections[section][key])}\n`;
+			}
+			output += "\n";
+		}
+		return output;
 	}
 }
 

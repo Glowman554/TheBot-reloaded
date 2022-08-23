@@ -29,3 +29,6 @@ run-discord-client:
 
 run-docker-proxy:
 	(cd apps/docker_proxy; deno run --unstable -A server.ts)
+
+run-compiler-server:
+	(cd apps/compiler_server; deno run -A server.ts)

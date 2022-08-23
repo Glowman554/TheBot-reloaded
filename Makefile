@@ -19,13 +19,13 @@ down:
 	sudo docker-compose down
 
 run-server:
-	(cd server; deno run -A server.ts)
+	(cd apps/server; deno run -A server.ts)
 
 run-whatsapp-client:
-	(cd whatsapp_client; node . ../connection.json)
+	(cd apps/whatsapp_client; node . ../../connection.json)
 
 run-discord-client:
-	(cd discord_client; node . ../connection.json)
+	(cd apps/discord_client; node . ../../connection.json)
 
 run-docker-proxy:
-	(cd docker_proxy; deno run --unstable -A server.ts)
+	(cd apps/docker_proxy; deno run --unstable -A server.ts)

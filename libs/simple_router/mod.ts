@@ -1,9 +1,9 @@
 export let logger: { logger(msg: string): void } = {
-	logger: (msg) => {}
+	logger: (msg) => {},
 };
 
 export function set_logger(l: { logger(msg: string): void }) {
 	logger = l;
 }
 
-export type { Route, Router, create } from "./router.ts";
+export type { create, Route, Router } from "./router.ts";

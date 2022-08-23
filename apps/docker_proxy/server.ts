@@ -5,9 +5,9 @@ import * as docker from "./docker.ts";
 
 async function main() {
 	docker.init();
-	
+
 	set_logger({
-		logger: console.log
+		logger: console.log,
 	});
 
 	const { router, reqHandler } = create();

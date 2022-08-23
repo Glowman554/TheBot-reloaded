@@ -4,12 +4,12 @@ export interface CompilerResult {
 	stderr: string;
 	stdout: string;
 	status: Deno.ProcessStatus;
-};
+}
 
 export interface CompilerFile {
 	file: string;
 	prog: string;
-};
+}
 
 export class CompilerApi {
 	url: string;
@@ -22,19 +22,19 @@ export class CompilerApi {
 		this.url = url;
 	}
 
-	async run(command:  string): Promise<CompilerResult> {
+	async run(command: string): Promise<CompilerResult> {
 		log("compiler", "running: '" + command + "'...");
 		return await (await fetch(this.url + "/run", {
 			method: "POST",
-			body: command
+			body: command,
 		})).json();
 	}
 
-	async run_nojail(command:  string): Promise<CompilerResult> {
+	async run_nojail(command: string): Promise<CompilerResult> {
 		log("compiler", "running: '" + command + "'...");
 		return await (await fetch(this.url + "/run-nojail", {
 			method: "POST",
-			body: command
+			body: command,
 		})).json();
 	}
 
@@ -44,8 +44,8 @@ export class CompilerApi {
 			method: "POST",
 			body: JSON.stringify({
 				file: file.split("/").pop(),
-				prog: Deno.readTextFileSync(file)
-			} as CompilerFile)
+				prog: Deno.readTextFileSync(file),
+			} as CompilerFile),
 		})).json();
 	}
 }

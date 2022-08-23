@@ -12,7 +12,7 @@ var loadables: loadable[] = [
 	new fun(),
 	new animals(),
 	new docker(),
-	new compiler()
+	new compiler(),
 ];
 
 export function load_all_loadables(): void {

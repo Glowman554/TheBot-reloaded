@@ -1,4 +1,4 @@
-import { init_compiler_api, compiler, CompilerResult } from "../../api/compiler.ts";
+import { compiler, CompilerResult, init_compiler_api } from "../../api/compiler.ts";
 import { config } from "../../config.ts";
 import { loadable } from "../../loadable.ts";
 import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, empty, fail } from "../command.ts";
@@ -24,7 +24,7 @@ export default class Compiler implements loadable {
 
 					return {
 						is_response: true,
-						response: result.stdout + (result.stderr != "" ? ("\nSTDERR: \n" + result.stderr) : "")
+						response: result.stdout + (result.stderr != "" ? ("\nSTDERR: \n" + result.stderr) : ""),
 					};
 				},
 			} as CommandExecutor, undefined),

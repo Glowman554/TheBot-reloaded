@@ -1,6 +1,6 @@
 import { serve } from "https://deno.land/std/http/mod.ts";
-import { set_logger } from "../../libs/simple_router/mod.ts";
-import { create } from "../../libs/simple_router/router.ts";
+import { set_logger, create } from "https://deno.land/x/simple_router@0.1/mod.ts";
+
 import * as docker from "./docker.ts";
 
 async function main() {

@@ -1,18 +1,16 @@
 import { serve } from "https://deno.land/std/http/mod.ts";
-import { Router } from "./router.ts";
+import { set_logger } from "../../libs/simple_router/mod.ts";
+import { create } from "../../libs/simple_router/router.ts";
 import * as docker from "./docker.ts";
-
-const router = new Router();
-
-async function reqHandler(req: Request) {
-	var url = new URL(req.url);
-	console.log(req.method + " " + url.pathname);
-
-	return router.handle(req);
-}
 
 async function main() {
 	docker.init();
+	
+	set_logger({
+		logger: console.log
+	});
+
+	const { router, reqHandler } = create();
 
 	router.add("/", async (req) => {
 		return new Response(`Hello World\n`);

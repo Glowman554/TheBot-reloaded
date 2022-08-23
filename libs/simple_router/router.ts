@@ -1,3 +1,5 @@
+import { logger } from "./mod.ts";
+
 export interface Route {
 	path: string;
 	handler: (req: Request) => Promise<Response>;
@@ -12,7 +14,7 @@ export class Router {
 	}
 
 	add(path: string, handler: (req: Request) => Promise<Response>, method: string) {
-		console.log("Adding route " + method + " " + path);
+		logger.logger("Adding route " + method + " " + path);
 		this.routes.push({
 			path: path,
 			handler: handler,
@@ -28,4 +30,21 @@ export class Router {
 		}
 		return new Response(null, { status: 404 });
 	}
+}
+
+export function create(): {
+	reqHandler(req: Request): Promise<Response>;
+	router: Router;
+} {
+	var router = new Router();
+
+	return {
+		reqHandler: async (req: Request) => {
+			var url = new URL(req.url);
+			logger.logger(req.method + " " + url.pathname);
+
+			return router.handle(req);
+		},
+		router: router,
+	};
 }

@@ -11,15 +11,15 @@ export default class Compiler implements loadable {
 		command_manager.add_command(
 			new Command("run", "", "", {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
-					if (event.interface.args.length < 1) {
+					if (!event._1_arg_or_quote_text()) {
 						return fail;
 					}
 
 					var result: CompilerResult;
 					if (check_permission(event.interface.user, "run-nojail")) {
-						result = await compiler.run_nojail(event.interface.args.join(" "));
+						result = await compiler.run_nojail(event.get_args_or_quote().join(" "));
 					} else {
-						result = await compiler.run(event.interface.args.join(" "));
+						result = await compiler.run(event.get_args_or_quote().join(" "));
 					}
 
 					return {

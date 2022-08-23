@@ -80,6 +80,18 @@ export class CommandEvent {
 		return new_array;
 	}
 
+	get_args_or_quote(): string[] {
+		if (this.interface.quote_text) {
+			return this.interface.quote_text.split(" ");
+		} else {
+			return this.interface.args;
+		}
+	}
+
+	_1_arg_or_quote_text(): boolean {
+		return (!(this.interface.args.length < 1) || Boolean(this.interface.quote_text));
+	}
+
 	constructor(event_interface: CommandEventInterface) {
 		this.interface = event_interface;
 

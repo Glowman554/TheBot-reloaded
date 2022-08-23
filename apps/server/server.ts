@@ -9,8 +9,8 @@ import { Command, command_manager, CommandEvent, CommandExecutor, CommandRespons
 import { config, init_config } from "./config/config.ts";
 
 import { load_all_loadables } from "./loadable.ts";
+import { get_temp_file, init_tmp_files } from "./utils/tmp.ts";
 
-import { get_temp_file, init_tmp_files } from "./utils.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);

@@ -8,7 +8,7 @@ function log(msg: string) {
 }
 
 function on_line(line: string) {
-	to_server.send_on_message(line, "terminal", "terminal", [], undefined, 10, ws);
+	to_server.send_on_message(line, "terminal", "terminal", [], undefined, undefined, 10, ws);
 	input();
 }
 

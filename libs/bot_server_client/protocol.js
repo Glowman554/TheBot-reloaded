@@ -1,4 +1,5 @@
 import { send_to_server } from "./client.js";
+import websocket from "websocket";
 
 export var from_server = {
 	message_send: 1,
@@ -24,6 +25,11 @@ export var to_server = {
 	config_request: 3,
 	tmp_file_request: 4,
 
+	/**
+	 * 
+	 * @param {string} msg 
+	 * @param {string} client_name 
+	 */
 	send_log: async (msg, client_name) => {
 		var pkg = {
 			message: msg,
@@ -36,6 +42,16 @@ export var to_server = {
 		});
 	},
 
+	/**
+	 * 
+	 * @param {string} msg 
+	 * @param {string} user_id 
+	 * @param {string} chat_id 
+	 * @param {string[]} mentions 
+	 * @param {string|undefined} quote_text 
+	 * @param {string[]} files 
+	 * @param {string} id 
+	 */
 	send_on_message: async (msg, user_id, chat_id, mentions, quote_text, files, id) => {
 		var pkg = {
 			message: msg,
@@ -53,6 +69,11 @@ export var to_server = {
 		});
 	},
 
+	/**
+	 * 
+	 * @param {string} section 
+	 * @param {string} key 
+	 */
 	send_config_request: async (section, key) => {
 		var pkg = {
 			section: section,
@@ -65,6 +86,11 @@ export var to_server = {
 		});
 	},
 
+	/**
+	 * 
+	 * @param {string} ext 
+	 * @param {number} ttl 
+	 */
 	send_tmp_file_request: async (ext, ttl) => {
 		var pkg = {
 			ext: ext,
@@ -79,6 +105,13 @@ export var to_server = {
 };
 
 export var helper = {
+	/**
+	 * 
+	 * @param {string} section 
+	 * @param {string} key 
+	 * @param {websocket.connection} socket 
+	 * @returns {Promise<any>}
+	 */
 	config_get: (section, key, socket) => {
 		return new Promise((resolve, reject) => {
 			var old_wsonmessage = socket.onmessage;
@@ -102,6 +135,13 @@ export var helper = {
 		});
 	},
 
+	/**
+	 * 
+	 * @param {string} ext 
+	 * @param {number} ttl 
+	 * @param {websocket.connection} socket 
+	 * @returns {Promise<string>}
+	 */
 	tmp_file_get: (ext, ttl, socket) => {
 		return new Promise((resolve, reject) => {
 			var old_wsonmessage = socket.onmessage;

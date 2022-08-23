@@ -1,6 +1,4 @@
-import { log, set_remote_log } from "./log.js";
-import { from_server, helper, to_server } from "bot_server_client/protocol.js";
-import { add_handler, connect_server, connection, set_logger } from "bot_server_client/client.js";
+import { client, protocol, log, set_client_name, set_remote_log } from "bot_server_client";
 
 import { ActivityType, Client } from "discord.js";
 
@@ -46,23 +44,24 @@ function message_delete(id) {
 	delete messages[id];
 }
 
-set_logger(log);
-add_handler(from_server.message_send, handle_message_send);
-add_handler(from_server.key_auth_response, handle_key_auth_response);
-add_handler(from_server.internal_error, handle_internal_error);
-add_handler(from_server.message_send_media, handle_message_send_media);
-add_handler(from_server.set_bot_status, handle_set_bot_status);
+client.set_logger(log);
+client.add_handler(protocol.from_server.message_send, handle_message_send);
+client.add_handler(protocol.from_server.key_auth_response, handle_key_auth_response);
+client.add_handler(protocol.from_server.internal_error, handle_internal_error);
+client.add_handler(protocol.from_server.message_send_media, handle_message_send_media);
+client.add_handler(protocol.from_server.set_bot_status, handle_set_bot_status);
 
 var connection_info = JSON.parse(readFileSync(process.argv[2]).toString());
 set_remote_log(connection_info.remote_log);
-connect_server(connection_info.url, connection_info.key);
+set_client_name("discord");
+client.connect_server(connection_info.url, connection_info.key);
 
-var client = new Client({
+var dc_client = new Client({
 	intents: [0b11111111111111111],
 });
 var client_logged_in = false;
 
-client.on("messageCreate", async (msg) => {
+dc_client.on("messageCreate", async (msg) => {
 	if (msg.author.bot) {
 		return;
 	}
@@ -76,9 +75,9 @@ client.on("messageCreate", async (msg) => {
 	}
 
 	var files = [];
-	if (connection) {
+	if (client.connection) {
 		for (var i of msg.attachments.values()) {
-			var tmp_file = await helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, connection);
+			var tmp_file = await protocol.helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, client.connection);
 			log("Downloading " + i.url + " to " + tmp_file);
 			await download(i.url, tmp_file.split("/").slice(0, -1).join("/"), {
 				filename: tmp_file.split("/").pop(),
@@ -89,7 +88,7 @@ client.on("messageCreate", async (msg) => {
 		if (msg.reference) {
 			var attachments = (await msg.channel.messages.fetch(msg.reference.messageId)).attachments;
 			for (var i of attachments.values()) {
-				var tmp_file = await helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, connection);
+				var tmp_file = await protocol.helper.tmp_file_get(i.url.split(".").pop(), 1000 * 60 * 5, client.connection);
 				log("Downloading " + i.url + " to " + tmp_file);
 				await download(i.url, tmp_file.split("/").slice(0, -1).join("/"), {
 					filename: tmp_file.split("/").pop(),
@@ -107,10 +106,10 @@ client.on("messageCreate", async (msg) => {
 	}
 
 	var id = message_register(msg);
-	to_server.send_on_message(msg.content, msg.author.id, msg.channelId, [], quote_text, files, id);
+	protocol.to_server.send_on_message(msg.content, msg.author.id, msg.channelId, [], quote_text, files, id);
 });
 
-client.on("ready", () => {
+dc_client.on("ready", () => {
 	log("ready");
 });
 
@@ -120,11 +119,11 @@ export async function handle_key_auth_response(pkg) {
 	} else {
 		log("Auth success!");
 		if (!client_logged_in) {
-			client.login(String(await helper.config_get("discord", "token", connection)));
+			dc_client.login(String(await protocol.helper.config_get("discord", "token", client.connection)));
 			client_logged_in = true;
 		}
 
-		internal_commands = new InternalCommands(await helper.config_get("discord", "owner", connection), "i!");
+		internal_commands = new InternalCommands(await protocol.helper.config_get("discord", "owner", client.connection), "i!");
 
 		internal_commands.add({
 			name: "exit",

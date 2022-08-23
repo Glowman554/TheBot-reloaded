@@ -1,19 +1,45 @@
 import websocket from "websocket";
 
+/**
+ * @type {websocket.client} socket
+ */
 export var socket = null;
+
+/**
+ * @type {websocket.connection} connection
+ */
 export var connection = null;
 
+/**
+ * 
+ * @param {string} message 
+ */
 var logger = (message) => {};
 
+/**
+ * 
+ * @param {(message: string) => void} logger_function 
+ */
 export function set_logger(logger_function) {
 	logger = logger_function;
 }
 
 var handlers = [];
+
+/**
+ * 
+ * @param {number} id 
+ * @param {(pkg: object) => void} handler 
+ */
 export function add_handler(id, handler) {
 	handlers[id] = handler;
 }
 
+/**
+ * 
+ * @param {string} url 
+ * @param {string} key 
+ */
 export function connect_server(url, key) {
 	logger("Connecting to " + url);
 	socket = new websocket.client();
@@ -78,6 +104,10 @@ function handle_from_server(pkg) {
 
 var pkg_queue = [];
 
+/**
+ * 
+ * @param {object} pkg 
+ */
 export function send_to_server(pkg) {
 	if (connection) {
 		if (pkg_queue.length > 0) {

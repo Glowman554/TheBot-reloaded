@@ -14,7 +14,7 @@ async function main() {
 		return new Response(`Hello World\n`);
 	}, "GET");
 
-	router.add("/compiler/run",async (req) => {
+	router.add("/compiler/run", async (req) => {
 		var proc = run(do_jail(do_filter(await req.text())));
 		var status = await proc.status();
 		var stdout = new TextDecoder().decode(await proc.output());
@@ -23,11 +23,11 @@ async function main() {
 		return new Response(JSON.stringify({
 			stderr: stderr,
 			stdout: stdout,
-			status: status
+			status: status,
 		}));
 	}, "POST");
 
-	router.add("/compiler/run-nojail",async (req) => {
+	router.add("/compiler/run-nojail", async (req) => {
 		var proc = run(await req.text());
 		var status = await proc.status();
 		var stdout = new TextDecoder().decode(await proc.output());
@@ -36,11 +36,11 @@ async function main() {
 		return new Response(JSON.stringify({
 			stderr: stderr,
 			stdout: stdout,
-			status: status
+			status: status,
 		}));
 	}, "POST");
 
-	router.add("/compiler/compile",async (req) => {
+	router.add("/compiler/compile", async (req) => {
 		console.log(await req.text());
 		return new Response("this is a stub and not yet implemented!");
 	}, "POST");

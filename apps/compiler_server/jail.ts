@@ -11,12 +11,12 @@ var filter = [
 	"(",
 	")",
 	"'",
-	"\"",
+	'"',
 	"|",
 	"<",
 	">",
 	"`",
-	"\\"
+	"\\",
 ];
 
 export function do_filter(str: string) {
@@ -30,7 +30,7 @@ export function do_filter(str: string) {
 }
 
 export function do_jail(command: string) {
-	command = command.replace(/\'/g, "\"");
-	var cmd = "echo \'" + command + "\' | /bin/nsjail " + default_jail.join(" ") + " -- /bin/bash";
+	command = command.replace(/\'/g, '"');
+	var cmd = "echo '" + command + "' | /bin/nsjail " + default_jail.join(" ") + " -- /bin/bash";
 	return cmd;
 }

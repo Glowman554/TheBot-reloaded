@@ -29,5 +29,22 @@ export default class Compiler implements loadable {
 				},
 			} as CommandExecutor, undefined),
 		);
+
+		command_manager.add_command(
+			new Command("compile", "", "", {
+				execute: async (event: CommandEvent): Promise<CommandResponse> => {
+					if (event.interface.args.length != 0 || event.interface.files == undefined || event.interface.files.length == 0) {
+						return fail;
+					}
+
+					var result = await compiler.compile_and_run(event.interface.files[0]);
+
+					return {
+						is_response: true,
+						response: result.stdout + (result.stderr != "" ? ("\nSTDERR: \n" + result.stderr) : ""),
+					};
+				},
+			} as CommandExecutor, undefined),
+		);
 	}
 }

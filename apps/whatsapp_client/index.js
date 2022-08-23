@@ -8,6 +8,8 @@ import { add_handler, connect_server, connection, set_logger } from "bot_server_
 import { readFileSync, writeFileSync } from "fs";
 import { extension } from "mime-types";
 
+import { InternalCommands } from "bot_internal_commands";
+
 var messages = {};
 
 function message_cleanup() {
@@ -54,6 +56,14 @@ set_remote_log(connection_info.remote_log);
 
 connect_server(connection_info.url, connection_info.key);
 
+/**
+ * @type {InternalCommands} internal_commands
+ */
+var internal_commands;
+
+/**
+ * @type {wwebjs.Client} client
+ */
 var client = null;
 async function client_init() {
 	client = new wwebjs.Client({
@@ -77,6 +87,12 @@ async function client_init() {
 
 	client.on("message", async (msg) => {
 		if (msg.fromMe) {
+			return;
+		}
+
+		var ir = await internal_commands.handle(msg.author ? msg.author : msg.from, msg.body);
+		if (ir) {
+			client.sendMessage(msg.from, ir);
 			return;
 		}
 
@@ -164,14 +180,39 @@ export function handle_internal_error(pkg) {
 	}
 }
 
-export function handle_key_auth_response(pkg) {
+export async function handle_key_auth_response(pkg) {
 	if (!pkg.success) {
 		throw new Error("Auth failed!");
 	} else {
 		log("Auth success!");
 		if (!client) {
-			client_init();
+			await client_init();
 		}
+
+		internal_commands = new InternalCommands(await helper.config_get("whatsapp", "owner", connection), "i!");
+
+		internal_commands.add({
+			name: "exit",
+			executor: async (input) => {
+				if (input.length != 0) {
+						return "takes no arguments!";
+				}
+
+				process.exit(0);
+			},
+		});
+
+		internal_commands.add({
+			name: "name",
+			executor: async (input) => {
+				if (input.length < 0) {
+					return "no name provided!";
+				}
+
+				client.setDisplayName(input.join(" "));
+				return "setting name to " + input.join(" ");
+			},
+		});
 	}
 }
 

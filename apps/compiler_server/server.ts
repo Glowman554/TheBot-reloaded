@@ -1,5 +1,6 @@
 import { serve } from "https://deno.land/std/http/mod.ts";
 import { create, set_logger } from "https://deno.land/x/simple_router@0.2/mod.ts";
+import { compile_and_run } from "./compiler.ts";
 import { do_filter, do_jail } from "./jail.ts";
 import { run } from "./run.ts";
 
@@ -19,6 +20,7 @@ async function main() {
 		var status = await proc.status();
 		var stdout = new TextDecoder().decode(await proc.output());
 		var stderr = new TextDecoder().decode(await proc.stderrOutput());
+		proc.close();
 
 		return new Response(JSON.stringify({
 			stderr: stderr,
@@ -32,6 +34,7 @@ async function main() {
 		var status = await proc.status();
 		var stdout = new TextDecoder().decode(await proc.output());
 		var stderr = new TextDecoder().decode(await proc.stderrOutput());
+		proc.close();
 
 		return new Response(JSON.stringify({
 			stderr: stderr,
@@ -41,8 +44,22 @@ async function main() {
 	}, "POST");
 
 	router.add("/compiler/compile", async (req) => {
-		console.log(await req.text());
-		return new Response("this is a stub and not yet implemented!");
+		var json = await req.json() as {
+			prog: string;
+			file: string;
+		};
+
+		var proc = await compile_and_run(json.file, json.prog);
+		var status = await proc.status();
+		var stdout = new TextDecoder().decode(await proc.output());
+		var stderr = new TextDecoder().decode(await proc.stderrOutput());
+		proc.close();
+
+		return new Response(JSON.stringify({
+			stderr: stderr,
+			stdout: stdout,
+			status: status,
+		}));
 	}, "POST");
 
 	serve(reqHandler, {

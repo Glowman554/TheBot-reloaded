@@ -1,0 +1,55 @@
+{
+	"gcc": {
+		"file_extension": ".c",
+		"flags": "-o %out%.o -c %in%",
+		"post_compile": "gcc %out%.o -o %out%",
+		"cleanup": "rm %out%.o %out%",
+		"is_interpreted": false
+	},
+	"g++": {
+		"file_extension": ".cpp",
+		"flags": "-o %out%.o -c %in%",
+		"post_compile": "g++ %out%.o -o %out%",
+		"cleanup": "rm %out%.o %out%",
+		"is_interpreted": false
+	},
+	"as": {
+		"file_extension": ".S",
+		"flags": "%in% -o %out%.o",
+		"post_compile": "ld %out%.o -o %out%",
+		"cleanup": "rm %out%.o %out%",
+		"is_interpreted": false
+	},
+	"rustc": {
+		"file_extension": ".rs",
+		"flags": "%in% -o %out%",
+		"post_compile": "exit #we don't need this",
+		"cleanup": "rm %out%",
+		"is_interpreted": false
+	},
+	"node": {
+		"file_extension": ".js",
+		"flags": "%in%",
+		"is_interpreted": true
+	},
+	"python3": {
+		"file_extension": ".py",
+		"flags": "%in%",
+		"is_interpreted": true
+	},
+	"go": {
+		"file_extension": ".go",
+		"flags": "run %in%",
+		"is_interpreted": true
+	},
+	"bash": {
+		"file_extension": ".sh",
+		"flags": "%in%",
+		"is_interpreted": true
+	},
+	"java": {
+		"file_extension": ".java",
+		"flags": "%in%",
+		"is_interpreted": true
+	}
+}

@@ -1,8 +1,9 @@
 export function run(command: string) {
-	console.log("Running: " + command);
-	Deno.writeTextFileSync("/tmp/run.sh", command);
+	var file = "/tmp/" + Math.floor(Math.random() * 99999999) + ".sh";
+	console.log("Running: '" + command + "' using file " + file);
+	Deno.writeTextFileSync(file, command);
 	return Deno.run({
-		cmd: ["bash", "/tmp/run.sh"],
+		cmd: ["bash", file],
 		cwd: "/tmp/",
 		stdout: "piped",
 		stderr: "piped",

@@ -11,14 +11,12 @@ export var socket = null;
 export var connection = null;
 
 /**
- * 
- * @param {string} message 
+ * @param {string} message
  */
 var logger = (message) => {};
 
 /**
- * 
- * @param {(message: string) => void} logger_function 
+ * @param {(message: string) => void} logger_function
  */
 export function set_logger(logger_function) {
 	logger = logger_function;
@@ -27,18 +25,16 @@ export function set_logger(logger_function) {
 var handlers = [];
 
 /**
- * 
- * @param {number} id 
- * @param {(pkg: object) => void} handler 
+ * @param {number} id
+ * @param {(pkg: object) => void} handler
  */
 export function add_handler(id, handler) {
 	handlers[id] = handler;
 }
 
 /**
- * 
- * @param {string} url 
- * @param {string} key 
+ * @param {string} url
+ * @param {string} key
  */
 export function connect_server(url, key) {
 	logger("Connecting to " + url);
@@ -105,8 +101,7 @@ function handle_from_server(pkg) {
 var pkg_queue = [];
 
 /**
- * 
- * @param {object} pkg 
+ * @param {object} pkg
  */
 export function send_to_server(pkg) {
 	if (connection) {

@@ -1,7 +1,7 @@
 import wwebjs from "whatsapp-web.js";
 import qrcode from "qrcode-terminal";
 
-import { client, log, protocol, set_client_name, set_remote_log} from "bot_server_client";
+import { client, log, protocol, set_client_name, set_remote_log } from "bot_server_client";
 
 import { readFileSync, writeFileSync } from "fs";
 import { extension } from "mime-types";
@@ -194,7 +194,7 @@ export async function handle_key_auth_response(pkg) {
 			name: "exit",
 			executor: async (input) => {
 				if (input.length != 0) {
-						return "takes no arguments!";
+					return "takes no arguments!";
 				}
 
 				process.exit(0);

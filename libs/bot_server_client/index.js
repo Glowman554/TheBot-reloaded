@@ -7,24 +7,21 @@ var client_name = "default";
 var remote_log = true;
 
 /**
- * 
- * @param {string} name 
+ * @param {string} name
  */
 export function set_client_name(name) {
 	client_name = name;
 }
 
 /**
- * 
- * @param {boolean} remote 
+ * @param {boolean} remote
  */
 export function set_remote_log(remote) {
 	remote_log = remote;
 }
 
 /**
- * 
- * @param {string} msg 
+ * @param {string} msg
  */
 export function log(msg) {
 	if (remote_log) {

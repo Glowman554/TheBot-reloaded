@@ -1,4 +1,4 @@
-import { client, protocol, log, set_client_name, set_remote_log } from "bot_server_client";
+import { client, log, protocol, set_client_name, set_remote_log } from "bot_server_client";
 
 import { ActivityType, Client } from "discord.js";
 

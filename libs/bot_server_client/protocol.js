@@ -26,9 +26,8 @@ export var to_server = {
 	tmp_file_request: 4,
 
 	/**
-	 * 
-	 * @param {string} msg 
-	 * @param {string} client_name 
+	 * @param {string} msg
+	 * @param {string} client_name
 	 */
 	send_log: async (msg, client_name) => {
 		var pkg = {
@@ -43,14 +42,13 @@ export var to_server = {
 	},
 
 	/**
-	 * 
-	 * @param {string} msg 
-	 * @param {string} user_id 
-	 * @param {string} chat_id 
-	 * @param {string[]} mentions 
-	 * @param {string|undefined} quote_text 
-	 * @param {string[]} files 
-	 * @param {string} id 
+	 * @param {string} msg
+	 * @param {string} user_id
+	 * @param {string} chat_id
+	 * @param {string[]} mentions
+	 * @param {string|undefined} quote_text
+	 * @param {string[]} files
+	 * @param {string} id
 	 */
 	send_on_message: async (msg, user_id, chat_id, mentions, quote_text, files, id) => {
 		var pkg = {
@@ -70,9 +68,8 @@ export var to_server = {
 	},
 
 	/**
-	 * 
-	 * @param {string} section 
-	 * @param {string} key 
+	 * @param {string} section
+	 * @param {string} key
 	 */
 	send_config_request: async (section, key) => {
 		var pkg = {
@@ -87,9 +84,8 @@ export var to_server = {
 	},
 
 	/**
-	 * 
-	 * @param {string} ext 
-	 * @param {number} ttl 
+	 * @param {string} ext
+	 * @param {number} ttl
 	 */
 	send_tmp_file_request: async (ext, ttl) => {
 		var pkg = {
@@ -106,10 +102,9 @@ export var to_server = {
 
 export var helper = {
 	/**
-	 * 
-	 * @param {string} section 
-	 * @param {string} key 
-	 * @param {websocket.connection} socket 
+	 * @param {string} section
+	 * @param {string} key
+	 * @param {websocket.connection} socket
 	 * @returns {Promise<any>}
 	 */
 	config_get: (section, key, socket) => {
@@ -136,10 +131,9 @@ export var helper = {
 	},
 
 	/**
-	 * 
-	 * @param {string} ext 
-	 * @param {number} ttl 
-	 * @param {websocket.connection} socket 
+	 * @param {string} ext
+	 * @param {number} ttl
+	 * @param {websocket.connection} socket
 	 * @returns {Promise<string>}
 	 */
 	tmp_file_get: (ext, ttl, socket) => {

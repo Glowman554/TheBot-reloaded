@@ -1,6 +1,7 @@
 import { docker, init_docker_api } from "../../api/docker.ts";
 import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
+import { help_text } from "../../utils/help.ts";
 import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, empty, fail } from "../command.ts";
 
 export default class Docker implements loadable {
@@ -8,7 +9,7 @@ export default class Docker implements loadable {
 		init_docker_api(config.get("proxy", "docker") as string);
 
 		command_manager.add_command(
-			new Command("docker", "Manage Docker", "Use '#docker [list/start/stop/restart/remove] [container?]' to manage Docker containers.", {
+			new Command("docker", "Manage Docker", help_text("Use '<prefix>docker [list/start/stop/restart/remove] [container?]' to manage Docker containers."), {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length != 1 && event.interface.args.length != 2) {
 						return fail;

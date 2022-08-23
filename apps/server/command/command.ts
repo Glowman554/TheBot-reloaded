@@ -1,4 +1,5 @@
 import { log } from "../logger.ts";
+import { help_text } from "../utils/help.ts";
 import { check_permission } from "./permission.ts";
 
 export var fail = {
@@ -127,7 +128,7 @@ export class CommandManager {
 		if (command_event.interface.command === this.prefix + "help") {
 			switch (command_event.interface.args.length) {
 				case 0:
-					var help_message = "TheBot Help!";
+					var help_message = help_text("<bot_name> Help!");
 
 					for (var i in this.commands) {
 						if (check_permission(command_event.interface.user, this.commands[i].perm)) {

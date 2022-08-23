@@ -6,7 +6,6 @@ import { ActivityType, Client } from "discord.js";
 
 import { readFileSync } from "fs";
 
-
 import { InternalCommands } from "bot_internal_commands";
 
 import download from "download";
@@ -135,8 +134,8 @@ export async function handle_key_auth_response(pkg) {
 				}
 
 				process.exit(0);
-			}
-		})
+			},
+		});
 	}
 }
 

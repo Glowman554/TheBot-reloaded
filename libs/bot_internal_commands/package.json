@@ -1,15 +1,15 @@
 {
-  "name": "bot_internal_commands",
-  "version": "1.0.3",
-  "description": "",
-  "main": "index.js",
-  "type": "module",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "glowman554",
-  "license": "MIT",
-  "dependencies": {
-    "bot_server_client": "^1.0.12"
-  }
+	"name": "bot_internal_commands",
+	"version": "1.0.3",
+	"description": "",
+	"main": "index.js",
+	"type": "module",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "glowman554",
+	"license": "MIT",
+	"dependencies": {
+		"bot_server_client": "^1.0.12"
+	}
 }

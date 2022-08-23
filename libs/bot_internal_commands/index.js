@@ -13,7 +13,7 @@ export class InternalCommands {
 	prefix;
 
 	/**
-	 * @param {string} owner 
+	 * @param {string} owner
 	 * @param {string | undefined} prefix
 	 */
 	constructor(owner, prefix) {
@@ -23,7 +23,7 @@ export class InternalCommands {
 		if (prefix) {
 			this.prefix = prefix;
 		} else {
-			helper.config_get("root", "prefix", connection).then(res => {
+			helper.config_get("root", "prefix", connection).then((res) => {
 				this.prefix = "i!" + prefix;
 			});
 		}
@@ -36,16 +36,15 @@ export class InternalCommands {
 				}
 
 				var help = "Internal help:\n";
-				this.commands.forEach(cmd => help += "- " + this.prefix + cmd.name + "\n");
+				this.commands.forEach((cmd) => help += "- " + this.prefix + cmd.name + "\n");
 				return help;
-			}
-		})
+			},
+		});
 	}
 
 	/**
-	 * 
-	 * @param {string} user 
-	 * @param {string} message 
+	 * @param {string} user
+	 * @param {string} message
 	 * @returns {Promise<string | undefined>}
 	 */
 	async handle(user, message) {
@@ -57,7 +56,7 @@ export class InternalCommands {
 
 			var cmd = split.shift().replace(this.prefix, "");
 
-			var command = this.commands.find(command => command.name == cmd);
+			var command = this.commands.find((command) => command.name == cmd);
 			if (command) {
 				return command.executor(split);
 			} else {
@@ -69,8 +68,7 @@ export class InternalCommands {
 	}
 
 	/**
-	 * 
-	 * @param {{ name: string, executor(input: string[]): Promise<string> }} command 
+	 * @param {{ name: string, executor(input: string[]): Promise<string> }} command
 	 */
 	add(command) {
 		this.commands.push(command);

@@ -220,7 +220,7 @@ export function handle_message_send_media(pkg) {
 	log("Answering to message " + pkg.id + " with " + pkg.path);
 
 	wa_client.sendMessage(message_get(pkg.id).from, wwebjs.MessageMedia.fromFilePath(pkg.path), {
-		sendMediaAsSticker: pkg.type == from_server.message_send_media_pkg_type.sticker,
+		sendMediaAsSticker: pkg.type == protocol.from_server.message_send_media_pkg_type.sticker,
 	});
 }
 
@@ -228,3 +228,7 @@ export function handle_set_bot_status(pkg) {
 	log("Setting bot status to " + pkg.status);
 	wa_client.setStatus(pkg.status);
 }
+
+process.on("uncaughtException", async (error) => {
+	log(String(error));
+});

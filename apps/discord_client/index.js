@@ -180,3 +180,7 @@ export async function handle_set_bot_status(pkg) {
 		name: pkg.status,
 	});
 }
+
+process.on("uncaughtException", async (error) => {
+	log(String(error));
+});

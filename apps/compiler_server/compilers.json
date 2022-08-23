@@ -27,11 +27,6 @@
 		"cleanup": "rm %out%",
 		"is_interpreted": false
 	},
-	"node": {
-		"file_extension": ".js",
-		"flags": "%in%",
-		"is_interpreted": true
-	},
 	"python3": {
 		"file_extension": ".py",
 		"flags": "%in%",

@@ -1,20 +1,29 @@
 fetch("http://localhost:3566/compiler/run", {
 	body: "ls",
 	method: "POST",
-}).then((res) => res.json().then((res) => console.log(res.stdout)));
+}).then((res) => res.json().then((res) => {
+	console.log(res.stdout);
+	console.log(res.stderr);
+}));
 
 fetch("http://localhost:3566/compiler/run-nojail", {
-	body: "cat /etc/os-release | grep ubuntu",
+	body: "cat /etc/os-release",
 	method: "POST",
-}).then((res) => res.json().then((res) => console.log(res.stdout)));
+}).then((res) => res.json().then((res) => {
+	console.log(res.stdout);
+	console.log(res.stderr);
+}));
 
 fetch("http://localhost:3566/compiler/compile", {
 	body: JSON.stringify({
-		prog: "console.log(\"hello from js\");",
-		file: "test.js"
+		prog: "print(\"hello from python\")",
+		file: "test.py"
 	}),
 	method: "POST",
-}).then((res) => res.json().then((res) => console.log(res.stdout)));
+}).then((res) => res.json().then((res) => {
+	console.log(res.stdout);
+	console.log(res.stderr);
+}));
 
 
 fetch("http://localhost:3566/compiler/compile", {
@@ -23,4 +32,7 @@ fetch("http://localhost:3566/compiler/compile", {
 		file: "test.c"
 	}),
 	method: "POST",
-}).then((res) => res.json().then((res) => console.log(res.stdout)));
+}).then((res) => res.json().then((res) => {
+	console.log(res.stdout);
+	console.log(res.stderr);
+}));

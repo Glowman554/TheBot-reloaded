@@ -17,6 +17,12 @@ services:
     ports:
       - "3565:3565"
     restart: always
+  compiler_server:
+    build: apps/compiler_server
+    ports:
+      - "3566:3566"
+    privileged: true
+    restart: always
   server:
     build: apps/server
     volumes:

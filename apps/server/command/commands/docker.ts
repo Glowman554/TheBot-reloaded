@@ -1,5 +1,5 @@
 import { docker, init_docker_api } from "../../api/docker.ts";
-import { config } from "../../config.ts";
+import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
 import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, empty, fail } from "../command.ts";
 

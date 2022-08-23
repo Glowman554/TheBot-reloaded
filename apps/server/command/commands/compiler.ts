@@ -1,5 +1,5 @@
 import { compiler, CompilerResult, init_compiler_api } from "../../api/compiler.ts";
-import { config } from "../../config.ts";
+import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
 import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, empty, fail } from "../command.ts";
 import { check_permission } from "../permission.ts";

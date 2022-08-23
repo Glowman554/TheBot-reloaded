@@ -1,4 +1,4 @@
-import { config } from "./config.ts";
+import { config } from "./config/config.ts";
 
 export function log(module: string, message: string): void {
 	console.log(message.split("\n").map((line) => `[${module}] ${line}`).join("\n"));

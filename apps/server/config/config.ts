@@ -1,4 +1,4 @@
-import { log } from "./logger.ts";
+import { log } from "../logger.ts";
 
 export interface ConfigSections {
 	[key: string]: { [key: string]: object | string };

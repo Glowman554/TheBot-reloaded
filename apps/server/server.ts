@@ -6,7 +6,7 @@ import { log } from "./logger.ts";
 import { CommandEventImpl } from "./command/command_event_interface.ts";
 import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, init_command_manager } from "./command/command.ts";
 
-import { config, init_config } from "./config.ts";
+import { config, init_config } from "./config/config.ts";
 
 import { load_all_loadables } from "./loadable.ts";
 

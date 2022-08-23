@@ -1,5 +1,5 @@
 import { log } from "./logger.ts";
-import { config } from "./config.ts";
+import { config } from "./config/config.ts";
 
 export function get_file_extension(file: string): string {
 	return file.split(".").pop() || "";

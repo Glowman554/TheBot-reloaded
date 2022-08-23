@@ -1,4 +1,4 @@
-import { config } from "../config.ts";
+import { config } from "../config/config.ts";
 import { log } from "../logger.ts";
 
 var default_roles: string[] = [];

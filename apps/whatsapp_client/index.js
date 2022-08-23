@@ -137,6 +137,7 @@ async function client_init() {
 }
 
 export async function handle_message_send(pkg) {
+	pkg.message = pkg.message.replaceAll("<code>", "```").replaceAll("<bg_code>", "```").replaceAll("<bold>", "*").replaceAll("<italic>", "_");
 	log("Answering to message " + pkg.id + " with " + pkg.message);
 	var mentions = [];
 

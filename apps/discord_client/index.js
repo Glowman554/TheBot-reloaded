@@ -139,6 +139,7 @@ export async function handle_key_auth_response(pkg) {
 }
 
 export async function handle_message_send(pkg) {
+	pkg.message = pkg.message.replaceAll("<code>", "`").replaceAll("<bg_code>", "```").replaceAll("<bold>", "**").replaceAll("<italic>", "*");
 	log("Answering to message " + pkg.id + " with " + pkg.message);
 
 	var msg = message_get(pkg.id);

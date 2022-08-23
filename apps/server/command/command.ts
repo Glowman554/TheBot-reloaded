@@ -128,15 +128,28 @@ export class CommandManager {
 		if (command_event.interface.command === this.prefix + "help") {
 			switch (command_event.interface.args.length) {
 				case 0:
-					var help_message = help_text("<bot_name> Help!");
+					var help_message = help_text("<bot_name> Help!\n");
 
+					var longest_name = 0;
 					for (var i in this.commands) {
 						if (check_permission(command_event.interface.user, this.commands[i].perm)) {
-							help_message += `\n\n${this.commands[i].name}\n${this.commands[i].help}`;
+							if (this.commands[i].name.length > longest_name) {
+								longest_name = this.commands[i].name.length;
+							}
 						}
 					}
 
-					return command_event.interface.send_message(help_message);
+					for (var i in this.commands) {
+						if (check_permission(command_event.interface.user, this.commands[i].perm)) {
+							var name = this.commands[i].name;
+							var missing_spaces = longest_name - name.length;
+							for (let i = 0; i < missing_spaces; i++) name += " ";
+
+							help_message += `${name} -> ${this.commands[i].help}\n`;
+						}
+					}
+
+					return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
 
 				case 1:
 					var help_message = `${this.prefix + command_event.interface.args[0]} Help!\n\n`;
@@ -149,7 +162,7 @@ export class CommandManager {
 							return command_event.interface.send_message("No help available for this command");
 						}
 
-						return command_event.interface.send_message(help_message);
+						return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
 					} else {
 						return command_event.interface.send_message("Command not found!");
 					}

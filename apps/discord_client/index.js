@@ -6,9 +6,16 @@ import { ActivityType, Client } from "discord.js";
 
 import { readFileSync } from "fs";
 
+
+import { InternalCommands } from "bot_internal_commands";
+
 import download from "download";
 
 var messages = {};
+/**
+ * @type {InternalCommands} internal_commands
+ */
+var internal_commands;
 
 function message_cleanup() {
 	// delete messages older than 5 minutes
@@ -63,6 +70,12 @@ client.on("messageCreate", async (msg) => {
 
 	log("Message from " + msg.author.username + ": " + msg.content);
 
+	var ir = await internal_commands.handle(msg.author.id, msg.content);
+	if (ir) {
+		msg.channel.send(ir);
+		return;
+	}
+
 	var files = [];
 	if (connection) {
 		for (var i of msg.attachments.values()) {
@@ -111,6 +124,19 @@ export async function handle_key_auth_response(pkg) {
 			client.login(String(await helper.config_get("discord", "token", connection)));
 			client_logged_in = true;
 		}
+
+		internal_commands = new InternalCommands(await helper.config_get("discord", "owner", connection), "i!");
+
+		internal_commands.add({
+			name: "exit",
+			executor: async (input) => {
+				if (input.length != 0) {
+					return "takes no arguments!";
+				}
+
+				process.exit(0);
+			}
+		})
 	}
 }
 

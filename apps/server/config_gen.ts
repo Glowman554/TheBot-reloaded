@@ -27,8 +27,11 @@ async function main() {
 	config_gen_add("compiler", "server", "http://localhost:3566/compiler/");
 
 	config_gen_add("discord", "token", undefined);
+	config_gen_add("discord", "owner");
 
 	config_gen_add("whatsapp", "puppeteer_args", ["--no-sandbox"]);
+	config_gen_add("whatsapp", "owner");
+
 	var cfg: ConfigSections = {};
 	var cfg_override: { [key: string]: any } = {};
 

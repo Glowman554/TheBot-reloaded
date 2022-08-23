@@ -7,12 +7,12 @@ interface Compilers {
 		file_extension: string;
 		flags: string;
 		is_interpreted: boolean;
-		post_compile: string|undefined;
-		cleanup: string|undefined;
+		post_compile: string | undefined;
+		cleanup: string | undefined;
 	};
 }
 
-let compilers: Compilers|undefined = undefined;
+let compilers: Compilers | undefined = undefined;
 
 function get_compilers(): Compilers {
 	if (!compilers) {

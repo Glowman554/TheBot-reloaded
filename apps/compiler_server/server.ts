@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std/http/mod.ts";
-import { create, set_logger } from "https://deno.land/x/simple_router@0.2/mod.ts";
+import { create, set_logger, ErrorMode } from "https://deno.land/x/simple_router@0.4/mod.ts";
 import { compile_and_run } from "./compiler.ts";
 import { do_filter, do_jail } from "./jail.ts";
 import { run } from "./run.ts";
@@ -9,7 +9,7 @@ async function main() {
 		logger: console.log,
 	});
 
-	const { router, reqHandler } = create();
+	const { router, reqHandler } = create(ErrorMode.ERROR_JSON);
 
 	router.add("/", async (req) => {
 		return new Response(`Hello World\n`);

@@ -1,5 +1,5 @@
 import Docker from "https://deno.land/x/denocker@v0.2.0/index.ts";
-import { Route } from "https://deno.land/x/simple_router@0.2/mod.ts";
+import { Route } from "https://deno.land/x/simple_router@0.4/mod.ts";
 
 export var docker: Docker;
 

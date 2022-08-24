@@ -24,29 +24,38 @@ export class CompilerApi {
 
 	async run(command: string): Promise<CompilerResult> {
 		log("compiler", "running: '" + command + "'...");
-		return await (await fetch(this.url + "/run", {
+		var json = await (await fetch(this.url + "/run", {
 			method: "POST",
 			body: command,
 		})).json();
+		if (json.error) throw new Error(json.error);
+
+		return json;
 	}
 
 	async run_nojail(command: string): Promise<CompilerResult> {
 		log("compiler", "running: '" + command + "'...");
-		return await (await fetch(this.url + "/run-nojail", {
+		var json = await (await fetch(this.url + "/run-nojail", {
 			method: "POST",
 			body: command,
 		})).json();
+		if (json.error) throw new Error(json.error);
+
+		return json;
 	}
 
 	async compile_and_run(file: string): Promise<CompilerResult> {
 		log("compiler", "compiling and running: '" + file + "'...");
-		return await (await fetch(this.url + "/compile", {
+		var json = await (await fetch(this.url + "/compile", {
 			method: "POST",
 			body: JSON.stringify({
 				file: file.split("/").pop(),
 				prog: Deno.readTextFileSync(file),
 			} as CompilerFile),
 		})).json();
+		if (json.error) throw new Error(json.error);
+
+		return json;
 	}
 }
 

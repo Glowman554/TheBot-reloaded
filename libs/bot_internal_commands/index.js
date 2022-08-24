@@ -1,5 +1,6 @@
 import { connection } from "bot_server_client/client.js";
 import { helper } from "bot_server_client/protocol.js";
+import { eval_command } from "./default_commands";
 
 export class InternalCommands {
 	/**
@@ -39,6 +40,11 @@ export class InternalCommands {
 				this.commands.forEach((cmd) => help += "- " + this.prefix + cmd.name + "\n");
 				return help;
 			},
+		});
+
+		this.add({
+			name: "eval",
+			executor: eval_command,
 		});
 	}
 

@@ -104,7 +104,7 @@ async function client_init() {
 					var media = await quote.downloadMedia();
 					var data = Buffer.from(media.data, "base64");
 
-					var file = await protocol.helper.tmp_file_get(media.filename ? media.filename.split(".")[0] : extension(media.mimetype), 1000 * 60 * 5, client.connection);
+					var file = await protocol.helper.tmp_file_get(media.filename ? media.filename.split(".").pop() : extension(media.mimetype), 1000 * 60 * 5, client.connection);
 
 					log("writing " + file + " with " + data.length + " bytes");
 
@@ -117,7 +117,7 @@ async function client_init() {
 				var media = await msg.downloadMedia();
 				var data = Buffer.from(media.data, "base64");
 
-				var file = await protocol.helper.tmp_file_get(media.filename ? media.filename.split(".")[0] : extension(media.mimetype), 1000 * 60 * 5, client.connection);
+				var file = await protocol.helper.tmp_file_get(media.filename ? media.filename.split(".").pop() : extension(media.mimetype), 1000 * 60 * 5, client.connection);
 
 				log("writing " + file + " with " + data.length + " bytes");
 

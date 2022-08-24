@@ -1,6 +1,7 @@
 import { Route } from "https://deno.land/x/simple_router@0.2/mod.ts";
 import { Command, command_manager } from "../../command/command.ts";
 import { config } from "../../config/config.ts";
+import { log } from "../../logger.ts";
 
 export namespace v1 {
 	export interface V1Auth {
@@ -58,6 +59,15 @@ export namespace v1 {
 			method: "POST",
 			path: "/v1/config/get"
 		});
+
+		log("TODO", "add /v1/config/gen");
+		log("TODO", "add /v1/log/get");
+		log("TODO", "add /v1/log/list");
+		log("TODO", "add /v1/tmp/get");
+		log("TODO", "add /v1/tmp/list");
+		log("TODO", "add /v1/roles/get");
+		log("TODO", "add /v1/roles/add");
+		log("TODO", "add /v1/roles/remove");
 
 		return handlers;
 	}

@@ -58,7 +58,7 @@ client.connect_server(connection_info.url, connection_info.key);
 
 var dc_client = new Client({
 	intents: [0b11111111111111111],
-	partials: [ Partials.Channel ]
+	partials: [Partials.Channel],
 });
 var client_logged_in = false;
 

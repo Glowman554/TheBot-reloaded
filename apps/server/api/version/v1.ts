@@ -35,7 +35,7 @@ export namespace v1 {
 	}
 
 	export interface V1LogListResponse {
-		logs: string[]
+		logs: string[];
 	}
 
 	async function v1_token_check(req: Request) {
@@ -84,7 +84,7 @@ export namespace v1 {
 		var json = await v1_token_check(req) as V1LogGetRequest;
 		return new Response(JSON.stringify(
 			{
-				log: Deno.readTextFileSync( String(config.get("log_folder")) + "/" + json.file + ".txt")
+				log: Deno.readTextFileSync(String(config.get("log_folder")) + "/" + json.file + ".txt"),
 			} as V1LogGetResponse,
 			null,
 			"\t",
@@ -95,7 +95,7 @@ export namespace v1 {
 		await v1_token_check(req);
 		return new Response(JSON.stringify(
 			{
-				logs: getFiles(String(config.get("log_folder"))).map(f => f.name).map(f => f.replace(".txt", ""))
+				logs: getFiles(String(config.get("log_folder"))).map((f) => f.name).map((f) => f.replace(".txt", "")),
 			} as V1LogListResponse,
 			null,
 			"\t",

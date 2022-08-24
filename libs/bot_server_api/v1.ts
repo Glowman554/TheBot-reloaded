@@ -3,9 +3,8 @@ export namespace v1_types {
 		name: string;
 		help: string;
 		help_long: string | undefined;
-		perm: string | undefined;	
+		perm: string | undefined;
 	}
-
 
 	export interface V1Auth {
 		token: string;
@@ -41,7 +40,7 @@ export namespace v1_types {
 	}
 
 	export interface V1LogListResponse extends V1Response {
-		logs: string[]
+		logs: string[];
 	}
 
 	export interface V1Options {
@@ -52,12 +51,12 @@ export namespace v1_types {
 export namespace v1 {
 	export async function v1_commands(options: v1_types.V1Options) {
 		var req: v1_types.V1Auth = {
-			token: options.token
+			token: options.token,
 		};
 
 		return await (await fetch(options.url + "/commands", {
 			method: "POST",
-			body: JSON.stringify(req)
+			body: JSON.stringify(req),
 		})).json() as v1_types.V1CommandsResponse;
 	}
 
@@ -65,46 +64,46 @@ export namespace v1 {
 		var req: v1_types.V1ConfigGetRequest = {
 			token: options.token,
 			key: key,
-			section: section
+			section: section,
 		};
 
 		return await (await fetch(options.url + "/config/get", {
 			method: "POST",
-			body: JSON.stringify(req)
+			body: JSON.stringify(req),
 		})).json() as v1_types.V1ConfigGetResponse;
 	}
 
 	export async function v1_config_gen(options: v1_types.V1Options) {
 		var req: v1_types.V1Auth = {
-			token: options.token
+			token: options.token,
 		};
 
 		return await (await fetch(options.url + "/config/gen", {
 			method: "POST",
-			body: JSON.stringify(req)
+			body: JSON.stringify(req),
 		})).json() as v1_types.V1ConfigGenResponse;
 	}
 
 	export async function v1_log_get(options: v1_types.V1Options, file: string) {
 		var req: v1_types.V1LogGetRequest = {
 			token: options.token,
-			file: file
+			file: file,
 		};
 
 		return await (await fetch(options.url + "/log/get", {
 			method: "POST",
-			body: JSON.stringify(req)
+			body: JSON.stringify(req),
 		})).json() as v1_types.V1LogGetResponse;
 	}
 
 	export async function v1_log_list(options: v1_types.V1Options) {
 		var req: v1_types.V1Auth = {
-			token: options.token
+			token: options.token,
 		};
 
 		return await (await fetch(options.url + "/log/list", {
 			method: "POST",
-			body: JSON.stringify(req)
+			body: JSON.stringify(req),
 		})).json() as v1_types.V1LogListResponse;
 	}
 }

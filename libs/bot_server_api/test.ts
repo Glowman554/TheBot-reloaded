@@ -3,7 +3,7 @@ import { v1, v1_types } from "./mod.ts";
 async function main() {
 	var options: v1_types.V1Options = {
 		url: "http://localhost:8080/v1",
-		token: "thebestbot"
+		token: "thebestbot",
 	};
 
 	console.log(await v1.v1_commands(options));

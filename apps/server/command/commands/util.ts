@@ -41,5 +41,26 @@ export default class Utils implements loadable {
 				},
 			} as CommandExecutor, undefined),
 		);
+
+		command_manager.add_command(
+			new Command("eval", "Run javascript!", help_text("Use '<prefix>eval [what]' to execute javascript!"), {
+				execute: async (event: CommandEvent): Promise<CommandResponse> => {
+					if (event.interface.args.length == 0) {
+						return fail;
+					}
+					var result = eval(event.interface.args.join(" "));
+					var response = String(result);
+					try {
+						response = JSON.stringify(result, null, "\t")
+					} catch (e) {}
+
+					return {
+						is_response: true,
+						response: response
+					};
+				},
+			} as CommandExecutor, "eval"),
+		);
+
 	}
 }

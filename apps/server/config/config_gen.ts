@@ -21,7 +21,7 @@ async function main() {
 	config_gen_add("websocket", "key", undefined);
 	config_gen_add("websocket", "log_packets", false);
 
-	config_gen_add("permissions", "admin", ["crash", "docker", "run-nojail"]);
+	config_gen_add("permissions", "admin", ["crash", "docker", "run-nojail", "eval"]);
 
 	config_gen_add("docker", "proxy", "http://localhost:3565/docker/");
 	config_gen_add("compiler", "server", "http://localhost:3566/compiler/");

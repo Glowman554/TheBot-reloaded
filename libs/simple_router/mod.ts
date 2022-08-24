@@ -7,4 +7,4 @@ export function set_logger(l: { logger(msg: string): void }) {
 }
 
 export type { Route } from "./router.ts";
-export { create, Router, ErrorMode } from "./router.ts";
+export { create, ErrorMode, Router } from "./router.ts";

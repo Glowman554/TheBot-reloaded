@@ -88,7 +88,6 @@ export namespace v1 {
 			path: "/v1/config/gen",
 		});
 
-
 		log("TODO", "add /v1/log/get");
 		log("TODO", "add /v1/log/list");
 		log("TODO", "add /v1/tmp/list");

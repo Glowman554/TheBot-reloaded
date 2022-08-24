@@ -120,10 +120,10 @@ function main() {
 	init_command_manager(String(config.get("command_prefix")));
 
 	set_logger({
-		logger: msg => log("router", msg)
+		logger: (msg) => log("router", msg),
 	});
-	
-	v1.get_handlers().forEach(h => router.add(h.path, h.handler, h.method));
+
+	v1.get_handlers().forEach((h) => router.add(h.path, h.handler, h.method));
 
 	serve(reqHandler, {
 		port: Number(config.get("port", "websocket")),

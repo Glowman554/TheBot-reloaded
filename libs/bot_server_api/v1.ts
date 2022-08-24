@@ -32,6 +32,14 @@ export namespace v1_types {
 		config: string;
 	}
 
+	export interface V1LogGetRequest extends V1Auth {
+		file: string;
+	}
+
+	export interface V1LogGetResponse extends V1Response {
+		log: string;
+	}
+
 	export interface V1Options {
 		url: string;
 		token: string;
@@ -71,5 +79,17 @@ export namespace v1 {
 			method: "POST",
 			body: JSON.stringify(req)
 		})).json() as v1_types.V1ConfigGenResponse;
+	}
+
+	export async function v1_log_get(options: v1_types.V1Options, file: string) {
+		var req: v1_types.V1LogGetRequest = {
+			token: options.token,
+			file: file
+		};
+
+		return await (await fetch(options.url + "/log/get", {
+			method: "POST",
+			body: JSON.stringify(req)
+		})).json() as v1_types.V1LogGetResponse;
 	}
 }

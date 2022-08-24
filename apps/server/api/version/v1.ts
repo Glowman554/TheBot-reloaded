@@ -25,6 +25,14 @@ export namespace v1 {
 		config: string;
 	}
 
+	export interface V1LogGetRequest extends V1Auth {
+		file: string;
+	}
+
+	export interface V1LogGetResponse {
+		log: string;
+	}
+
 	async function v1_token_check(req: Request) {
 		var json = await req.json() as V1Auth;
 		if (json.token != config.get("key", "websocket")) {
@@ -67,6 +75,17 @@ export namespace v1 {
 		));
 	}
 
+	async function v1_log_get(req: Request): Promise<Response> {
+		var json = await v1_token_check(req) as V1LogGetRequest;
+		return new Response(JSON.stringify(
+			{
+				log: Deno.readTextFileSync( String(config.get("log_folder")) + "/" + json.file + ".txt")
+			} as V1LogGetResponse,
+			null,
+			"\t",
+		));
+	}
+
 	export function get_handlers() {
 		var handlers: Route[] = [];
 
@@ -88,7 +107,12 @@ export namespace v1 {
 			path: "/v1/config/gen",
 		});
 
-		log("TODO", "add /v1/log/get");
+		handlers.push({
+			handler: v1_log_get,
+			method: "POST",
+			path: "/v1/log/get",
+		});
+
 		log("TODO", "add /v1/log/list");
 		log("TODO", "add /v1/tmp/list");
 		log("TODO", "add /v1/roles/get");

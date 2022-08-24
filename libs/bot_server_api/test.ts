@@ -9,6 +9,7 @@ async function main() {
 	console.log(await v1.v1_commands(options));
 	console.log(await v1.v1_config_get(options, "port", "websocket"));
 	console.log(await v1.v1_config_gen(options));
+	console.log(await v1.v1_log_get(options, "server"));
 }
 
 main();

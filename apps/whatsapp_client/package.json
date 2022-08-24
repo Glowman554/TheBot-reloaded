@@ -11,7 +11,7 @@
 	"author": "",
 	"license": "ISC",
 	"dependencies": {
-		"bot_internal_commands": "^1.0.5",
+		"bot_internal_commands": "^1.0.6",
 		"bot_server_client": "^1.0.15",
 		"mime-types": "^2.1.35",
 		"qrcode-terminal": "^0.12.0",

@@ -10,7 +10,7 @@ import { config, init_config } from "./config/config.ts";
 
 import { load_all_loadables } from "./loadable.ts";
 import { get_temp_file, init_tmp_files } from "./utils/tmp.ts";
-import { create, set_logger } from "https://deno.land/x/simple_router@0.2/mod.ts";
+import { create, ErrorMode, set_logger } from "https://deno.land/x/simple_router@0.4/mod.ts";
 import { v1 } from "./api/version/v1.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
@@ -52,7 +52,7 @@ async function handle_pkg(pkg: to_server.pkg, socket: WebSocket) {
 	}
 }
 
-var { reqHandler: api_handler, router } = create();
+var { reqHandler: api_handler, router } = create(ErrorMode.ERROR_JSON);
 
 async function reqHandler(req: Request) {
 	if (req.headers.get("upgrade") != "websocket") {

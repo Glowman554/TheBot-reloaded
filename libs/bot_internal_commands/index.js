@@ -1,5 +1,5 @@
 import { eval_command } from "./default_commands.js";
-import { protocol, client } from "bot_server_client";
+import { client, protocol } from "bot_server_client";
 
 export class InternalCommands {
 	/**

@@ -10,6 +10,8 @@ import { config, init_config } from "./config/config.ts";
 
 import { load_all_loadables } from "./loadable.ts";
 import { get_temp_file, init_tmp_files } from "./utils/tmp.ts";
+import { create, set_logger } from "https://deno.land/x/simple_router@0.2/mod.ts";
+import { v1 } from "./api/version/v1.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
@@ -50,10 +52,11 @@ async function handle_pkg(pkg: to_server.pkg, socket: WebSocket) {
 	}
 }
 
+var { reqHandler: api_handler, router } = create();
+
 async function reqHandler(req: Request) {
 	if (req.headers.get("upgrade") != "websocket") {
-		log("server", "Invalid upgrade header");
-		return new Response(null, { status: 501 });
+		return api_handler(req);
 	}
 
 	const { socket: ws, response } = Deno.upgradeWebSocket(req);
@@ -115,6 +118,12 @@ function main() {
 	init_config(config_file);
 	init_tmp_files();
 	init_command_manager(String(config.get("command_prefix")));
+
+	set_logger({
+		logger: msg => log("router", msg)
+	});
+	
+	v1.get_handlers().forEach(h => router.add(h.path, h.handler, h.method));
 
 	serve(reqHandler, {
 		port: Number(config.get("port", "websocket")),

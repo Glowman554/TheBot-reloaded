@@ -21,6 +21,10 @@ export namespace v1 {
 		config: any;
 	}
 
+	export interface V1ConfigGenResponse {
+		config: string;
+	}
+
 	async function v1_token_check(req: Request) {
 		var json = await req.json() as V1Auth;
 		if (json.token != config.get("key", "websocket")) {
@@ -52,6 +56,17 @@ export namespace v1 {
 		));
 	}
 
+	async function v1_config_gen(req: Request): Promise<Response> {
+		await v1_token_check(req);
+		return new Response(JSON.stringify(
+			{
+				config: config.gen(),
+			} as V1ConfigGetResponse,
+			null,
+			"\t",
+		));
+	}
+
 	export function get_handlers() {
 		var handlers: Route[] = [];
 
@@ -67,10 +82,15 @@ export namespace v1 {
 			path: "/v1/config/get",
 		});
 
-		log("TODO", "add /v1/config/gen");
+		handlers.push({
+			handler: v1_config_gen,
+			method: "POST",
+			path: "/v1/config/gen",
+		});
+
+
 		log("TODO", "add /v1/log/get");
 		log("TODO", "add /v1/log/list");
-		log("TODO", "add /v1/tmp/get");
 		log("TODO", "add /v1/tmp/list");
 		log("TODO", "add /v1/roles/get");
 		log("TODO", "add /v1/roles/add");

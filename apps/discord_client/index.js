@@ -1,6 +1,6 @@
 import { client, log, protocol, set_client_name, set_remote_log } from "bot_server_client";
 
-import { ActivityType, Client } from "discord.js";
+import { ActivityType, Client, Partials } from "discord.js";
 
 import { readFileSync } from "fs";
 
@@ -58,6 +58,7 @@ client.connect_server(connection_info.url, connection_info.key);
 
 var dc_client = new Client({
 	intents: [0b11111111111111111],
+	partials: [ Partials.Channel ]
 });
 var client_logged_in = false;
 

@@ -2,6 +2,7 @@ import { Route } from "https://deno.land/x/simple_router@0.4/mod.ts";
 import { Command, command_manager } from "../../command/command.ts";
 import { config } from "../../config/config.ts";
 import { log } from "../../logger.ts";
+import getFiles from "https://deno.land/x/getfiles/mod.ts";
 
 export namespace v1 {
 	export interface V1Auth {
@@ -31,6 +32,10 @@ export namespace v1 {
 
 	export interface V1LogGetResponse {
 		log: string;
+	}
+
+	export interface V1LogListResponse {
+		logs: string[]
 	}
 
 	async function v1_token_check(req: Request) {
@@ -86,6 +91,17 @@ export namespace v1 {
 		));
 	}
 
+	async function v1_log_list(req: Request): Promise<Response> {
+		await v1_token_check(req);
+		return new Response(JSON.stringify(
+			{
+				logs: getFiles(String(config.get("log_folder"))).map(f => f.name).map(f => f.replace(".txt", ""))
+			} as V1LogListResponse,
+			null,
+			"\t",
+		));
+	}
+
 	export function get_handlers() {
 		var handlers: Route[] = [];
 
@@ -113,7 +129,12 @@ export namespace v1 {
 			path: "/v1/log/get",
 		});
 
-		log("TODO", "add /v1/log/list");
+		handlers.push({
+			handler: v1_log_list,
+			method: "POST",
+			path: "/v1/log/list",
+		});
+
 		log("TODO", "add /v1/tmp/list");
 		log("TODO", "add /v1/roles/get");
 		log("TODO", "add /v1/roles/add");

@@ -40,6 +40,10 @@ export namespace v1_types {
 		log: string;
 	}
 
+	export interface V1LogListResponse extends V1Response {
+		logs: string[]
+	}
+
 	export interface V1Options {
 		url: string;
 		token: string;
@@ -91,5 +95,16 @@ export namespace v1 {
 			method: "POST",
 			body: JSON.stringify(req)
 		})).json() as v1_types.V1LogGetResponse;
+	}
+
+	export async function v1_log_list(options: v1_types.V1Options) {
+		var req: v1_types.V1Auth = {
+			token: options.token
+		};
+
+		return await (await fetch(options.url + "/log/list", {
+			method: "POST",
+			body: JSON.stringify(req)
+		})).json() as v1_types.V1LogListResponse;
 	}
 }

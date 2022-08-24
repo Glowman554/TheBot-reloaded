@@ -13,7 +13,7 @@ export default class Fun implements loadable {
 
 					return {
 						is_response: true,
-						response: Math.random() >= 0.5 ? "You've landed on heads!" : "You've landed on tails!"
+						response: Math.random() >= 0.5 ? "You've landed on heads!" : "You've landed on tails!",
 					};
 				},
 			} as CommandExecutor, undefined),

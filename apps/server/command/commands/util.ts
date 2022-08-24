@@ -51,16 +51,15 @@ export default class Utils implements loadable {
 					var result = eval(event.interface.args.join(" "));
 					var response = String(result);
 					try {
-						response = JSON.stringify(result, null, "\t")
+						response = JSON.stringify(result, null, "\t");
 					} catch (e) {}
 
 					return {
 						is_response: true,
-						response: response
+						response: response,
 					};
 				},
 			} as CommandExecutor, "eval"),
 		);
-
 	}
 }

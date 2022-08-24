@@ -56,7 +56,7 @@ export default class Utils implements loadable {
 
 					return {
 						is_response: true,
-						response: response,
+						response: `<code_bg>${response}<code_bg>`,
 					};
 				},
 			} as CommandExecutor, "eval"),

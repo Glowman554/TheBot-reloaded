@@ -1,6 +1,5 @@
-import { connection } from "bot_server_client/client.js";
-import { helper } from "bot_server_client/protocol.js";
-import { eval_command } from "./default_commands";
+import { eval_command } from "./default_commands.js";
+import { protocol, client } from "bot_server_client";
 
 export class InternalCommands {
 	/**
@@ -24,7 +23,7 @@ export class InternalCommands {
 		if (prefix) {
 			this.prefix = prefix;
 		} else {
-			helper.config_get("root", "prefix", connection).then((res) => {
+			protocol.helper.config_get("root", "prefix", client.connection).then((res) => {
 				this.prefix = "i!" + prefix;
 			});
 		}

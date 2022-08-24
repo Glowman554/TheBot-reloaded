@@ -1,6 +1,6 @@
 {
 	"name": "bot_internal_commands",
-	"version": "1.0.4",
+	"version": "1.0.5",
 	"description": "",
 	"main": "index.js",
 	"type": "module",
@@ -10,6 +10,6 @@
 	"author": "glowman554",
 	"license": "MIT",
 	"dependencies": {
-		"bot_server_client": "^1.0.12"
+		"bot_server_client": "^1.0.15"
 	}
 }

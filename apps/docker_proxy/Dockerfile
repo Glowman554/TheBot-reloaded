@@ -4,4 +4,4 @@ WORKDIR /srv
 
 COPY . .
 
-ENTRYPOINT [ "/root/.deno/bin/deno", "run", "-A", "--unstable", "server.ts" ]
+ENTRYPOINT [ "deno", "run", "-A", "--unstable", "server.ts" ]

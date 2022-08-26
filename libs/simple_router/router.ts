@@ -43,10 +43,20 @@ export class Router {
 								JSON.stringify({
 									error: error,
 								}),
-								{ status: 500 },
+								{
+									status: 500,
+									headers: {
+										"Access-Control-Allow-Origin": "*",
+									},
+								},
 							);
 						case ErrorMode.ERROR_TXT:
-							return new Response(error, { status: 500 });
+							return new Response(error, {
+								status: 500,
+								headers: {
+									"Access-Control-Allow-Origin": "*",
+								},
+							});
 					}
 				}
 			}

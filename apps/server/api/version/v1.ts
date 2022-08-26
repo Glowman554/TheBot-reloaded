@@ -1,4 +1,4 @@
-import { Route } from "https://deno.land/x/simple_router@0.4/mod.ts";
+import { Route } from "https://deno.land/x/simple_router@0.7/mod.ts";
 import { Command, command_manager } from "../../command/command.ts";
 import { config } from "../../config/config.ts";
 import { log } from "../../logger.ts";

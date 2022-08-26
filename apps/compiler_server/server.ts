@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std/http/mod.ts";
-import { create, ErrorMode, set_logger } from "https://deno.land/x/simple_router@0.4/mod.ts";
+import { create, ErrorMode, set_logger } from "https://deno.land/x/simple_router@0.7/mod.ts";
 import { compile_and_run } from "./compiler.ts";
 import { do_filter, do_jail } from "./jail.ts";
 import { run } from "./run.ts";

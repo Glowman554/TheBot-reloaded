@@ -1,5 +1,5 @@
 import { serve } from "https://deno.land/std/http/mod.ts";
-import { create, ErrorMode, set_logger } from "https://deno.land/x/simple_router@0.4/mod.ts";
+import { create, ErrorMode, set_logger } from "https://deno.land/x/simple_router@0.7/mod.ts";
 
 import * as docker from "./docker.ts";
 

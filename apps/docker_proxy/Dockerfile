@@ -1,7 +1,4 @@
-FROM debian:bullseye-slim
-
-RUN apt update && apt install -y curl unzip
-RUN curl -fsSL https://raw.githubusercontent.com/Glowman554/TheBot-reloaded/main/deno/install.sh | sh
+FROM glowman554/deno:latest
 
 WORKDIR /srv
 

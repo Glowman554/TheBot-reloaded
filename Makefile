@@ -7,6 +7,7 @@ fmt-commit:
 	git commit -m "reformat code"
 
 build:
+	make -C deno
 	sudo docker-compose build
 
 up: build

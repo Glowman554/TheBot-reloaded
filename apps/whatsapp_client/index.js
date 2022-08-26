@@ -68,6 +68,7 @@ async function client_init() {
 	wa_client = new wwebjs.Client({
 		authStrategy: new wwebjs.LocalAuth(),
 		puppeteer: {
+			executablePath: "/usr/bin/chromium",
 			args: await protocol.helper.config_get("whatsapp", "puppeteer_args", client.connection),
 		},
 	});

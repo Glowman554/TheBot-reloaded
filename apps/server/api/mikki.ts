@@ -69,6 +69,10 @@ export class MikkiClient {
 		await this.accounts_table.items().edit("username", account.username, account);
 	}
 
+	async account_delete(username: string) {
+		await this.accounts_table.items().delete("username", username);
+	}
+
 	async changes(): Promise<MikkiChange[]> {
 		function compare(a: MikkiChange, b: MikkiChange) {
 			if (a.when < b.when) {

@@ -194,6 +194,8 @@ export class MikkiClient {
 
 		await this.pages_table.items().edit("id", page_id, page);
 
+		await this.change(`Page ${page.meta.page_title} edited!`);
+
 		return page;
 	}
 }

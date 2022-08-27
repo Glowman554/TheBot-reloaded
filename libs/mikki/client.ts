@@ -178,7 +178,7 @@ export class MikkiClient {
 		await this.change(`Page ${page?.meta.page_title} deleted!`);
 	}
 
-	async page_update(page_id: string, page_title: string|undefined, page_text: string|undefined): Promise<MikkiPage> {
+	async page_update(page_id: string, page_title: string | undefined, page_text: string | undefined): Promise<MikkiPage> {
 		var page = await this.page(page_id);
 		if (!page) {
 			throw new Error("Page not found!");

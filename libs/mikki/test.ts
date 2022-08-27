@@ -1,4 +1,4 @@
-import { MikkiAccountOptions, MikkiClient } from "./mod.ts";
+import { MikkiAccountOptions, MikkiClient, MikkiPage } from "./mod.ts";
 
 var SB_URL = Deno.env.get("SB_URL");
 if (!SB_URL) {
@@ -32,3 +32,17 @@ Deno.test("accounts", async (t) => {
 		await client.account_delete(test_account.username);
 	});
 });
+
+Deno.test("pages", async (t) => {
+	var client = new MikkiClient(SB_URL as string, SB_TOKEN as string);
+	
+	var page: MikkiPage;
+	await t.step("create", async () => {
+		page = await client.page_create("test123", "hewwo");
+		console.log(page)
+	})
+
+	await t.step("delete", async () => {
+		await client.page_delete(page.id);
+	})
+})

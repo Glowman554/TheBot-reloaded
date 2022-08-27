@@ -1,18 +1,17 @@
 import { log } from "../logger.ts";
 import { supabaseClient, supabaseTable } from "https://deno.land/x/supabase_deno@v1.0.5/mod.ts";
 
-
 export interface MikkiAccount {
 	username: string;
 	password_hash: string;
 	editor: boolean;
-	token: string
-};
+	token: string;
+}
 
 export interface MikkiChange {
 	when: number;
 	what: string;
-};
+}
 
 export interface MikkiPage {
 	id: string;
@@ -20,9 +19,9 @@ export interface MikkiPage {
 	meta: {
 		page_created: number;
 		page_edited: number;
-		page_title: string
+		page_title: string;
 	};
-};
+}
 
 export class MikkiClient {
 	sb_url: string;
@@ -61,8 +60,8 @@ export class MikkiClient {
 		return this.accounts_table.items().all() as Promise<MikkiAccount[]>;
 	}
 
-	async account(username: string): Promise<MikkiAccount|undefined> {
-		return (await this.accounts_table.items().get("username", username))[0] as MikkiAccount|undefined;
+	async account(username: string): Promise<MikkiAccount | undefined> {
+		return (await this.accounts_table.items().get("username", username))[0] as MikkiAccount | undefined;
 	}
 
 	async account_update(account: MikkiAccount) {

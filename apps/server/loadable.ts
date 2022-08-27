@@ -14,7 +14,7 @@ var loadables: loadable[] = [
 	new animals(),
 	new docker(),
 	new compiler(),
-	new mikki()
+	new mikki(),
 ];
 
 export function load_all_loadables(): void {

@@ -8,7 +8,7 @@ export class Csv {
 	}
 
 	parse() {
-		this.parsed_document = this.document.split("\n").map(row => {
+		this.parsed_document = this.document.split("\n").map((row) => {
 			return row.split(",");
 		});
 
@@ -16,7 +16,7 @@ export class Csv {
 	}
 
 	serialize(separator = ",") {
-		return this.parsed_document.map(row => {
+		return this.parsed_document.map((row) => {
 			return row.join(separator);
 		}).join("\n");
 	}
@@ -46,13 +46,13 @@ export class Csv {
 	}
 
 	query_first(search: string, column: number) {
-		return this.parsed_document.find(row => row[column].indexOf(search) != -1);
+		return this.parsed_document.find((row) => row[column].indexOf(search) != -1);
 	}
 
 	query(search: string, column: number) {
 		var rows_found: string[][] = [];
 
-		this.parsed_document.forEach(row => {
+		this.parsed_document.forEach((row) => {
 			if (row[column].indexOf(search) != -1) {
 				rows_found.push(row);
 			}
@@ -73,7 +73,7 @@ export class Csv {
 
 		var max_column_lengths: number[] = [];
 
-		this.parsed_document.forEach(row => {
+		this.parsed_document.forEach((row) => {
 			row.forEach((cell, column) => {
 				if (!max_column_lengths[column]) {
 					max_column_lengths[column] = 0;
@@ -107,12 +107,11 @@ export class Csv {
 
 		str += "\n|";
 
-		max_column_lengths.forEach(length => {
+		max_column_lengths.forEach((length) => {
 			str += Array(length + 1).join("-") + "|";
 		});
 
 		return str;
-		
 	}
 }
 
@@ -123,9 +122,9 @@ export function test_csv() {
 	csv_parser.push_row(["", ""]);
 	csv_parser.push_row(["testvalue1", "testvalue2"]);
 	csv_parser.push_row(["testvalue3", "testvalue4"]);
-	
+
 	console.log(csv_parser.str());
 	console.log(csv_parser.serialize());
 
-	console.log(csv_parser.query("testvalue", 0))
+	console.log(csv_parser.query("testvalue", 0));
 }

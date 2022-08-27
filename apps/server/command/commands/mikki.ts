@@ -4,7 +4,7 @@ import { loadable } from "../../loadable.ts";
 import { log } from "../../logger.ts";
 import { Csv } from "../../utils/csv.ts";
 import { help_text } from "../../utils/help.ts";
-import { Command, CommandEvent, CommandExecutor, CommandResponse, command_manager, fail } from "../command.ts";
+import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, fail } from "../command.ts";
 
 export default class Mikki implements loadable {
 	load(): void {
@@ -23,16 +23,16 @@ export default class Mikki implements loadable {
 						case "list":
 							if (event.interface.args.length != 1) return fail;
 							var csv = new Csv();
-							
-							csv.push_row([ "username", "editor" ]);
-							csv.push_row([ "", "" ]);
 
-							(await mikki.accounts()).forEach(a => csv.push_row([ a.username, String(a.editor)]));
-							
+							csv.push_row(["username", "editor"]);
+							csv.push_row(["", ""]);
+
+							(await mikki.accounts()).forEach((a) => csv.push_row([a.username, String(a.editor)]));
+
 							return {
 								is_response: true,
-								response: "<bg_code>" + csv.str() + "<bg_code>"
-							}
+								response: "<bg_code>" + csv.str() + "<bg_code>",
+							};
 
 						case "delete":
 							if (event.interface.args.length != 2) return fail;
@@ -42,7 +42,7 @@ export default class Mikki implements loadable {
 
 							return {
 								is_response: true,
-								response: "Successfully deleted " + user
+								response: "Successfully deleted " + user,
 							};
 
 						default:

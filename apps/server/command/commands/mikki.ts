@@ -1,7 +1,9 @@
+import { MikkiAccount } from "https://deno.land/x/mikki@0.12/client.ts";
 import { init_mikki_api, mikki } from "../../api/mikki.ts";
 import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
 import { log } from "../../logger.ts";
+import { assert } from "../../utils/assert.ts";
 import { Csv } from "../../utils/csv.ts";
 import { help_text } from "../../utils/help.ts";
 import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, fail } from "../command.ts";
@@ -43,6 +45,20 @@ export default class Mikki implements loadable {
 							return {
 								is_response: true,
 								response: "Successfully deleted " + user,
+							};
+
+						case "editor":
+							if (event.interface.args.length != 3) return fail;
+							var user = event.interface.args[1];
+							var editor = event.interface.args[2] == "true";
+
+							var account = await mikki.account(user);
+							assert(account !=  undefined);
+							await mikki.account_update(account as MikkiAccount);
+
+							return {
+								is_response: true,
+								response: "Successfully updated " + user,
 							};
 
 						default:

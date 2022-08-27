@@ -35,14 +35,14 @@ Deno.test("accounts", async (t) => {
 
 Deno.test("pages", async (t) => {
 	var client = new MikkiClient(SB_URL as string, SB_TOKEN as string);
-	
+
 	var page: MikkiPage;
 	await t.step("create", async () => {
 		page = await client.page_create("test123", "hewwo");
-		console.log(page)
-	})
+		console.log(page);
+	});
 
 	await t.step("delete", async () => {
 		await client.page_delete(page.id);
-	})
-})
+	});
+});

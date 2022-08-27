@@ -140,7 +140,7 @@ export class MikkiClient {
 	async change(what: string) {
 		var change: MikkiChange = {
 			what: what,
-			when: new Date().getTime()
+			when: new Date().getTime(),
 		};
 
 		await this.changelog_table.items().add(change);
@@ -150,8 +150,8 @@ export class MikkiClient {
 		return this.pages_table.items().all() as Promise<MikkiPage[]>;
 	}
 
-	async page(page_id: string): Promise<MikkiPage|undefined> {
-		return (await this.pages_table.items().get("id", page_id))[0] as MikkiPage|undefined;
+	async page(page_id: string): Promise<MikkiPage | undefined> {
+		return (await this.pages_table.items().get("id", page_id))[0] as MikkiPage | undefined;
 	}
 
 	async page_create(page_title: string, page_text: string): Promise<MikkiPage> {
@@ -161,9 +161,9 @@ export class MikkiClient {
 			meta: {
 				page_created: new Date().getTime(),
 				page_edited: new Date().getTime(),
-				page_title: page_title
-			}
-		}
+				page_title: page_title,
+			},
+		};
 
 		await this.pages_table.items().add(page);
 

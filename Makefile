@@ -19,6 +19,11 @@ up-detach: build
 down:
 	sudo docker-compose down
 
+update:
+	git pull
+	make down
+	make up-detach
+
 run-server:
 	(cd apps/server; deno run -A server.ts)
 

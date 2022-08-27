@@ -65,7 +65,7 @@ export class MikkiClient {
 		for (let i = 0; i < 20; i++) {
 			str += chars.charAt(Math.floor(Math.random() * chars.length));
 		}
-	
+
 		return str;
 	}
 
@@ -90,7 +90,7 @@ export class MikkiClient {
 			editor: false,
 			username: opt.username,
 			password_hash: bcrypt.hashSync(opt.password),
-			token: this.create_account_token()
+			token: this.create_account_token(),
 		};
 
 		if (await this.account(account.username)) {
@@ -132,5 +132,4 @@ export class MikkiClient {
 
 		return ((await this.changelog_table.items().all()) as MikkiChange[]).sort(compare);
 	}
-
 }

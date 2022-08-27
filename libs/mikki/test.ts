@@ -17,8 +17,8 @@ Deno.test("accounts", async (t) => {
 
 	var test_account: MikkiAccountOptions = {
 		password: "test123",
-		username: "test"
-	}
+		username: "test",
+	};
 
 	await t.step("create account", async () => {
 		console.log(await client.account_create(test_account));

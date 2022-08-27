@@ -1,2 +1,2 @@
-export type { MikkiAccount, MikkiChange, MikkiPage, MikkiAccountOptions } from "./client.ts";
+export type { MikkiAccount, MikkiAccountOptions, MikkiChange, MikkiPage } from "./client.ts";
 export { MikkiClient } from "./client.ts";

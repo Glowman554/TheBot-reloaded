@@ -54,6 +54,7 @@ export default class Mikki implements loadable {
 
 							var account = await mikki.account(user);
 							assert(account != undefined);
+							account?.editor = editor;
 							await mikki.account_update(account as MikkiAccount);
 
 							return {

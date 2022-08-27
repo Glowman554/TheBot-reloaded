@@ -53,7 +53,7 @@ export default class Mikki implements loadable {
 							var editor = event.interface.args[2] == "true";
 
 							var account = await mikki.account(user);
-							assert(account !=  undefined);
+							assert(account != undefined);
 							await mikki.account_update(account as MikkiAccount);
 
 							return {

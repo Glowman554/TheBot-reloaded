@@ -3,7 +3,6 @@ import { init_mikki_api, mikki } from "../../api/mikki.ts";
 import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
 import { log } from "../../logger.ts";
-import { assert } from "../../utils/assert.ts";
 import { Csv } from "../../utils/csv.ts";
 import { help_text } from "../../utils/help.ts";
 import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, fail } from "../command.ts";
@@ -53,8 +52,11 @@ export default class Mikki implements loadable {
 							var editor = event.interface.args[2] == "true";
 
 							var account = await mikki.account(user);
-							assert(account != undefined);
-							account?.editor = editor;
+							if (!account) {
+								return fail;
+							}
+
+							account.editor = editor;
 							await mikki.account_update(account as MikkiAccount);
 
 							return {

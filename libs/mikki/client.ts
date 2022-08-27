@@ -177,4 +177,23 @@ export class MikkiClient {
 		await this.pages_table.items().delete("id", page_id);
 		await this.change(`Page ${page?.meta.page_title} deleted!`);
 	}
+
+	async page_update(page_id: string, page_title: string|undefined, page_text: string|undefined): Promise<MikkiPage> {
+		var page = await this.page(page_id);
+		if (!page) {
+			throw new Error("Page not found!");
+		}
+
+		if (page_title) {
+			page.meta.page_title = page_title;
+		}
+
+		if (page_text) {
+			page.text = page_text;
+		}
+
+		await this.pages_table.items().edit("id", page_id, page);
+
+		return page;
+	}
 }

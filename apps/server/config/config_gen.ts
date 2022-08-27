@@ -21,7 +21,8 @@ async function main() {
 	config_gen_add("websocket", "key", undefined);
 	config_gen_add("websocket", "log_packets", false);
 
-	config_gen_add("permissions", "admin", ["crash", "docker", "run-nojail", "eval"]);
+	config_gen_add("permissions", "admin", ["crash", "docker", "run-nojail", "eval", "mikki_account"]);
+	config_gen_add("permissions", "mikki_manager", ["mikki_account"]);
 
 	config_gen_add("docker", "proxy", "http://localhost:3565/docker/");
 	config_gen_add("compiler", "server", "http://localhost:3566/compiler/");
@@ -31,6 +32,9 @@ async function main() {
 
 	config_gen_add("whatsapp", "puppeteer_args", ["--no-sandbox"]);
 	config_gen_add("whatsapp", "owner", undefined);
+
+	config_gen_add("mikki", "url", undefined);
+	config_gen_add("mikki", "token", undefined);
 
 	var cfg: ConfigSections = {};
 	var cfg_override: { [key: string]: any } = {};

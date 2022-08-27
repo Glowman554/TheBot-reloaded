@@ -43,23 +43,23 @@ async function main() {
 	commands.forEach(async (command) => {
 		console.log("Deleting " + command.name);
 
-        while (true) {
-            var res = await (await fetch(`https://discord.com/api/v10/applications/${client_id}/commands/${command.id}`, {
-                headers: {
-                    "Authorization": "Bot " + token,
-                },
-                method: "DELETE",
-            })).text();
+		while (true) {
+			var res = await (await fetch(`https://discord.com/api/v10/applications/${client_id}/commands/${command.id}`, {
+				headers: {
+					"Authorization": "Bot " + token,
+				},
+				method: "DELETE",
+			})).text();
 
-            try {
-                var rate = JSON.parse(res) as RateLimit;
-                console.log("Waiting " + rate.retry_after + "s");
-                await new Promise((res) => setTimeout(res, rate.retry_after * 1000));
-            } catch (e) {
-                console.log(res);
-                break;
-            }
-        }
+			try {
+				var rate = JSON.parse(res) as RateLimit;
+				console.log("Waiting " + rate.retry_after + "s");
+				await new Promise((res) => setTimeout(res, rate.retry_after * 1000));
+			} catch (e) {
+				console.log(res);
+				break;
+			}
+		}
 	});
 }
 

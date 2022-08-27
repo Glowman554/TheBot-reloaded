@@ -4,6 +4,7 @@ import fun from "./command/commands/fun.ts";
 import animals from "./command/commands/animals.ts";
 import docker from "./command/commands/docker.ts";
 import compiler from "./command/commands/compiler.ts";
+import mikki from "./command/commands/mikki.ts";
 
 export type loadable = { load(): void };
 
@@ -13,6 +14,7 @@ var loadables: loadable[] = [
 	new animals(),
 	new docker(),
 	new compiler(),
+	new mikki()
 ];
 
 export function load_all_loadables(): void {

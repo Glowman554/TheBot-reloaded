@@ -69,7 +69,7 @@ export default class Animals implements loadable {
 						if (method == "list") {
 							return {
 								is_response: true,
-								response: "I know: " + new FurryApi()._methods.join(", ")
+								response: "I know: " + new FurryApi()._methods.join(", "),
 							};
 						}
 					}

@@ -27,6 +27,9 @@ update:
 run-server:
 	(cd apps/server; deno run -A server.ts)
 
+test-server:
+	(cd apps/server; deno test -A)
+
 run-whatsapp-client:
 	(cd apps/whatsapp_client; node . ../../connection.json)
 

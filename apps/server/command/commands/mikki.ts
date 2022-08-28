@@ -27,13 +27,13 @@ export default class Mikki implements loadable {
 
 									var pages = await mikki.pages();
 									var text = "";
-									pages.forEach(p => text += `${p.meta.page_title} (id: ${p.id})\n`);
+									pages.forEach((p) => text += `${p.meta.page_title} (id: ${p.id})\n`);
 
 									return {
 										is_response: true,
-										response: text
+										response: text,
 									};
-								
+
 								case "get":
 									if (event.interface.args.length != 3) return fail;
 
@@ -44,8 +44,8 @@ export default class Mikki implements loadable {
 
 									return {
 										is_response: true,
-										response: "<bg_code>" + page.text + "<bg_code>"
-									}
+										response: "<bg_code>" + page.text + "<bg_code>",
+									};
 								default:
 									return fail;
 							}
@@ -57,13 +57,13 @@ export default class Mikki implements loadable {
 
 							if (event.interface.args.length != 2) return fail;
 
-							var changes = await mikki.changes()
+							var changes = await mikki.changes();
 							var text = "";
-							changes.forEach(c => text += `${dateToString(c.when)}: ${c.what}\n`);
+							changes.forEach((c) => text += `${dateToString(c.when)}: ${c.what}\n`);
 
 							return {
 								is_response: true,
-								response: text
+								response: text,
 							};
 						default:
 							return fail;

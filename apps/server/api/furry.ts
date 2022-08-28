@@ -15,14 +15,14 @@ export interface Image {
 }
 
 export interface Info {
-    limit: number;
-    remaining: number;
-    reset: number;
-    resetAfter: number;
-    retryAfter: number;
-    precision: string;
-    global: boolean;
-};
+	limit: number;
+	remaining: number;
+	reset: number;
+	resetAfter: number;
+	retryAfter: number;
+	precision: string;
+	global: boolean;
+}
 
 export interface YiffRestResponse {
 	images: Image[];
@@ -30,8 +30,8 @@ export interface YiffRestResponse {
 	success: boolean;
 	notes: any[];
 
-    error?: string;
-    info?: Info;
+	error?: string;
+	info?: Info;
 }
 
 export class FurryApi {
@@ -55,27 +55,27 @@ export class FurryApi {
 		"furry/yiff/gynomorph",
 	];
 
-	methods: { [key: string]: (() => Promise<string>) } = {};
+	methods: { [key: string]: () => Promise<string> } = {};
 
 	constructor() {
 		this._methods.forEach((m) => {
-            this.methods[m] = async () => {
-                return this.random_image(m);
-            };
-        });
+			this.methods[m] = async () => {
+				return this.random_image(m);
+			};
+		});
 	}
 
 	async random_image(method: string): Promise<string> {
-        while (true) {
-		    var res = await (await fetch(`https://v2.yiff.rest/${method}?limit=1&notes=disabled`)).json() as YiffRestResponse;
-            if (!res.success) {
-                if (!!res.info) {
-                    console.log(res.error);
-                    await new Promise((r) => setTimeout(r, (res.info?.retryAfter || 1) * 1000));
-                    continue;
-                }
-            }
-            return res.images[0].url;
-        }
+		while (true) {
+			var res = await (await fetch(`https://v2.yiff.rest/${method}?limit=1&notes=disabled`)).json() as YiffRestResponse;
+			if (!res.success) {
+				if (!!res.info) {
+					console.log(res.error);
+					await new Promise((r) => setTimeout(r, (res.info?.retryAfter || 1) * 1000));
+					continue;
+				}
+			}
+			return res.images[0].url;
+		}
 	}
 }

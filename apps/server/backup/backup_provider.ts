@@ -23,15 +23,43 @@ export async function backup() {
 	var backup_id = random_id();
 	log("backup", "Starting backup with id " + backup_id);
 
+	var scheduled_for_delete = (await client.tables().get("backups").items().all() as { when: string|number, id: number }[]).map(x => {
+		x.when = new Date(x.when).getTime();
+		return x;
+	}).sort((a, b) => {
+		if (a.when < b.when) {
+			return -1;
+		}
+		if (a.when > b.when) {
+			return 1;
+		}
+		return 0;
+	}).map(x => x.id);
+	scheduled_for_delete.pop();
+
+	log("backup", "Going to delete " + scheduled_for_delete.join(", "));
+
+
 	for (let provider of providers) {
 		var table_name = provider.get_table_name();
+		var table = client.tables().get(table_name);
+		
+		for (let i of scheduled_for_delete) {
+			await table.items().delete("backup_id", i);
+		}
+
 		log("backup", "Creating backup for " + table_name);
-		await provider.backup(client.tables().get(table_name), backup_id);
+		await provider.backup(table, backup_id);
 	}
 
 	await client.tables().get("backups").items().add({
 		id: backup_id,
 	});
+
+	
+	for (let i of scheduled_for_delete) {
+		await client.tables().get("backups").items().delete("id", i);
+	}
 
 	log("backup", "Done!");
 }

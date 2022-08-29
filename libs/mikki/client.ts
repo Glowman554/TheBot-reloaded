@@ -65,8 +65,12 @@ export class MikkiClient {
 		for (let i = 0; i < 20; i++) {
 			str += chars.charAt(Math.floor(Math.random() * chars.length));
 		}
-	
+
 		return str;
+	}
+
+	private create_page_id() {
+		return String(Math.floor(Math.random() * 10000000000000));
 	}
 
 	async accounts(): Promise<MikkiAccount[]> {
@@ -90,7 +94,7 @@ export class MikkiClient {
 			editor: false,
 			username: opt.username,
 			password_hash: bcrypt.hashSync(opt.password),
-			token: this.create_account_token()
+			token: this.create_account_token(),
 		};
 
 		if (await this.account(account.username)) {
@@ -133,4 +137,65 @@ export class MikkiClient {
 		return ((await this.changelog_table.items().all()) as MikkiChange[]).sort(compare);
 	}
 
+	async change(what: string) {
+		var change: MikkiChange = {
+			what: what,
+			when: new Date().getTime(),
+		};
+
+		await this.changelog_table.items().add(change);
+	}
+
+	async pages(): Promise<MikkiPage[]> {
+		return this.pages_table.items().all() as Promise<MikkiPage[]>;
+	}
+
+	async page(page_id: string): Promise<MikkiPage | undefined> {
+		return (await this.pages_table.items().get("id", page_id))[0] as MikkiPage | undefined;
+	}
+
+	async page_create(page_title: string, page_text: string): Promise<MikkiPage> {
+		var page: MikkiPage = {
+			id: this.create_page_id(),
+			text: page_text,
+			meta: {
+				page_created: new Date().getTime(),
+				page_edited: new Date().getTime(),
+				page_title: page_title,
+			},
+		};
+
+		await this.pages_table.items().add(page);
+
+		await this.change(`Page ${page_title} created!`);
+
+		return page;
+	}
+
+	async page_delete(page_id: string) {
+		var page = await this.page(page_id);
+		await this.pages_table.items().delete("id", page_id);
+		await this.change(`Page ${page?.meta.page_title} deleted!`);
+	}
+
+	async page_update(page_id: string, page_title: string | undefined, page_text: string | undefined): Promise<MikkiPage> {
+		var page = await this.page(page_id);
+		if (!page) {
+			throw new Error("Page not found!");
+		}
+
+		if (page_title) {
+			page.meta.page_title = page_title;
+		}
+
+		if (page_text) {
+			page.text = page_text;
+		}
+
+		await this.pages_table.items().edit("id", page_id, page);
+
+		await this.change(`Page ${page.meta.page_title} edited!`);
+
+		return page;
+	}
 }

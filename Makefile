@@ -19,8 +19,16 @@ up-detach: build
 down:
 	sudo docker-compose down
 
+update:
+	git pull
+	make down
+	make up-detach
+
 run-server:
 	(cd apps/server; deno run -A server.ts)
+
+test-server:
+	(cd apps/server; deno test -A)
 
 run-whatsapp-client:
 	(cd apps/whatsapp_client; node . ../../connection.json)

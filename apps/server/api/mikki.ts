@@ -1,6 +1,5 @@
 import { log } from "../logger.ts";
-import { MikkiClient } from "https://deno.land/x/mikki@0.10/mod.ts";
-
+import { MikkiClient } from "https://deno.land/x/mikki@0.12/mod.ts";
 
 export var mikki: MikkiClient;
 

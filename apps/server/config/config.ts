@@ -1,10 +1,12 @@
+import { supabaseTable } from "https://deno.land/x/supabase_deno@v1.0.5/mod.ts";
+import { BackupProvider, random_id } from "../backup/backup_provider.ts";
 import { log } from "../logger.ts";
 
 export interface ConfigSections {
 	[key: string]: { [key: string]: object | string };
 }
 
-export class ConfigParser {
+export class ConfigParser implements BackupProvider {
 	config: string;
 
 	config_sections: ConfigSections = {};
@@ -68,6 +70,25 @@ export class ConfigParser {
 			output += "\n";
 		}
 		return output;
+	}
+
+	get_table_name() {
+		return "config";
+	}
+
+	async backup(table: supabaseTable, id: number) {
+		for (let sect in this.config_sections) {
+			for (let key in this.config_sections[sect]) {
+				log("config", "backing up :" + sect + ":" + key);
+				await table.items().add({
+					key: key,
+					section: sect,
+					config: JSON.stringify(this.config_sections[sect][key]),
+					backup_id: id,
+					id: random_id()
+				});
+			}
+		}
 	}
 }
 

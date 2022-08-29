@@ -12,6 +12,7 @@ import { load_all_loadables } from "./loadable.ts";
 import { get_temp_file, init_tmp_files } from "./utils/tmp.ts";
 import { create, ErrorMode, set_logger } from "https://deno.land/x/simple_router@0.7/mod.ts";
 import { v1 } from "./api/version/v1.ts";
+import { backup } from "./backup/backup_provider.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
@@ -133,6 +134,9 @@ function main() {
 	});
 
 	load_all_loadables();
+
+	setInterval(backup, 1000 * 60 * 60 * 12);
+	backup();
 }
 
 main();

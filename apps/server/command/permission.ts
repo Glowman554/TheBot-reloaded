@@ -1,3 +1,5 @@
+import { supabaseTable } from "https://deno.land/x/supabase_deno@v1.0.5/mod.ts";
+import { BackupProvider, random_id } from "../backup/backup_provider.ts";
 import { config } from "../config/config.ts";
 import { log } from "../logger.ts";
 
@@ -29,4 +31,25 @@ export function check_permission(user: string, permission: string | undefined): 
 	}
 
 	return false;
+}
+
+export class PermissionsBackup implements BackupProvider {
+	get_table_name() {
+		return "permissions";
+	}
+
+	async backup(table: supabaseTable, id: number): Promise<void> {
+		var permission_file = String(config.get("permissions_file"));
+		var permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as { [key: string]: string[] };
+
+		for (let i in permissions) {
+			log("permissions", "backing up: " + i);
+			await table.items().add({
+				id: random_id(),
+				backup_id: id,
+				user: i,
+				roles: permissions[i]
+			});
+		}
+	}
 }

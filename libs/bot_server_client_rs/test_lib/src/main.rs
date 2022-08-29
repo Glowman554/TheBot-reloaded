@@ -44,7 +44,7 @@ impl bot_server_client::client::connection::PacketHandlers for PacketHandlers {
 
 #[tokio::main]
 async fn main() {
-    let connection = Connection::new("ws://172.24.1.87:8080".to_owned(), Box::new(PacketHandlers {})).await;
+    let connection = Connection::new("ws://172.24.1.87:8080".to_owned(), Box::new(PacketHandlers {}));
 	connection.debug(true);
     connection.authenticate("thebestbot").await;
     connection.log("rust", "hewoo").await;

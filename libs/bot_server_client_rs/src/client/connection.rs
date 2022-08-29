@@ -32,7 +32,7 @@ pub trait PacketHandlers {
 }
 
 impl Connection {
-	pub async fn new(url: String, handlers: Box<dyn PacketHandlers + Send + Sync>) -> Connection {
+	pub fn new(url: String, handlers: Box<dyn PacketHandlers + Send + Sync>) -> Connection {
 		let client = ClientBuilder::new(url.as_ref()).unwrap().add_protocol("rust-websocket").connect_insecure().unwrap();
 
 		let (mut r, s) = client.split().unwrap();

@@ -9,7 +9,7 @@ license = "MIT"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-websocket = "0.24.0"
+websocket = "0.26.5"
 json = "0.12.4"
 lazy_static = "1.4.0"
 tokio = { version = "1", features = ["full"] }

@@ -36,6 +36,10 @@ async function main() {
 	config_gen_add("mikki", "url", undefined);
 	config_gen_add("mikki", "token", undefined);
 
+	config_gen_add("backup", "enabled", true);
+	config_gen_add("backup", "url", undefined);
+	config_gen_add("backup", "token", undefined);
+
 	var cfg: ConfigSections = {};
 	var cfg_override: { [key: string]: any } = {};
 

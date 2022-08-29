@@ -48,7 +48,7 @@ export class PermissionsBackup implements BackupProvider {
 				id: random_id(),
 				backup_id: id,
 				user: i,
-				roles: permissions[i]
+				roles: permissions[i],
 			});
 		}
 	}

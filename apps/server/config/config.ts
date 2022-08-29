@@ -85,7 +85,7 @@ export class ConfigParser implements BackupProvider {
 					section: sect,
 					config: JSON.stringify(this.config_sections[sect][key]),
 					backup_id: id,
-					id: random_id()
+					id: random_id(),
 				});
 			}
 		}

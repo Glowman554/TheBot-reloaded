@@ -63,7 +63,7 @@ async fn main() {
 	let key = question("server key? ", "thebestbot");
 
 	let mut spinner = Spinner::new(Spinners::Dots, "Connecting...", Color::Blue);
-	let connection = Connection::new(url, Box::new(PacketHandlers {})).await;
+	let connection = Connection::new(url, Box::new(PacketHandlers {}));
 	// connection.debug(true);
 	spinner.update(Spinners::Dots, "Authenticating...", Color::Blue);
 

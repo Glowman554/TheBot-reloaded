@@ -1,0 +1,16 @@
+[package]
+name = "bot_server_client"
+version = "1.1.0"
+edition = "2021"
+authors = ["glowman554"]
+description = "Library to interact with the core of my bot"
+license = "MIT"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+websocket = "0.24.0"
+json = "0.12.4"
+lazy_static = "1.4.0"
+tokio = { version = "1", features = ["full"] }
+async-trait = "0.1.57"

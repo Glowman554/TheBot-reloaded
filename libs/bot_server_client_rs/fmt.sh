@@ -1,0 +1,1 @@
+cargo fmt -- --config max_width=1000,hard_tabs=true

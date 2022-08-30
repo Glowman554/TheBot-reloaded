@@ -16,6 +16,8 @@ async function main() {
 	config_gen_add("root", "tmp_folder", "./tmp");
 	config_gen_add("root", "command_prefix", undefined);
 	config_gen_add("root", "permissions_file", "./permissions.json");
+	config_gen_add("root", "hello_on", []);
+	config_gen_add("root", "hello", "Hello my name is TheBot and I'm happy to meet you 👍!\nThe person who programs me does this mainly in his free time so don't expect too much from me 🤪!\nI'm mainly made to have fun 👾!");
 
 	config_gen_add("websocket", "port", 8080);
 	config_gen_add("websocket", "key", undefined);

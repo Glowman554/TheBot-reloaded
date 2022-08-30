@@ -2,9 +2,7 @@
 
 #include <iostream>
 
-websocket_context::websocket_context(int id, websocketpp::connection_hdl hdl) {
-	this->id = id;
-	this->hdl = hdl;
+websocket_context::websocket_context() {
 }
 
 void websocket_context::on_open(client* c, websocketpp::connection_hdl hdl) {
@@ -44,6 +42,10 @@ websocketpp::connection_hdl websocket_context::get_hdl() {
 	return this->hdl;
 }
 
+void websocket_context::set_hdl(websocketpp::connection_hdl hdl) {
+	this->hdl = hdl;
+}
+
 void websocket_context::await() {
 	while (!this->connected) {
 		sleep(1);
@@ -52,6 +54,10 @@ void websocket_context::await() {
 
 int websocket_context::get_id() {
 	return this->id;
+}
+
+void websocket_context::set_id(int id) {
+	this->id = id;
 }
 
 bool websocket_context::get_connected() {
@@ -85,7 +91,7 @@ websocket_endpoint::~websocket_endpoint() {
 	this->thread->join();
 }
 
-int websocket_endpoint::connect(std::string const& uri) {
+int websocket_endpoint::connect(std::string const& uri, websocket_context* ctx) {
 	websocketpp::lib::error_code ec;
 
 	client::connection_ptr con = this->endpoint.get_connection(uri, ec);
@@ -96,7 +102,9 @@ int websocket_endpoint::connect(std::string const& uri) {
 	}
 
 	int new_id = this->next_id++;
-	websocket_context::ptr metadata_ptr(new websocket_context(new_id, con->get_handle()));
+	websocket_context::ptr metadata_ptr(ctx);
+	metadata_ptr->set_id(new_id);
+	metadata_ptr->set_hdl(con->get_handle());
 	this->connection_list[new_id] = metadata_ptr;
 
 	con->set_open_handler(websocketpp::lib::bind(&websocket_context::on_open, metadata_ptr, &this->endpoint, websocketpp::lib::placeholders::_1));
@@ -106,6 +114,10 @@ int websocket_endpoint::connect(std::string const& uri) {
 	this->endpoint.connect(con);
 
 	return new_id;
+}
+
+int websocket_endpoint::connect(std::string const& uri) {
+	return this->connect(uri, new websocket_context());
 }
 
 void websocket_endpoint::close(int id, websocketpp::close::status::value code, std::string reason) {
@@ -124,7 +136,7 @@ void websocket_endpoint::close(int id, websocketpp::close::status::value code, s
 }
 
 client* websocket_endpoint::get_client() {
-    return &this->endpoint;
+	return &this->endpoint;
 }
 
 websocket_context::ptr websocket_endpoint::get(int id) {

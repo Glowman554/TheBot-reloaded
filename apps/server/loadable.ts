@@ -16,7 +16,7 @@ var loadables: loadable[] = [
 	new docker(),
 	new compiler(),
 	new mikki(),
-	new hello()
+	new hello(),
 ];
 
 export function load_all_loadables(): void {

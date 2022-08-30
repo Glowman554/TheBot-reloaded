@@ -1,6 +1,6 @@
 [package]
 name = "botcli"
-version = "0.1.2"
+version = "0.1.3"
 edition = "2021"
 license="MIT"
 description="Small cli tool to control my bot server"
@@ -8,7 +8,7 @@ description="Small cli tool to control my bot server"
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
-bot_server_client = "1.1.3"
+bot_server_client = "1.1.5"
 tokio = { version = "1", features = ["full"] }
 async-trait = "0.1.57"
 spinoff = "0.5.3"

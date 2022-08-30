@@ -67,7 +67,7 @@ async fn main() {
 	// connection.debug(true);
 	spinner.update(Spinners::Dots, "Authenticating...", Color::Blue);
 
-	connection.authenticate(&key[..]).await;
+	connection.authenticate(&key[..]);
 
 	loop {
 		if AUTH_RESPONSE.load(Ordering::Relaxed) {
@@ -84,7 +84,7 @@ async fn main() {
 	loop {
 		let stdin = io::stdin();
 		for line in stdin.lock().lines() {
-			connection.on_message(&line.unwrap()[..], "rust", "rust", Option::None, Option::None, Option::None, 1).await;
+			connection.on_message(&line.unwrap()[..], "rust", "rust", Option::None, Option::None, Option::None, 1);
 		}
 	}
 }

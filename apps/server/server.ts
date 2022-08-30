@@ -13,11 +13,14 @@ import { get_temp_file, init_tmp_files } from "./utils/tmp.ts";
 import { create, ErrorMode, set_logger } from "https://deno.land/x/simple_router@0.7/mod.ts";
 import { v1 } from "./api/version/v1.ts";
 import { backup } from "./backup/backup_provider.ts";
+import { event } from "./event/event.ts";
+import { EventHandler } from "./event/event_handler.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
 
 	var command_event = new CommandEventImpl(socket, pkg);
+	await event.handle<to_server.on_message_pkg>("on_message", pkg);
 	await command_manager.on_command(new CommandEvent(command_event));
 }
 
@@ -137,6 +140,14 @@ function main() {
 
 	setInterval(backup, 1000 * 60 * 60 * 12);
 	backup();
+
+	var handler: EventHandler<to_server.on_message_pkg> = {
+		name: "on_message",
+		async executor(pkg: to_server.on_message_pkg) {
+			log("message", `${pkg.user_id}: ${pkg.message}`);
+		}
+	};
+	event.add(handler);
 }
 
 main();

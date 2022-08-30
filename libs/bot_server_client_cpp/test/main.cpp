@@ -1,7 +1,7 @@
 #include <connection.h>
 #include <iostream>
-#include <socket.h>
 #include <protocol.h>
+#include <socket.h>
 
 int main() {
 	websocket_endpoint endp;

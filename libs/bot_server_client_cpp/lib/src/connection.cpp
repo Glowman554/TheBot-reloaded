@@ -1,6 +1,6 @@
 #include <connection.h>
-#include <nlohmann/json.hpp>
 #include <iostream>
+#include <nlohmann/json.hpp>
 
 connection::connection(client* _client) {
 	this->_client = _client;
@@ -18,13 +18,13 @@ void connection::on_message(websocketpp::connection_hdl hdl, client::message_ptr
 		int pkg_id = json["id"];
 
 		switch (pkg_id) {
-			case protocol::_key_auth_response:
-				this->on_auth(protocol::key_auth_response_parse(json["data"]));
-				break;
+		case protocol::_key_auth_response:
+			this->on_auth(protocol::key_auth_response_parse(json["data"]));
+			break;
 
-			default:
-				std::cout << "Unknown packet " << pkg_id << "!" << std::endl;
-				break;
+		default:
+			std::cout << "Unknown packet " << pkg_id << "!" << std::endl;
+			break;
 		}
 	}
 }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include <socket.h>
 #include <protocol.h>
+#include <socket.h>
 
 class connection : public websocket_context {
 public:

@@ -1,12 +1,13 @@
 #include <connection.h>
 #include <iostream>
 #include <socket.h>
+#include <protocol.h>
 
 int main() {
 	websocket_endpoint endp;
 
 	auto con = new connection(endp.get_client());
-	int id = endp.connect("ws://172.24.1.87:8080", con);
+	int id = endp.connect("ws://localhost:8080", con);
 
 	con->authenticate("thebestbot");
 

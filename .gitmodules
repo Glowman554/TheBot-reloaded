@@ -1,0 +1,3 @@
+[submodule "libs/bot_server_client_cpp/websocketpp"]
+	path = libs/bot_server_client_cpp/websocketpp
+	url = https://github.com/zaphoyd/websocketpp

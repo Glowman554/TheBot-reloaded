@@ -1,6 +1,7 @@
 #pragma once
 
 #include <socket.h>
+#include <protocol.h>
 
 class connection : public websocket_context {
 public:
@@ -10,7 +11,7 @@ public:
 
 	void authenticate(std::string const& token);
 
-	// virtual void on_auth();
+	virtual void on_auth(protocol::key_auth_response pkg);
 
 private:
 	client* _client;

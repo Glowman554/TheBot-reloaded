@@ -7,6 +7,7 @@ include_directories(${Boost_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/lib/include)
 add_library("bot_server_client" 
     lib/src/socket.cpp
     lib/src/connection.cpp
+    lib/src/protocol.cpp
 )
 include_directories("bot_server_client" websocketpp json/single_include)
 target_link_libraries("bot_server_client" ${Boost_LIBRARIES} pthread)

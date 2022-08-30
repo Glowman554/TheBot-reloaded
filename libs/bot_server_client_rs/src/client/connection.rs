@@ -53,6 +53,7 @@ impl Connection {
 			}));
 
 			for message in r.incoming_messages() {
+				tokio::task::yield_now().await;
 				let message = message.unwrap();
 
 				match message {
@@ -174,7 +175,16 @@ impl Connection {
 		self.send(pkg.dump());
 	}
 
-	pub fn await_exit(&self) {
+	pub async fn await_exit(&self) {
+		loop {
+			tokio::task::yield_now().await;
+			if self.exited.load(Ordering::Relaxed) {
+				break;
+			}
+		}
+	}
+
+	fn await_exit_sync(&self) {
 		loop {
 			if self.exited.load(Ordering::Relaxed) {
 				break;
@@ -195,6 +205,6 @@ impl Drop for Connection {
 	fn drop(&mut self) {
 		let _ = self.sender.lock().unwrap().send_message(&OwnedMessage::Close(None));
 
-		self.await_exit();
+		self.await_exit_sync();
 	}
 }

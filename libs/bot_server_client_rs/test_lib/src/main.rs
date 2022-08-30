@@ -46,11 +46,11 @@ impl bot_server_client::client::connection::PacketHandlers for PacketHandlers {
 async fn main() {
     let connection = Connection::new("ws://172.24.1.87:8080".to_owned(), Box::new(PacketHandlers {}));
 	connection.debug(true);
-    connection.authenticate("thebestbot").await;
-    connection.log("rust", "hewoo").await;
+    connection.authenticate("thebestbot");
+    connection.log("rust", "hewoo");
 
-    connection.on_message("owo!ping", "rust", "rust", Option::None, Option::None, Option::None, 69).await;
-    connection.on_message("owo!fox", "rust", "rust", Option::None, Option::None, Option::None, 69).await;
+    connection.on_message("owo!ping", "rust", "rust", Option::None, Option::None, Option::None, 69);
+    connection.on_message("owo!fox", "rust", "rust", Option::None, Option::None, Option::None, 69);
 
 
     connection.await_exit();

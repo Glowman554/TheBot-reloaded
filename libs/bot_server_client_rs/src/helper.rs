@@ -19,9 +19,9 @@ impl ConfigGetHelper {
 		self.cfg = Option::Some(pkg.config.clone());
 	}
 
-	pub async fn request(&mut self, con: &Connection, section: &str, key: &str) {
+	pub fn request(&mut self, con: &Connection, section: &str, key: &str) {
 		self.cfg = Option::None;
-		con.config_request(section, key).await;
+		con.config_request(section, key);
 	}
 
 	pub fn data(&self) -> &Option<String> {
@@ -44,9 +44,9 @@ impl TmpFileHelper {
 		self.path = Option::Some(pkg.path.clone());
 	}
 
-	pub async fn request(&mut self, con: &Connection, ext: &str, ttl: i32) {
+	pub fn request(&mut self, con: &Connection, ext: &str, ttl: i32) {
 		self.path = Option::None;
-		con.tmp_file_request(ext, ttl).await;
+		con.tmp_file_request(ext, ttl)
 	}
 
 	pub fn data(&self) -> &Option<String> {
@@ -59,8 +59,8 @@ lazy_static! {
 	pub static ref TMP: Mutex<TmpFileHelper> = Mutex::new(TmpFileHelper::new());
 }
 
-pub async fn cfg(connection: &Connection, section: &str, key: &str) -> String {
-	CFG.lock().unwrap().request(&connection, section, key).await;
+pub fn cfg(connection: &Connection, section: &str, key: &str) -> String {
+	CFG.lock().unwrap().request(&connection, section, key);
 	loop {
 		match CFG.lock().unwrap().data() {
 			None => {}
@@ -71,8 +71,8 @@ pub async fn cfg(connection: &Connection, section: &str, key: &str) -> String {
 	}
 }
 
-pub async fn tmp(connection: &Connection, ext: &str, ttl: i32) -> String {
-	TMP.lock().unwrap().request(&connection, ext, ttl).await;
+pub fn tmp(connection: &Connection, ext: &str, ttl: i32) -> String {
+	TMP.lock().unwrap().request(&connection, ext, ttl);
 	loop {
 		match TMP.lock().unwrap().data() {
 			None => {}

@@ -99,15 +99,15 @@ impl Connection {
 		Connection { sender, exited, debug }
 	}
 
-	async fn send(&self, msg: String) {
+	fn send(&self, msg: String) {
 		self.sender.lock().unwrap().send_message(&OwnedMessage::Text(msg)).unwrap();
 	}
 
-	pub async fn authenticate(&self, key: &str) {
-		self.send(format!("auth:{}", key)).await;
+	pub fn authenticate(&self, key: &str) {
+		self.send(format!("auth:{}", key));
 	}
 
-	pub async fn log(&self, cl: &str, msg: &str) {
+	pub fn log(&self, cl: &str, msg: &str) {
 		let pkg = json::object! {
 			id: 1,
 			data: {
@@ -115,10 +115,10 @@ impl Connection {
 				client_name: cl
 			}
 		};
-		self.send(pkg.dump()).await;
+		self.send(pkg.dump());
 	}
 
-	pub async fn on_message(&self, message: &str, user_id: &str, chat_id: &str, files: Option<Box<[&str]>>, mentions: Option<Box<[&str]>>, quote_text: Option<&str>, id: i64) {
+	pub fn on_message(&self, message: &str, user_id: &str, chat_id: &str, files: Option<Box<[&str]>>, mentions: Option<Box<[&str]>>, quote_text: Option<&str>, id: i64) {
 		let _mentions = match mentions {
 			None => Box::new([]),
 			Some(s) => s,
@@ -147,10 +147,10 @@ impl Connection {
 			}
 		};
 
-		self.send(pkg.dump()).await;
+		self.send(pkg.dump());
 	}
 
-	pub async fn config_request(&self, section: &str, key: &str) {
+	pub fn config_request(&self, section: &str, key: &str) {
 		let pkg = json::object! {
 			id: 3,
 			data: {
@@ -159,10 +159,10 @@ impl Connection {
 			}
 		};
 
-		self.send(pkg.dump()).await;
+		self.send(pkg.dump());
 	}
 
-	pub async fn tmp_file_request(&self, ext: &str, ttl: i32) {
+	pub fn tmp_file_request(&self, ext: &str, ttl: i32) {
 		let pkg = json::object! {
 			id: 4,
 			data: {
@@ -171,7 +171,7 @@ impl Connection {
 			}
 		};
 
-		self.send(pkg.dump()).await;
+		self.send(pkg.dump());
 	}
 
 	pub fn await_exit(&self) {
@@ -182,7 +182,7 @@ impl Connection {
 		}
 	}
 
-	pub async fn disconnect(&self) {
+	pub fn disconnect(&self) {
 		self.sender.lock().unwrap().send_message(&OwnedMessage::Close(None)).unwrap();
 	}
 

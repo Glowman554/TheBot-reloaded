@@ -7,7 +7,7 @@ namespace protocol {
 		enum pkg_ids {
 			_message_send = 1,
 			_message_send_ack = 2,
-			_internal_error_pkg = 3,
+			_internal_error = 3,
 			_config_response = 4,
 			_key_auth_response = 5,
 			_message_send_media = 6,
@@ -25,9 +25,32 @@ namespace protocol {
 		};
 	}
 
+	struct message_send {
+		std::string message;
+		int id;
+	};
+
+	struct message_send_ack {
+		int id;
+	};
+
+	struct internal_error {
+		std::string message;
+		nlohmann::json cause;
+	};
+
 	struct key_auth_response {
 		bool success;
 	};
 
-	key_auth_response key_auth_response_parse(nlohmann::json json);
+#define pkg_parser(pkg) pkg pkg(nlohmann::json json)
+#define pkg_parser_impl(pkg) pkg protocol::parser::pkg(nlohmann::json json)
+
+	namespace parser {
+		pkg_parser(message_send);
+		pkg_parser(message_send_ack);
+		pkg_parser(internal_error);
+
+		pkg_parser(key_auth_response);
+	} // namespace parser
 } // namespace protocol

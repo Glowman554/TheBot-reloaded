@@ -1,1 +1,0 @@
-find . -regex '.*\.\(cpp\|hpp\|cu\|c\|h\)' -not -path '*/websocketpp/*' -not -path '*/build/*' -not -path '*/json/*' -exec clang-format --verbose -style=file -i {} \;

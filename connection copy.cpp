@@ -94,8 +94,8 @@ void connection::on_message(websocketpp::connection_hdl hdl, client::message_ptr
 
 		switch (pkg_id) {
 			pkg_case(_message_send, message_send, on_message_send);
+
 			pkg_case(_message_send_ack, message_send_ack, on_message_send_ack);
-			pkg_case(_internal_error, internal_error, on_internal_error);
 
 			pkg_case(_key_auth_response, key_auth_response, on_auth);
 

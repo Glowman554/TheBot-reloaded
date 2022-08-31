@@ -15,6 +15,10 @@ public:
 	void config(std::string const& section, std::string const& key);
 	void tmp(std::string const& ext, int ttl);
 
+	virtual void on_message_send(protocol::message_send pkg);
+	virtual void on_message_send_ack(protocol::message_send_ack pkg);
+	virtual void on_internal_error(protocol::internal_error pkg);
+
 	virtual void on_auth(protocol::key_auth_response pkg);
 
 private:

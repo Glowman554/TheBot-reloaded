@@ -18,7 +18,7 @@ public:
 	virtual void on_message_send(protocol::message_send pkg);
 	virtual void on_message_send_ack(protocol::message_send_ack pkg);
 	virtual void on_internal_error(protocol::internal_error pkg);
-
+	virtual void on_config(protocol::config pkg);
 	virtual void on_auth(protocol::key_auth_response pkg);
 
 private:

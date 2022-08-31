@@ -96,7 +96,7 @@ void connection::on_message(websocketpp::connection_hdl hdl, client::message_ptr
 			pkg_case(_message_send, message_send, on_message_send);
 			pkg_case(_message_send_ack, message_send_ack, on_message_send_ack);
 			pkg_case(_internal_error, internal_error, on_internal_error);
-
+			pkg_case(_config_response, config, on_config);
 			pkg_case(_key_auth_response, key_auth_response, on_auth);
 
 		default:
@@ -117,6 +117,11 @@ void connection::on_message_send_ack(protocol::message_send_ack pkg) {
 void connection::on_internal_error(protocol::internal_error pkg) {
 	std::cout << "ERR " << pkg.message << " " << pkg.cause.dump() << std::endl;
 }
+
+void connection::on_config(protocol::config pkg) {
+	std::cout << "CFG :" << pkg.key + ":" << pkg.section << " " << pkg.config.dump() << std::endl;
+}
+
 
 void connection::on_auth(protocol::key_auth_response pkg) {
 	std::cout << "AUTH " << pkg.success << std::endl;

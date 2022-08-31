@@ -43,6 +43,12 @@ namespace protocol {
 		bool success;
 	};
 
+	struct config {
+		std::string key;
+		std::string section;
+		nlohmann::json config;
+	};
+
 #define pkg_parser(pkg) pkg pkg(nlohmann::json json)
 #define pkg_parser_impl(pkg) pkg protocol::parser::pkg(nlohmann::json json)
 
@@ -50,7 +56,7 @@ namespace protocol {
 		pkg_parser(message_send);
 		pkg_parser(message_send_ack);
 		pkg_parser(internal_error);
-
+		pkg_parser(config);
 		pkg_parser(key_auth_response);
 	} // namespace parser
 } // namespace protocol

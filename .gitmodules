@@ -4,3 +4,6 @@
 [submodule "libs/bot_server_client_cpp/json"]
 	path = libs/bot_server_client_cpp/json
 	url = https://github.com/nlohmann/json
+[submodule "apps/telegram_client/tgbot-cpp"]
+	path = apps/telegram_client/tgbot-cpp
+	url = https://github.com/reo7sp/tgbot-cpp

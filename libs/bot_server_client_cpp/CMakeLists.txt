@@ -2,8 +2,8 @@ project("bot_server_client")
 
 find_package(Boost 1.40 COMPONENTS program_options REQUIRED)
 
-include_directories( ${PROJECT_SOURCE_DIR}/lib/include)
-
+set(BSC_INCLUDE ${Boost_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/websocketpp ${PROJECT_SOURCE_DIR}/json/single_include ${PROJECT_SOURCE_DIR}/lib/include)
+set(BSC_INCLUDE_P ${BSC_INCLUDE} PARENT_SCOPE)
 
 add_library("bot_server_client" 
     lib/src/socket.cpp
@@ -11,7 +11,7 @@ add_library("bot_server_client"
     lib/src/protocol.cpp
     lib/src/helper.cpp
 )
-include_directories("bot_server_client" ${Boost_INCLUDE_DIR} websocketpp json/single_include)
+include_directories("bot_server_client" ${BSC_INCLUDE})
 target_link_libraries("bot_server_client" ${Boost_LIBRARIES} pthread)
 
 
@@ -19,5 +19,6 @@ option(BUILD_TEST_FILE "Build test/main.cpp" OFF)
 
 if (BUILD_TEST_FILE)
     add_executable("test" test/main.cpp)
+	include_directories("test" ${BSC_INCLUDE})
     target_link_libraries("test" bot_server_client)
 endif(BUILD_TEST_FILE)

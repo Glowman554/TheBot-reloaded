@@ -12,7 +12,7 @@ int main() {
 	con->authenticate("thebestbot");
 	con->log("cpp", "Hewoo");
 
-	con->config("websocket", "port");
+	std::cout << con->config_helper.get("root", "command_prefix", con).dump() << std::endl;
 	con->tmp("txt", 1000);
 	con->message("owo!ping", "cpp", "cpp", std::vector<std::string>{}, "", std::vector<std::string>{}, 10);
 

@@ -3,6 +3,20 @@
 #include <protocol.h>
 #include <socket.h>
 
+class connection;
+
+namespace helper {
+    class config_helper {
+        public:
+            void on_config(protocol::config config);
+            nlohmann::json get(std::string const& section, std::string const& key, connection* con);
+
+        private:
+            protocol::config config;
+            bool config_ready;
+    };
+}
+
 class connection : public websocket_context {
 public:
 	connection(client* _client);
@@ -20,6 +34,8 @@ public:
 	virtual void on_internal_error(protocol::internal_error pkg);
 	virtual void on_config(protocol::config pkg);
 	virtual void on_auth(protocol::key_auth_response pkg);
+
+	helper::config_helper config_helper;
 
 private:
 	client* _client;

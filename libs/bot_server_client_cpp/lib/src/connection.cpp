@@ -119,7 +119,7 @@ void connection::on_internal_error(protocol::internal_error pkg) {
 }
 
 void connection::on_config(protocol::config pkg) {
-	std::cout << "CFG :" << pkg.key + ":" << pkg.section << " " << pkg.config.dump() << std::endl;
+	this->config_helper.on_config(pkg);
 }
 
 

@@ -15,8 +15,9 @@ include_directories("bot_server_client" ${Boost_INCLUDE_DIR} websocketpp json/si
 target_link_libraries("bot_server_client" ${Boost_LIBRARIES} pthread)
 
 
-add_executable("test" test/main.cpp)
-target_link_libraries("test" bot_server_client)
+option(BUILD_TEST_FILE "Build test/main.cpp" OFF)
 
-add_executable("test2" test/test.cpp)
-include_directories("bot_server_client" json/single_include)
+if (BUILD_TEST_FILE)
+    add_executable("test" test/main.cpp)
+    target_link_libraries("test" bot_server_client)
+endif(BUILD_TEST_FILE)

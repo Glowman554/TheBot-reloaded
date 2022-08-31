@@ -98,6 +98,9 @@ void connection::on_message(websocketpp::connection_hdl hdl, client::message_ptr
 			pkg_case(_internal_error, internal_error, on_internal_error);
 			pkg_case(_config_response, config, on_config);
 			pkg_case(_key_auth_response, key_auth_response, on_auth);
+			pkg_case(_message_send_media, message_send_media, on_message_send_media);
+			pkg_case(_set_bot_status, set_bot_status, on_set_bot_status);
+			pkg_case(_tmp_file_response, tmp, on_tmp);
 
 		default:
 			std::cout << "Unknown packet " << pkg_id << "!" << std::endl;
@@ -122,7 +125,18 @@ void connection::on_config(protocol::config pkg) {
 	this->config_helper.on_config(pkg);
 }
 
-
 void connection::on_auth(protocol::key_auth_response pkg) {
 	std::cout << "AUTH " << pkg.success << std::endl;
+}
+
+void connection::on_message_send_media(protocol::message_send_media pkg) {
+	std::cout << "MSG " << pkg.type << " " << pkg.path << " " << pkg.id << std::endl;
+}
+
+void connection::on_set_bot_status(protocol::set_bot_status pkg) {
+	std::cout << "STATUS " << pkg.status << std::endl;
+}
+
+void connection::on_tmp(protocol::tmp pkg) {
+	std::cout << "TMP " << pkg.path << " " << pkg.ext << std::endl;
 }

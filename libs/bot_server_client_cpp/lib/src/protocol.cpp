@@ -20,3 +20,15 @@ pkg_parser_impl(config) {
 pkg_parser_impl(key_auth_response) {
 	return {.success = json["success"]};
 }
+
+pkg_parser_impl(message_send_media) {
+	return {.type = json["type"], .path = json["path"], .id = json["id"]};
+}
+
+pkg_parser_impl(set_bot_status) {
+	return {.status = json["status"]};
+}
+
+pkg_parser_impl(tmp) {
+	return {.path = json["path"], .ext = json["ext"]};
+}

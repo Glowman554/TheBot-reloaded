@@ -34,6 +34,9 @@ public:
 	virtual void on_internal_error(protocol::internal_error pkg);
 	virtual void on_config(protocol::config pkg);
 	virtual void on_auth(protocol::key_auth_response pkg);
+	virtual void on_message_send_media(protocol::message_send_media pkg);
+	virtual void on_set_bot_status(protocol::set_bot_status pkg);
+	virtual void on_tmp(protocol::tmp pkg);
 
 	helper::config_helper config_helper;
 

@@ -49,6 +49,27 @@ namespace protocol {
 		nlohmann::json config;
 	};
 
+	enum message_send_media_type {
+		picture = 1,
+		video = 2,
+		sticker = 3,
+		audio = 4,
+	};
+	struct message_send_media {
+		message_send_media_type type;
+		std::string path;
+		int id;
+	};
+
+	struct set_bot_status {
+		std::string status;
+	};
+
+	struct tmp {
+		std::string path;
+		std::string ext;
+	};
+
 #define pkg_parser(pkg) pkg pkg(nlohmann::json json)
 #define pkg_parser_impl(pkg) pkg protocol::parser::pkg(nlohmann::json json)
 
@@ -58,5 +79,8 @@ namespace protocol {
 		pkg_parser(internal_error);
 		pkg_parser(config);
 		pkg_parser(key_auth_response);
+		pkg_parser(message_send_media);
+		pkg_parser(set_bot_status);
+		pkg_parser(tmp);
 	} // namespace parser
 } // namespace protocol

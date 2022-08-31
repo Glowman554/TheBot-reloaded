@@ -15,6 +15,16 @@ namespace helper {
             protocol::config config;
             bool config_ready;
     };
+
+	class tmp_helper {
+        public:
+            void on_tmp(protocol::tmp tmp);
+           	std::string get(std::string const& ext, int ttl, connection* con);
+
+        private:
+            protocol::tmp tmp;
+            bool tmp_ready;
+    };
 }
 
 class connection : public websocket_context {
@@ -39,6 +49,7 @@ public:
 	virtual void on_tmp(protocol::tmp pkg);
 
 	helper::config_helper config_helper;
+	helper::tmp_helper tmp_helper;
 
 private:
 	client* _client;

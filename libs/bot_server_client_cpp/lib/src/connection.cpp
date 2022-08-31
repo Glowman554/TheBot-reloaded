@@ -138,5 +138,5 @@ void connection::on_set_bot_status(protocol::set_bot_status pkg) {
 }
 
 void connection::on_tmp(protocol::tmp pkg) {
-	std::cout << "TMP " << pkg.path << " " << pkg.ext << std::endl;
+	this->tmp_helper.on_tmp(pkg);
 }

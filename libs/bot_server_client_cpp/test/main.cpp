@@ -13,7 +13,8 @@ int main() {
 	con->log("cpp", "Hewoo");
 
 	std::cout << con->config_helper.get("root", "command_prefix", con).dump() << std::endl;
-	con->tmp("txt", 1000);
+	std::cout << con->tmp_helper.get("txt", 10, con) << std::endl;
+	
 	con->message("owo!ping", "cpp", "cpp", std::vector<std::string>{}, "", std::vector<std::string>{}, 10);
 
 	auto sock = endp.get(id);

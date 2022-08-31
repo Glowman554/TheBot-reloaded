@@ -16,3 +16,18 @@ nlohmann::json config_helper::get(std::string const& section, std::string const&
 
 	return this->config.config;
 }
+
+void tmp_helper::on_tmp(protocol::tmp tmp) {
+	this->tmp = tmp;
+	this->tmp_ready = true;
+}
+
+std::string tmp_helper::get(std::string const& ext, int ttl, connection* con) {
+	this->tmp_ready = false;
+
+	con->tmp(ext, ttl);
+
+	while (!this->tmp_ready) {}
+
+	return this->tmp.path;
+}

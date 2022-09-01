@@ -22,9 +22,11 @@ async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebS
 	var command_event = new CommandEventImpl(socket, pkg);
 
 	await event.handle<to_server.on_message_pkg>("on_message", pkg);
-	await event.handle<CommandEvent>("on_message_ce", new CommandEvent(command_event));
 
-	await command_manager.on_command(new CommandEvent(command_event));
+	var ce = new CommandEvent(command_event);
+	await event.handle<CommandEvent>("on_message_ce", ce);
+
+	await command_manager.on_command(ce);
 }
 
 async function handle_log_pkg(pkg: to_server.log_pkg, socket: WebSocket) {

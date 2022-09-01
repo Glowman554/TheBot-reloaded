@@ -6,7 +6,10 @@ fmt-commit:
 	git add .
 	git commit -m "reformat code"
 
-build:
+build_prepare:
+	make -C apps/telegram_client
+
+build: build_prepare
 	make -C deno
 	sudo docker-compose build
 

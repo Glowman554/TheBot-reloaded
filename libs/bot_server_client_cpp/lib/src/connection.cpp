@@ -27,7 +27,7 @@ void connection::log(std::string const& client_name, std::string const& msg) {
 	this->send(pkg.dump(), this->_client);
 }
 
-void connection::message(std::string const& msg, std::string const& user_id, std::string const& chat_id, std::vector<std::string> const& mentions, std::string const& quote_text, std::vector<std::string> const& files, int id) {
+void connection::message(std::string const& msg, std::string const& user_id, std::string const& chat_id, std::vector<std::string> const& mentions, std::optional<std::string> quote_text, std::vector<std::string> const& files, int id) {
 	this->await();
 
 	nlohmann::json pkg_data;
@@ -37,7 +37,9 @@ void connection::message(std::string const& msg, std::string const& user_id, std
 	pkg_data["chat_id"] = user_id;
 	pkg_data["user_id"] = user_id;
 	pkg_data["mentions"] = mentions;
-	pkg_data["quote_text"] = quote_text;
+	if (quote_text.has_value()) {
+		pkg_data["quote_text"] = quote_text.value();
+	}
 	pkg_data["files"] = files;
 	pkg_data["id"] = id;
 

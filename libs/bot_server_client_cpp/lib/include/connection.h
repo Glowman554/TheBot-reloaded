@@ -2,6 +2,7 @@
 
 #include <protocol.h>
 #include <socket.h>
+#include <optional>
 
 class connection;
 
@@ -35,7 +36,7 @@ public:
 
 	void authenticate(std::string const& token);
 	void log(std::string const& client_name, std::string const& msg);
-	void message(std::string const& msg, std::string const& user_id, std::string const& chat_id, std::vector<std::string> const& mentions, std::string const& quote_text, std::vector<std::string> const& files, int id);
+	void message(std::string const& msg, std::string const& user_id, std::string const& chat_id, std::vector<std::string> const& mentions, std::optional<std::string> quote_text, std::vector<std::string> const& files, int id);
 	void config(std::string const& section, std::string const& key);
 	void tmp(std::string const& ext, int ttl);
 

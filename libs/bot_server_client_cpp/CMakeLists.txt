@@ -5,6 +5,8 @@ find_package(Boost 1.40 COMPONENTS program_options REQUIRED)
 set(BSC_INCLUDE ${Boost_INCLUDE_DIR} ${PROJECT_SOURCE_DIR}/websocketpp ${PROJECT_SOURCE_DIR}/json/single_include ${PROJECT_SOURCE_DIR}/lib/include)
 set(BSC_INCLUDE_P ${BSC_INCLUDE} PARENT_SCOPE)
 
+set (CMAKE_CXX_STANDARD 20)
+
 add_library("bot_server_client" 
     lib/src/socket.cpp
     lib/src/connection.cpp

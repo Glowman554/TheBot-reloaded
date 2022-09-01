@@ -3,6 +3,8 @@ project("telegram_client")
 add_subdirectory("bot_server_client")
 add_subdirectory(tgbot-cpp)
 
+set (CMAKE_CXX_STANDARD 20)
+
 add_compile_options(
 	-g
 )

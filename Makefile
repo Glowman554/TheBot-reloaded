@@ -21,7 +21,6 @@ down:
 
 update:
 	git pull
-	make down
 	make up-detach
 
 run-server:

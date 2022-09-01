@@ -63,7 +63,11 @@ int main() {
 		if (StringTools::startsWith(message->text, "/start")) {
 			return;
 		}
-		con->message(message->text, "cpp", "cpp", std::vector<std::string> {}, {}, std::vector<std::string> {}, id_add(message->chat->id));
+
+		std::string user_id = std::to_string(message->from->id);
+		std::string chat_id = std::to_string(message->chat->id);
+
+		con->message(message->text, user_id, chat_id, std::vector<std::string> {}, {}, std::vector<std::string> {}, id_add(message->chat->id));
 	});
 
 	try {

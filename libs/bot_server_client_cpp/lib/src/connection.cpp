@@ -34,7 +34,7 @@ void connection::message(std::string const& msg, std::string const& user_id, std
 
 	pkg_data["message"] = msg;
 	pkg_data["user_id"] = user_id;
-	pkg_data["chat_id"] = user_id;
+	pkg_data["chat_id"] = chat_id;
 	pkg_data["user_id"] = user_id;
 	pkg_data["mentions"] = mentions;
 	if (quote_text.has_value()) {

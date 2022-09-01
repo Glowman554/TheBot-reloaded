@@ -3,7 +3,7 @@ import { BackupProvider, random_id } from "../backup/backup_provider.ts";
 import { log } from "../logger.ts";
 
 export interface ConfigSections {
-	[key: string]: { [key: string]: object | string };
+	[key: string]: { [key: string]: any };
 }
 
 export class ConfigParser implements BackupProvider {
@@ -48,7 +48,7 @@ export class ConfigParser implements BackupProvider {
 		// log("config", this.gen());
 	}
 
-	get(key: string, section: string = "root"): object | string {
+	get(key: string, section: string = "root"): any {
 		if (this.config_sections[section] == null) {
 			throw new Error(`Section ${section} not found`);
 		}

@@ -29,7 +29,7 @@ public:
 private:
 	int id;
 	websocketpp::connection_hdl hdl;
-	bool connected = false;
+	std::atomic<bool> connected;
 };
 
 class websocket_endpoint {

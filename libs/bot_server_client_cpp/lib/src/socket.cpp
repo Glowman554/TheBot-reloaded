@@ -3,15 +3,16 @@
 #include <iostream>
 
 websocket_context::websocket_context() {
+	this->connected.store(false);
 }
 
 void websocket_context::on_open(client* c, websocketpp::connection_hdl hdl) {
-	this->connected = true;
+	this->connected.store(true);
 	std::cout << "on_open()" << std::endl;
 }
 
 void websocket_context::on_fail(client* c, websocketpp::connection_hdl hdl) {
-	this->connected = false;
+	this->connected.store(false);
 	std::cout << "on_fail()" << std::endl;
 }
 
@@ -22,7 +23,7 @@ void websocket_context::on_message(websocketpp::connection_hdl hdl, client::mess
 }
 
 void websocket_context::on_close(client* c, websocketpp::connection_hdl hdl) {
-	this->connected = false;
+	this->connected.store(false);
 	std::cout << "on_close()" << std::endl;
 }
 

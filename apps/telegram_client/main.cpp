@@ -5,6 +5,7 @@
 #include <tgbot/tgbot.h>
 #include <fstream>
 #include <nlohmann/json.hpp>
+#include <mime.h>
 
 #define MAX_IDS 1000
 std::atomic<int64_t> ids[MAX_IDS];
@@ -37,6 +38,14 @@ std::string read_from_file(std::string const& file) {
 	return buf.str();
 }
 
+std::string extension(std::string const& file_name) {
+	int position = file_name.find_last_of(".");
+
+	std::string result = file_name.substr(position + 1);
+
+	return result;
+}
+
 TgBot::Bot bot = TgBot::Bot("");
 
 class custom_connection : public connection {
@@ -56,16 +65,16 @@ class custom_connection : public connection {
 		virtual void on_message_send_media(protocol::message_send_media pkg) override {
 			switch (pkg.type) {
 				case protocol::audio:
-					bot.getApi().sendAudio(id_get(pkg.id), pkg.path);
+					bot.getApi().sendAudio(id_get(pkg.id), TgBot::InputFile::fromFile(pkg.path, mime(extension(pkg.path))));
 					break;
 				case protocol::picture:
-					bot.getApi().sendPhoto(id_get(pkg.id), pkg.path);
+					bot.getApi().sendPhoto(id_get(pkg.id), TgBot::InputFile::fromFile(pkg.path, mime(extension(pkg.path))));
 					break;
 				case protocol::sticker:
-					bot.getApi().sendSticker(id_get(pkg.id), pkg.path);
+					bot.getApi().sendSticker(id_get(pkg.id), TgBot::InputFile::fromFile(pkg.path, mime(extension(pkg.path))));
 					break;
 				case protocol::video:
-					bot.getApi().sendVideo(id_get(pkg.id), pkg.path);
+					bot.getApi().sendVideo(id_get(pkg.id), TgBot::InputFile::fromFile(pkg.path, mime(extension(pkg.path))));
 					break;
 			}
 		}

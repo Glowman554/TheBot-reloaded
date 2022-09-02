@@ -131,12 +131,19 @@ int main(int argc, char* argv[]) {
 		std::string user_id = std::to_string(message->from->id);
 		std::string chat_id = std::to_string(message->chat->id);
 
-		con->message(message->text, user_id, chat_id, std::vector<std::string> {}, {}, std::vector<std::string> {}, id_add(message->chat->id));
+		std::optional<std::string> quote_text = {};
+		if (message->replyToMessage) {
+			quote_text = message->replyToMessage->text;
+		}
+
+		con->message(message->text, user_id, chat_id, std::vector<std::string> {}, quote_text, std::vector<std::string> {}, id_add(message->chat->id));
 	});
 
 	try {
 		printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
 		TgBot::TgLongPoll longPoll(bot);
+		bot.getApi().deleteWebhook();
+
 		while (sock->get_connected()) {
 			printf("Long poll started\n");
 			longPoll.start();

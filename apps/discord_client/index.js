@@ -56,6 +56,8 @@ set_remote_log(connection_info.remote_log);
 set_client_name("discord");
 client.connect_server(connection_info.url, connection_info.key);
 
+var status = "your mom";
+
 var dc_client = new Client({
 	intents: [0b11111111111111111],
 	partials: [Partials.Channel],
@@ -121,6 +123,14 @@ export async function handle_key_auth_response(pkg) {
 		log("Auth success!");
 		if (!client_logged_in) {
 			dc_client.login(String(await protocol.helper.config_get("discord", "token", client.connection)));
+
+			status = `${await protocol.helper.config_get("root", "command_prefix", client.connection)}help`;
+
+			setInterval(async () => {
+				log("Updating status...");
+				dc_client.user.setActivity(status, { type: ActivityType.Streaming, url: "https://www.twitch.tv/glowman434" });
+			}, 1000 * 60);
+
 			client_logged_in = true;
 		}
 
@@ -175,11 +185,13 @@ export async function handle_internal_error(pkg) {
 export async function handle_set_bot_status(pkg) {
 	log("Setting bot status to " + pkg.status);
 
-	client.user.setActivity({
+	dc_client.user.setActivity({
 		type: ActivityType.Streaming,
 		url: "https://twitch.tv/glowman434",
 		name: pkg.status,
 	});
+
+	status = pkg.status;
 }
 
 process.on("uncaughtException", async (error) => {

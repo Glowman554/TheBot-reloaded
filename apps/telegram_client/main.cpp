@@ -53,6 +53,33 @@ class custom_connection : public connection {
 			bot.getApi().sendMessage(id_get(pkg.id), pkg.message);
 		}
 
+		virtual void on_message_send_media(protocol::message_send_media pkg) override {
+			switch (pkg.type) {
+				case protocol::audio:
+					bot.getApi().sendAudio(id_get(pkg.id), pkg.path);
+					break;
+				case protocol::picture:
+					bot.getApi().sendPhoto(id_get(pkg.id), pkg.path);
+					break;
+				case protocol::sticker:
+					bot.getApi().sendSticker(id_get(pkg.id), pkg.path);
+					break;
+				case protocol::video:
+					bot.getApi().sendVideo(id_get(pkg.id), pkg.path);
+					break;
+			}
+		}
+
+		virtual void on_internal_error(protocol::internal_error pkg) override {
+			if (pkg.cause["id"] == protocol::to_sv::_on_message) {
+				int id = pkg.cause["data"]["id"];
+
+				bot.getApi().sendMessage(id_get(id), "Internal error: " + pkg.message);
+			} else {
+				std::cout << "Oops: " << pkg.message << std::endl;
+			}
+		}
+
 		virtual void on_open(client* c, websocketpp::connection_hdl hdl) override {
 			std::cout << "In custom on_open" << std::endl;
 
@@ -87,7 +114,7 @@ int main(int argc, char* argv[]) {
 	new(&bot) TgBot::Bot(con->config_helper.get("telegram", "token", con));
 
 	bot.getEvents().onAnyMessage([&con](TgBot::Message::Ptr message) {
-		printf("User %d wrote %s\n", message->from->id, message->text.c_str());
+		printf("User %ld wrote %s\n", message->from->id, message->text.c_str());
 		if (StringTools::startsWith(message->text, "/start")) {
 			return;
 		}

@@ -6,6 +6,7 @@
 #include <fstream>
 #include <nlohmann/json.hpp>
 #include <mime.h>
+#include <assert.h>
 
 #define MAX_IDS 1000
 std::atomic<int64_t> ids[MAX_IDS];
@@ -44,6 +45,10 @@ std::string extension(std::string const& file_name) {
 	std::string result = file_name.substr(position + 1);
 
 	return result;
+}
+
+void download(std::string const& url, std::string const& path) {
+	assert(system(("curl " + url + " -o " + path).c_str()) == 0);
 }
 
 TgBot::Bot bot = TgBot::Bot("");
@@ -131,12 +136,38 @@ int main(int argc, char* argv[]) {
 		std::string user_id = std::to_string(message->from->id);
 		std::string chat_id = std::to_string(message->chat->id);
 
+		std::vector<std::string> files {};
+
 		std::optional<std::string> quote_text = {};
 		if (message->replyToMessage) {
 			quote_text = message->replyToMessage->text;
 		}
 
-		con->message(message->text, user_id, chat_id, std::vector<std::string> {}, quote_text, std::vector<std::string> {}, id_add(message->chat->id));
+		for (int i = 0; i < message->photo.size(); i++) {
+			std::string url = "https://api.telegram.org/file/bot" + std::string(con->config_helper.get("telegram", "token", con)) + "/" + bot.getApi().getFile(message->photo[i]->fileId)->filePath;
+			std::string path = con->tmp_helper.get(extension(url), 1000 * 60 * 5, con);
+			files.push_back(path);
+
+			download(url, path);
+		}
+
+		if (message->audio) {
+			std::string url = "https://api.telegram.org/file/bot" + std::string(con->config_helper.get("telegram", "token", con)) + "/" + bot.getApi().getFile(message->audio->fileId)->filePath;
+			std::string path = con->tmp_helper.get(extension(url), 1000 * 60 * 5, con);
+			files.push_back(path);
+
+			download(url, path);
+		}
+
+		if (message->document) {
+			std::string url = "https://api.telegram.org/file/bot" + std::string(con->config_helper.get("telegram", "token", con)) + "/" + bot.getApi().getFile(message->document->fileId)->filePath;
+			std::string path = con->tmp_helper.get(extension(url), 1000 * 60 * 5, con);
+			files.push_back(path);
+
+			download(url, path);
+		}
+
+		con->message(message->caption.length() != 0 ? message->caption : message->text, user_id, chat_id, std::vector<std::string> {}, quote_text, files, id_add(message->chat->id));
 	});
 
 	try {

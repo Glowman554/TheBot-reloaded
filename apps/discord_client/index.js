@@ -109,7 +109,7 @@ dc_client.on("messageCreate", async (msg) => {
 	}
 
 	var id = message_register(msg);
-	protocol.to_server.send_on_message(msg.content, msg.author.id, msg.channelId, msg.mentions.users.map(m => m.id), quote_text, files, id);
+	protocol.to_server.send_on_message(msg.content, msg.author.id, msg.channelId, msg.mentions.users.map((m) => m.id), quote_text, files, id);
 });
 
 dc_client.on("ready", () => {

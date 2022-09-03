@@ -5,7 +5,9 @@ import { log } from "../logger.ts";
 
 var default_roles: string[] = [];
 
-interface PermissionsStore { [key: string]: string[] };
+interface PermissionsStore {
+	[key: string]: string[];
+}
 
 function load_permissions_file() {
 	var permission_file = String(config.get("permissions_file"));
@@ -61,15 +63,15 @@ export function get_roles(user: string): string[] {
 	return loaded_user;
 }
 
-export function push_role(user: string, permission: string): void  {
+export function push_role(user: string, permission: string): void {
 	var permissions = load_permissions_file();
 
 	var loaded_user = permissions[user];
 	if (loaded_user == undefined) {
 		log("permission", "creating new user: " + user);
-		permissions[user] = [ 
+		permissions[user] = [
 			...default_roles,
-			...[permission]
+			...[permission],
 		];
 		save_permissions_file(permissions);
 	} else {
@@ -78,7 +80,7 @@ export function push_role(user: string, permission: string): void  {
 	}
 }
 
-export function remove_role(user: string, permission: string): void  {
+export function remove_role(user: string, permission: string): void {
 	var permissions = load_permissions_file();
 
 	var loaded_user = permissions[user];

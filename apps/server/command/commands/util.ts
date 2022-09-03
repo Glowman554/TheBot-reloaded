@@ -63,15 +63,15 @@ export default class Utils implements loadable {
 			} as CommandExecutor, "eval"),
 		);
 
-		command_manager.add_command(new Command("role", "Manage roles!", help_text("Use '<prefix>role [list, add, remove]' to manage roles!"), {
-			execute: async (event: CommandEvent): Promise<CommandResponse> => {
-				if (event.interface.args.length < 2) {
-					return fail;
-				}
+		command_manager.add_command(
+			new Command("role", "Manage roles!", help_text("Use '<prefix>role [list, add, remove]' to manage roles!"), {
+				execute: async (event: CommandEvent): Promise<CommandResponse> => {
+					if (event.interface.args.length < 2) {
+						return fail;
+					}
 
-				switch (event.interface.args[0]) {
-					case "add":
-						{
+					switch (event.interface.args[0]) {
+						case "add": {
 							if (event.interface.args.length != 3) {
 								return fail;
 							}
@@ -87,12 +87,11 @@ export default class Utils implements loadable {
 
 							return {
 								is_response: true,
-								response: `Successfully added role ${role} to ${event.interface.args[1]}!`
+								response: `Successfully added role ${role} to ${event.interface.args[1]}!`,
 							};
 						}
-					
-					case "list":
-						{
+
+						case "list": {
 							if (event.interface.args.length != 2) {
 								return fail;
 							}
@@ -107,12 +106,11 @@ export default class Utils implements loadable {
 
 							return {
 								is_response: true,
-								response: `${event.interface.args[1]} has the following roles: ${roles.join(", ")}`
+								response: `${event.interface.args[1]} has the following roles: ${roles.join(", ")}`,
 							};
 						}
 
-					case "remove":
-						{
+						case "remove": {
 							if (event.interface.args.length != 3) {
 								return fail;
 							}
@@ -128,14 +126,15 @@ export default class Utils implements loadable {
 
 							return {
 								is_response: true,
-								response: `Successfully removed role ${role} from ${event.interface.args[1]}!`
+								response: `Successfully removed role ${role} from ${event.interface.args[1]}!`,
 							};
 						}
-				
-					default:
-						return fail;
-				}
-			}
-		} as CommandExecutor, "role"));
+
+						default:
+							return fail;
+					}
+				},
+			} as CommandExecutor, "role"),
+		);
 	}
 }

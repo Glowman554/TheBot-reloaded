@@ -5,13 +5,26 @@ import { log } from "../logger.ts";
 
 var default_roles: string[] = [];
 
+interface PermissionsStore { [key: string]: string[] };
+
+function load_permissions_file() {
+	var permission_file = String(config.get("permissions_file"));
+	var permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as PermissionsStore;
+
+	return permissions;
+}
+
+function save_permissions_file(permissions: PermissionsStore) {
+	var permission_file = String(config.get("permissions_file"));
+	Deno.writeTextFileSync(permission_file, JSON.stringify(permissions, null, "\t"));
+}
+
 export function check_permission(user: string, permission: string | undefined): boolean {
 	if (permission == undefined) {
 		return true;
 	}
 
-	var permission_file = String(config.get("permissions_file"));
-	var permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as { [key: string]: string[] };
+	var permissions = load_permissions_file();
 	// log("debug", "permissions: " + JSON.stringify(permissions, null, "\t"));
 
 	var loaded_user = permissions[user];
@@ -20,7 +33,7 @@ export function check_permission(user: string, permission: string | undefined): 
 		log("permission", "creating new user: " + user);
 		permissions[user] = default_roles;
 		loaded_user = default_roles;
-		Deno.writeTextFileSync(permission_file, JSON.stringify(permissions, null, "\t"));
+		save_permissions_file(permissions);
 	}
 
 	for (var i = 0; i < loaded_user.length; i++) {
@@ -31,6 +44,52 @@ export function check_permission(user: string, permission: string | undefined): 
 	}
 
 	return false;
+}
+
+export function get_roles(user: string): string[] {
+	log("debug", user);
+	var permissions = load_permissions_file();
+
+	var loaded_user = permissions[user];
+	if (loaded_user == undefined) {
+		log("permission", "creating new user: " + user);
+		permissions[user] = default_roles;
+		loaded_user = default_roles;
+		save_permissions_file(permissions);
+	}
+
+	return loaded_user;
+}
+
+export function push_role(user: string, permission: string): void  {
+	var permissions = load_permissions_file();
+
+	var loaded_user = permissions[user];
+	if (loaded_user == undefined) {
+		log("permission", "creating new user: " + user);
+		permissions[user] = [ 
+			...default_roles,
+			...[permission]
+		];
+		save_permissions_file(permissions);
+	} else {
+		loaded_user.push(permission);
+		save_permissions_file(permissions);
+	}
+}
+
+export function remove_role(user: string, permission: string): void  {
+	var permissions = load_permissions_file();
+
+	var loaded_user = permissions[user];
+	if (loaded_user == undefined) {
+		log("permission", "creating new user: " + user);
+		permissions[user] = default_roles;
+		save_permissions_file(permissions);
+	} else {
+		loaded_user.splice(loaded_user.indexOf(permission), 1);
+		save_permissions_file(permissions);
+	}
 }
 
 export class PermissionsBackup implements BackupProvider {

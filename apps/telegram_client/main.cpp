@@ -128,7 +128,8 @@ int main(int argc, char* argv[]) {
 	new(&bot) TgBot::Bot(con->config_helper.get("telegram", "token", con));
 
 	bot.getEvents().onAnyMessage([&con](TgBot::Message::Ptr message) {
-		printf("User %ld wrote %s\n", message->from->id, message->text.c_str());
+		// printf("User %ld wrote %s\n", message->from->id, message->text.c_str());
+		std::cout << "User " << message->from->id << " wrote " << message->text << std::endl;
 		if (StringTools::startsWith(message->text, "/start")) {
 			return;
 		}
@@ -171,15 +172,15 @@ int main(int argc, char* argv[]) {
 	});
 
 	try {
-		printf("Bot username: %s\n", bot.getApi().getMe()->username.c_str());
+		std::cout << "Bot username: " << bot.getApi().getMe()->username << std::endl;
 		TgBot::TgLongPoll longPoll(bot);
 		bot.getApi().deleteWebhook();
 
 		while (sock->get_connected()) {
-			printf("Long poll started\n");
+			std::cout << "Long poll started" << std::endl;
 			longPoll.start();
 		}
 	} catch (TgBot::TgException& e) {
-		printf("error: %s\n", e.what());
+		std::cout << "error: " << e.what() << std::endl;
 	}
 }

@@ -11,7 +11,7 @@ add_compile_options(
 )
 
 add_executable("telegram_client" 
-	main.cpp
+	src/main.cpp
 )
 include_directories("telegram_client" ${BSC_INCLUDE_P} ${MIME_INCLUDE_P})
 target_link_libraries("telegram_client" BSC mime TgBot)

@@ -1,0 +1,11 @@
+{
+	"name": "Bot server client",
+	"description": "Make bot clients for my bot server",
+	"author": "glowman554",
+	"version": "0.0.1",
+	"task_dir": "tasks",
+	"variables": {
+		"cflags": "-I./include -I../websocketpp -I../json/single_include"
+	},
+	"non_silent": false
+}

@@ -6,4 +6,4 @@
 	url = https://github.com/nlohmann/json
 [submodule "apps/telegram_client/tgbot-cpp"]
 	path = apps/telegram_client/tgbot-cpp
-	url = https://github.com/reo7sp/tgbot-cpp
+	url = https://github.com/Glowman554/tgbot-cpp

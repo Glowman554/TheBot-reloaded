@@ -1,0 +1,11 @@
+{
+	"name": "telegram_client",
+	"description": "Telegram client",
+	"author": "glowman554",
+	"version": "0.0.1",
+	"task_dir": "tasks",
+	"variables": {
+		"cflags": "-I../bot_server_client/lib/include -I../bot_server_client/json/single_include -I../bot_server_client/websocketpp -I../tgbot-cpp/include -I../mime"
+	},
+	"non_silent": true
+}

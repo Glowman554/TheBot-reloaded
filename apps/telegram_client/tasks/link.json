@@ -1,0 +1,15 @@
+{
+	"name": "link",
+	"commands": [
+		"g++ ${findall o} -o telegram_client ../mime/libmime.a ../bot_server_client/libBSC.a ../tgbot-cpp/libTgBot.a -lboost_system -lssl -lcrypto"
+	],
+	"dependencies": [
+		"dep_mime",
+		"dep_bsc",
+		"dep_tgbot",
+		"compile"
+	],
+	"run_after_task": [],
+	"allow_fail": false,
+	"run_in": "src"
+}

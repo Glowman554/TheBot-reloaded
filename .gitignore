@@ -8,3 +8,8 @@ tmp
 permissions.json
 0
 build
+
+*.o
+*.a
+*.cache
+*.log

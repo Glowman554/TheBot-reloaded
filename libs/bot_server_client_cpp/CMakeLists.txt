@@ -1,4 +1,4 @@
-project("bot_server_client")
+project("BSC")
 
 find_package(Boost 1.40 COMPONENTS program_options REQUIRED)
 
@@ -7,14 +7,14 @@ set(BSC_INCLUDE_P ${BSC_INCLUDE} PARENT_SCOPE)
 
 set (CMAKE_CXX_STANDARD 20)
 
-add_library("bot_server_client" 
+add_library("BSC" 
     lib/src/socket.cpp
     lib/src/connection.cpp
     lib/src/protocol.cpp
     lib/src/helper.cpp
 )
-include_directories("bot_server_client" ${BSC_INCLUDE})
-target_link_libraries("bot_server_client" ${Boost_LIBRARIES} pthread)
+include_directories("BSC" ${BSC_INCLUDE})
+target_link_libraries("BSC" ${Boost_LIBRARIES} pthread)
 
 
 option(BUILD_TEST_FILE "Build test/main.cpp" OFF)
@@ -22,5 +22,5 @@ option(BUILD_TEST_FILE "Build test/main.cpp" OFF)
 if (BUILD_TEST_FILE)
     add_executable("test" test/main.cpp)
 	include_directories("test" ${BSC_INCLUDE})
-    target_link_libraries("test" bot_server_client)
+    target_link_libraries("test" BSC)
 endif(BUILD_TEST_FILE)

@@ -6,6 +6,13 @@ WORKDIR /srv
 
 COPY docker_build/. .
 
-RUN mkdir build; cd build; cmake ..; make; cp telegram_client ../ -v
+WORKDIR /srv/build
+
+RUN cmake ..
+RUN make
+RUN cp telegram_client ../ -v
+
+WORKDIR /srv
+RUN strip telegram_client
 
 ENTRYPOINT [ "./telegram_client", "/data/connection.json"]

@@ -18,7 +18,7 @@ var loadables: loadable[] = [
 	new compiler(),
 	new mikki(),
 	new hello(),
-	new anime()
+	new anime(),
 ];
 
 export function load_all_loadables(): void {

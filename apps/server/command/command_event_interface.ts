@@ -39,7 +39,7 @@ export class CommandEventImpl implements CommandEventInterface {
 
 	send_message(message: string): Promise<void> {
 		return new Promise((resolve, reject) => {
-			partition(message, 2000).forEach(m => {
+			partition(message, 2000).forEach((m) => {
 				from_server.send_message(m, this.pkg.id, this.websocket).then(() => {
 					resolve();
 				});

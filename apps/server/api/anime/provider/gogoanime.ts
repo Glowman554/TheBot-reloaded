@@ -1,4 +1,4 @@
-import { Anime, AnimeProvider } from "../index.ts";
+import { Anime, AnimeProvider } from "../anime.ts";
 import { DOMParser, Element } from "https://deno.land/x/deno_dom/deno-dom-wasm.ts";
 
 

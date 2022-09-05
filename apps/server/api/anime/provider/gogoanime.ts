@@ -32,10 +32,9 @@ export class Gogoanime implements AnimeProvider {
 			var title = anime_info.querySelector("h1")?.textContent;
 			var poster = anime_info.querySelector("img")?.getAttribute("src");
 
-			var episodes_element = anime_site_dom.querySelector("#episode_page > li > a");
-			if (!episodes_element) throw new Error("Failed to query!");
+			var episodes_element = anime_site_dom.querySelectorAll("#episode_page > li > a");
 
-			var num_episodes = parseInt(episodes_element.getAttribute("ep_end") || "0");
+			var num_episodes = parseInt((episodes_element[episodes_element.length - 1] as Element).getAttribute("ep_end") || "0");
 
 			results.push(new Anime(title || "null", num_episodes, poster || "null", href));
 		}

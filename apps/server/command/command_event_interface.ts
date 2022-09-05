@@ -1,6 +1,7 @@
 import { CommandEventInterface } from "./command.ts";
 import { from_server, to_server } from "../protocol.ts";
 import { log } from "../logger.ts";
+import { partition } from "./splitter.ts";
 
 export class CommandEventImpl implements CommandEventInterface {
 	websocket: WebSocket;
@@ -38,8 +39,10 @@ export class CommandEventImpl implements CommandEventInterface {
 
 	send_message(message: string): Promise<void> {
 		return new Promise((resolve, reject) => {
-			from_server.send_message(message, this.pkg.id, this.websocket).then(() => {
-				resolve();
+			partition(message, 2000).forEach(m => {
+				from_server.send_message(m, this.pkg.id, this.websocket).then(() => {
+					resolve();
+				});
 			});
 		});
 	}

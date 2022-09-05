@@ -6,6 +6,7 @@ import docker from "./command/commands/docker.ts";
 import compiler from "./command/commands/compiler.ts";
 import mikki from "./command/commands/mikki.ts";
 import hello from "./features/hello.ts";
+import anime from "./command/commands/anime.ts";
 
 export type loadable = { load(): void };
 
@@ -17,6 +18,7 @@ var loadables: loadable[] = [
 	new compiler(),
 	new mikki(),
 	new hello(),
+	new anime()
 ];
 
 export function load_all_loadables(): void {

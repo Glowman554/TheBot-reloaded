@@ -2,7 +2,7 @@ fmt:
 	deno fmt --options-use-tabs --options-line-width 1000 --ignore=libs/bot_server_client_cpp,apps/telegram_client/bot_server_client,apps/telegram_client/tgbot-cpp
 
 fmt-commit:
-	deno fmt --options-use-tabs --options-line-width 1000 --ignore=libs/bot_server_client_cpp,apps/telegram_client/bot_server_client,apps/telegram_client/tgbot-cpp
+	deno fmt --options-use-tabs --options-line-width 1000 --ignore=libs/bot_server_client_cpp,apps/telegram_client/bot_server_client,apps/telegram_client/tgbot-cpp,apps/telegram_client/docker_build
 	git add .
 	git commit -m "reformat code"
 

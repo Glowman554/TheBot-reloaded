@@ -8,7 +8,7 @@ import { check_permission } from "../permission.ts";
 export default class Repeat implements loadable {
 	load(): void {
 		command_manager.add_command(
-			new Command("repeat", "See a cute fox!", help_text("Use '<prefix>fox' to see a cute fox!"), {
+			new Command("repeat", "Repeat a command!", help_text("Use '<prefix>repeat [command]' repeat a command!"), {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length < 2) {
 						return fail;

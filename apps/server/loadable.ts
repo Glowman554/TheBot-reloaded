@@ -20,7 +20,7 @@ var loadables: loadable[] = [
 	new mikki(),
 	new hello(),
 	new anime(),
-	new repeat()
+	new repeat(),
 ];
 
 export function load_all_loadables(): void {

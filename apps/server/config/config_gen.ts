@@ -23,7 +23,7 @@ async function main() {
 	config_gen_add("websocket", "key", undefined);
 	config_gen_add("websocket", "log_packets", false);
 
-	config_gen_add("permissions", "admin", ["crash", "docker", "run-nojail", "eval", "mikki_account", "role"]);
+	config_gen_add("permissions", "admin", ["crash", "docker", "run-nojail", "eval", "mikki_account", "role", "no_limit"]);
 	config_gen_add("permissions", "mikki_manager", ["mikki_account"]);
 
 	config_gen_add("docker", "proxy", "http://localhost:3565/docker/");

@@ -192,6 +192,8 @@ export class MikkiClient {
 			page.text = page_text;
 		}
 
+		page.meta.page_edited = new Date().getTime();
+
 		await this.pages_table.items().edit("id", page_id, page);
 
 		await this.change(`Page ${page.meta.page_title} edited!`);

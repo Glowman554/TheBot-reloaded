@@ -8,6 +8,7 @@
 #include <mime.h>
 #include <assert.h>
 #include <regex>
+#include <boost/algorithm/string/replace.hpp>
 
 #define MAX_IDS 1000
 std::atomic<int64_t> ids[MAX_IDS];
@@ -66,11 +67,17 @@ class custom_connection : public connection {
 			connection::on_message_send(pkg);
             std::string msg = pkg.message;
 
+            std::string to_replace[] = {"_", "*", "[", "]", "(", ")", "~", "`", "#", "+", "-", "=", "|", "{", "}", ".", "!", ">"};
+            for (int i = 0; i < sizeof(to_replace) / sizeof(to_replace[0]); i++) {
+                boost::replace_all(msg, to_replace[i], "\\" + to_replace[i]);
+            }
+
             msg = std::regex_replace(msg, std::regex("<code>"), "`");
             msg = std::regex_replace(msg, std::regex("<bg_code>"), "\n```\n");
             msg = std::regex_replace(msg, std::regex("<bold>"), "*");
             msg = std::regex_replace(msg, std::regex("<italic>"), "_");
 
+                    
 			bot.getApi().sendMessage(id_get(pkg.id), msg, false, 0, std::make_shared<TgBot::GenericReply>(), "MarkdownV2");
 		}
 

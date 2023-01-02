@@ -9,7 +9,7 @@ if ! command -v unzip >/dev/null; then
 	exit 1
 fi
 
-version="v1.27.0"
+version="v1.29.1"
 
 if [ "$OS" = "Windows_NT" ]; then
 	target="x86_64-pc-windows-msvc"

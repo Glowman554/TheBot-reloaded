@@ -44,6 +44,10 @@ async function main() {
 	config_gen_add("backup", "url", undefined);
 	config_gen_add("backup", "token", undefined);
 
+	config_gen_add("chatbot", "chat_ids", []);
+	config_gen_add("chatbot", "key", undefined);
+	config_gen_add("chatbot", "bid", undefined);
+
 	var cfg: ConfigSections = {};
 	var cfg_override: { [key: string]: any } = {};
 

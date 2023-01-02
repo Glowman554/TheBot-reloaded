@@ -14,10 +14,10 @@ export class EventManager {
 	}
 
 	async handle<T>(name: string, ctx: T) {
-		// log("event", "Handling event " + name);
+		log("event", "Handling event " + name);
 
-		var handler = this.event_handlers.find((h) => h.name == name);
-		if (handler) {
+		var handlers = this.event_handlers.filter((h) => h.name == name);
+		for (let handler of handlers) {
 			await (handler as EventHandler<T>).executor(ctx);
 		}
 	}

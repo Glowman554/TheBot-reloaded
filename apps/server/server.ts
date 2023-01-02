@@ -108,7 +108,7 @@ async function reqHandler(req: Request) {
 				await handle_pkg(pkg, ws);
 			} catch (e) {
 				log("error", "Oepsi woepsie: " + e);
-				from_server.send_internal_error(String(e), pkg, ws);
+				from_server.send_internal_error(String("Error"), pkg, ws);
 			}
 		}
 	};

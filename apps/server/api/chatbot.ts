@@ -5,7 +5,7 @@ export async function get_response(message: string, chat: string): Promise<strin
     let bid = config.get("bid", "chatbot");
 
 
-	var res = await (await fetch(`https://api.brainshop.ai/get?bid=${bid}&key=${key}&uid=${encodeURIComponent(chat)}&msg=${encodeURIComponent(message)}`)).json() as {
+	var res = await (await fetch(`http://api.brainshop.ai/get?bid=${bid}&key=${key}&uid=${encodeURIComponent(chat)}&msg=${encodeURIComponent(message)}`)).json() as {
 		cnt: string;
 	};
 

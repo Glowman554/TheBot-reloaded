@@ -14,6 +14,7 @@ function config_gen_add(section: string, key: string, default_value: any) {
 async function main() {
 	config_gen_add("root", "log_folder", "./logs");
 	config_gen_add("root", "tmp_folder", "./tmp");
+	config_gen_add("root", "keystore", "./keystore.txt");
 	config_gen_add("root", "command_prefix", undefined);
 	config_gen_add("root", "permissions_file", "./permissions.json");
 	config_gen_add("root", "hello_on", []);

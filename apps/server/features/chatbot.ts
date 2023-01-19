@@ -6,7 +6,7 @@ import { loadable } from "../loadable.ts";
 import { get_response } from "../api/chatbot.ts";
 
 export function init_chatbot() {
-	var chat_ids = config.get("chat_ids", "chatbot") as string[];
+	var chat_ids = config.get("chat_ids", "chatbot") as string[]; // TODO make this user configurable
 
 	var handler: EventHandler<CommandEvent> = {
 		name: "on_message_ce",

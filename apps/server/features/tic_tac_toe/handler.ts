@@ -1,14 +1,43 @@
-import { CommandEvent } from "../../command/command.ts";
+import { Command, CommandEvent, CommandExecutor, CommandResponse, command_manager, fail } from "../../command/command.ts";
+import { keystore_get, keystore_set } from "../../config/keystore.ts";
 import { event } from "../../event/event.ts";
 import { EventHandler } from "../../event/event_handler.ts";
 import { loadable } from "../../loadable.ts";
+import { help_text } from "../../utils/help.ts";
 import { TicTacToeAi } from "./ai.ts";
 import { TicTacToeFields } from "./fields.ts";
 import { add_parser, try_parse } from "./parser.ts";
 import { EmojiTicTacToeParser } from "./parser/emoji_parser.ts";
 
 export function init_tic_tac_toe() {
-	var chat_ids = [ "1065676335541927976" ]; // TODO make this user configurable
+	var chat_ids = (keystore_get("tic_tac_toe_chat_ids") ?? "").split(";");
+
+	command_manager.add_command(
+		new Command("tic_tac_toe", "Enable / disable tic tac toe in this chat!", help_text("Use '<prefix>tic_tac_toe' [enable/disable] to Enable / disable tic tac toe in this chat!"), {
+			execute: async (event: CommandEvent): Promise<CommandResponse> => {
+				if (event.interface.args.length != 1) {
+					return fail;
+				}
+
+				if (event.interface.args[0] == "enable") {
+					if (!chat_ids.includes(event.interface.chat_id)) {
+						chat_ids.push(event.interface.chat_id);
+					}
+				} else {
+					if (chat_ids.includes(event.interface.chat_id)) {
+						chat_ids.splice(chat_ids.indexOf(event.interface.chat_id), 1);
+					}
+				}
+
+				keystore_set("tic_tac_toe_chat_ids", chat_ids.join());
+
+				return {
+					is_response: true,
+					response: "OK"
+				}
+			},
+		} as CommandExecutor, undefined),
+	);
 
 	var handler: EventHandler<CommandEvent> = {
 		name: "on_message_ce",

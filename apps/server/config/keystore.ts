@@ -1,3 +1,5 @@
+import { BackupProvider, random_id } from "../backup/backup_provider.ts";
+import { supabaseTable } from "https://deno.land/x/supabase_deno@v1.0.5/mod.ts";
 import { log } from "../logger.ts";
 import { config } from "./config.ts";
 
@@ -7,7 +9,7 @@ export interface Keystore {
 
 let keystore: Keystore | null = null;
 
-function keystore_load() {
+export function keystore_load() {
 	let keystore_file = config.get("keystore");
 
 	keystore = {};
@@ -57,5 +59,25 @@ export function keystore_set(key: string, value: string) {
 	} else {
 		keystore_load();
 		keystore_set(key, value);
+	}
+}
+
+export class KeystoreBackup implements BackupProvider {
+	get_table_name() {
+		return "keystore";
+	}
+
+	async backup(table: supabaseTable, id: number) {
+		if (keystore) {
+			for (let key in keystore) {
+				log("keystore", "backing up: " + key);
+				await table.items().add({
+					key: key,
+					value: keystore[key],
+					backup_id: id,
+					id: random_id(),
+				});
+			}
+		}
 	}
 }

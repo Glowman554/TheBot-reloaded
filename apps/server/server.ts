@@ -15,6 +15,7 @@ import { v1 } from "./api/version/v1.ts";
 import { backup } from "./backup/backup_provider.ts";
 import { event } from "./event/event.ts";
 import { EventHandler } from "./event/event_handler.ts";
+import { keystore_load } from "./config/keystore.ts";
 
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
@@ -127,6 +128,7 @@ function main() {
 	init_config(config_file);
 	init_tmp_files();
 	init_command_manager(String(config.get("command_prefix")));
+	keystore_load();
 
 	set_logger({
 		logger: (msg) => log("router", msg),

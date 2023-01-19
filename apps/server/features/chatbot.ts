@@ -27,7 +27,7 @@ export function init_chatbot() {
 					}
 				}
 
-				keystore_set("chatbot_chat_ids", chat_ids.join());
+				keystore_set("chatbot_chat_ids", chat_ids.join(";"));
 
 				return {
 					is_response: true,

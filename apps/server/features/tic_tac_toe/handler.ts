@@ -29,7 +29,7 @@ export function init_tic_tac_toe() {
 					}
 				}
 
-				keystore_set("tic_tac_toe_chat_ids", chat_ids.join());
+				keystore_set("tic_tac_toe_chat_ids", chat_ids.join(";"));
 
 				return {
 					is_response: true,

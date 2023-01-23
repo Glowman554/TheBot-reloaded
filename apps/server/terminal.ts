@@ -19,7 +19,7 @@ function uint8_to_string(uint8array: Uint8Array): string {
 var rl = readline.readline(Deno.stdin);
 
 function input() {
-	rl.next().then((line) => on_line(uint8_to_string(line.value)));
+	rl.next().then((line) => on_line(uint8_to_string(line.value).replaceAll("\r", "")));
 }
 
 async function main() {

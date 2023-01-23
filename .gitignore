@@ -3,6 +3,7 @@ node_modules
 package-lock.json
 logs
 config.cfg
+config.json
 connection.json
 tmp
 permissions.json

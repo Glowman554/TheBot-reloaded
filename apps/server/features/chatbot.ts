@@ -1,5 +1,4 @@
 import { Command, CommandEvent, CommandExecutor, CommandResponse, command_manager, fail } from "../command/command.ts";
-import { config } from "../config/config.ts";
 import { event } from "../event/event.ts";
 import { EventHandler } from "../event/event_handler.ts";
 import { loadable } from "../loadable.ts";
@@ -8,10 +7,11 @@ import { help_text } from "../utils/help.ts";
 import { keystore_get, keystore_set } from "../config/keystore.ts";
 
 export function init_chatbot() {
-	var chat_ids = (keystore_get("chatbot_chat_ids") ?? "").split(";");
+	const chat_ids = (keystore_get("chatbot_chat_ids") ?? "").split(";");
 
 	command_manager.add_command(
 		new Command("chatbot", "Enable / disable the chatbot in this chat!", help_text("Use '<prefix>chatbot' [enable/disable] to Enable / disable the chatbot in this chat!"), {
+			// deno-lint-ignore require-await
 			execute: async (event: CommandEvent): Promise<CommandResponse> => {
 				if (event.interface.args.length != 1) {
 					return fail;
@@ -37,7 +37,7 @@ export function init_chatbot() {
 		} as CommandExecutor, undefined),
 	);
 	
-	var handler: EventHandler<CommandEvent> = {
+	const handler: EventHandler<CommandEvent> = {
 		name: "on_message_ce",
 		async executor(ce: CommandEvent) {
 			if (chat_ids.includes(ce.interface.chat_id)) {

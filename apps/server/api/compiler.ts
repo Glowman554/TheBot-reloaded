@@ -24,7 +24,7 @@ export class CompilerApi {
 
 	async run(command: string): Promise<CompilerResult> {
 		log("compiler", "running: '" + command + "'...");
-		var json = await (await fetch(this.url + "/run", {
+		const json = await (await fetch(this.url + "/run", {
 			method: "POST",
 			body: command,
 		})).json();
@@ -35,7 +35,7 @@ export class CompilerApi {
 
 	async run_nojail(command: string): Promise<CompilerResult> {
 		log("compiler", "running: '" + command + "'...");
-		var json = await (await fetch(this.url + "/run-nojail", {
+		const json = await (await fetch(this.url + "/run-nojail", {
 			method: "POST",
 			body: command,
 		})).json();
@@ -46,7 +46,7 @@ export class CompilerApi {
 
 	async compile_and_run(file: string): Promise<CompilerResult> {
 		log("compiler", "compiling and running: '" + file + "'...");
-		var json = await (await fetch(this.url + "/compile", {
+		const json = await (await fetch(this.url + "/compile", {
 			method: "POST",
 			body: JSON.stringify({
 				file: file.split("/").pop(),
@@ -59,7 +59,7 @@ export class CompilerApi {
 	}
 }
 
-export var compiler: CompilerApi;
+export let compiler: CompilerApi;
 
 export function init_compiler_api(url: string) {
 	log("compiler", "Initializing compiler api...");

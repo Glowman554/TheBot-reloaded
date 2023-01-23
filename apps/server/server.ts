@@ -1,10 +1,10 @@
-import { serve } from "https://deno.land/std/http/mod.ts";
+import { serve } from "https://deno.land/std@0.173.0/http/mod.ts";
 
 import { from_server, to_server } from "./protocol.ts";
 import { log } from "./logger.ts";
 
 import { CommandEventImpl } from "./command/command_event_interface.ts";
-import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, init_command_manager } from "./command/command.ts";
+import { command_manager, CommandEvent, init_command_manager } from "./command/command.ts";
 
 import { config, init_config } from "./config/config.ts";
 
@@ -20,17 +20,17 @@ import { keystore_load } from "./config/keystore.ts";
 async function handle_on_message_pkg(pkg: to_server.on_message_pkg, socket: WebSocket) {
 	await from_server.send_message_ack(pkg.id, socket);
 
-	var command_event = new CommandEventImpl(socket, pkg);
+	const command_event = new CommandEventImpl(socket, pkg);
 
 	await event.handle<to_server.on_message_pkg>("on_message", pkg);
 
-	var ce = new CommandEvent(command_event);
+	const ce = new CommandEvent(command_event);
 	await event.handle<CommandEvent>("on_message_ce", ce);
 
 	await command_manager.on_command(ce);
 }
 
-async function handle_log_pkg(pkg: to_server.log_pkg, socket: WebSocket) {
+function handle_log_pkg(pkg: to_server.log_pkg, _socket: WebSocket) {
 	log(pkg.client_name, pkg.message);
 }
 
@@ -39,7 +39,7 @@ async function handle_config_request(pkg: to_server.config_request_pkg, socket: 
 }
 
 async function handle_tmp_file_request(pkg: to_server.tmp_file_request_pkg, socket: WebSocket) {
-	var file = get_temp_file(pkg.ext, pkg.ttl);
+	const file = get_temp_file(pkg.ext, pkg.ttl);
 	await from_server.send_tmp_file_response(Deno.realPathSync(file.split("/").slice(0, -1).join("/")) + "/" + file.split("/").pop(), pkg.ext, socket);
 }
 
@@ -62,9 +62,9 @@ async function handle_pkg(pkg: to_server.pkg, socket: WebSocket) {
 	}
 }
 
-var { reqHandler: api_handler, router } = create(ErrorMode.ERROR_JSON);
+const { reqHandler: api_handler, router } = create(ErrorMode.ERROR_JSON);
 
-async function reqHandler(req: Request) {
+function reqHandler(req: Request) {
 	if (req.headers.get("upgrade") != "websocket") {
 		return api_handler(req);
 	}
@@ -72,10 +72,10 @@ async function reqHandler(req: Request) {
 	const { socket: ws, response } = Deno.upgradeWebSocket(req);
 	log("server", "New client connected");
 
-	var client_authenticated = false;
+	let client_authenticated = false;
 
-	if (Boolean(config.get("log_packets", "websocket"))) {
-		var old_send = ws.send;
+	if (config.get("log_packets", "websocket")) {
+		const old_send = ws.send;
 		ws.send = async (data: string | Blob | ArrayBufferView | ArrayBufferLike) => {
 			log("pkg", "s -> c " + data);
 			await old_send.call(ws, data);
@@ -83,13 +83,13 @@ async function reqHandler(req: Request) {
 	}
 
 	ws.onmessage = async (e) => {
-		if (Boolean(config.get("log_packets", "websocket"))) {
+		if (config.get("log_packets", "websocket")) {
 			log("pkg", "s <- c " + e.data);
 		}
 
 		if (!client_authenticated) {
 			if (String(e.data).startsWith("auth:")) {
-				var auth_data = String(e.data).substring(5);
+				const auth_data = String(e.data).substring(5);
 				log("server", `Authenticating client using key ${auth_data}`);
 				if (auth_data == config.get("key", "websocket")) {
 					client_authenticated = true;
@@ -104,7 +104,7 @@ async function reqHandler(req: Request) {
 				await from_server.send_key_auth_response(false, ws);
 			}
 		} else {
-			var pkg = JSON.parse(e.data) as to_server.pkg;
+			const pkg = JSON.parse(e.data) as to_server.pkg;
 			try {
 				await handle_pkg(pkg, ws);
 			} catch (e) {
@@ -113,7 +113,7 @@ async function reqHandler(req: Request) {
 			}
 		}
 	};
-	ws.onclose = async (e) => {
+	ws.onclose = (_e) => {
 		log("server", "Client disconnected");
 	};
 
@@ -121,7 +121,7 @@ async function reqHandler(req: Request) {
 }
 
 function main() {
-	var config_file = "config.cfg";
+	let config_file = "config.cfg";
 	if (Deno.args.length > 0) {
 		config_file = Deno.args[0];
 	}
@@ -148,8 +148,9 @@ function main() {
 	setInterval(backup, 1000 * 60 * 60 * 12);
 	backup();
 
-	var handler: EventHandler<to_server.on_message_pkg> = {
+	const handler: EventHandler<to_server.on_message_pkg> = {
 		name: "on_message",
+		// deno-lint-ignore require-await
 		async executor(pkg: to_server.on_message_pkg) {
 			log("message", `${pkg.user_id}: ${pkg.message}`);
 		},

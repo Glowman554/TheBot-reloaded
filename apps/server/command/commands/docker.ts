@@ -2,7 +2,7 @@ import { docker, init_docker_api } from "../../api/docker.ts";
 import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
 import { help_text } from "../../utils/help.ts";
-import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, empty, fail } from "../command.ts";
+import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, fail } from "../command.ts";
 
 export default class Docker implements loadable {
 	load(): void {
@@ -17,20 +17,22 @@ export default class Docker implements loadable {
 
 					switch (event.interface.args[0]) {
 						case "list":
-							if (event.interface.args.length != 1) {
-								return fail;
-							}
+							{
+								if (event.interface.args.length != 1) {
+									return fail;
+								}
 
-							var containers = await docker.list();
-							var message = "";
-							for (var container of containers) {
-								message += container.name + ": " + container.state + "\n";
-							}
+								const containers = await docker.list();
+								let message = "";
+								for (const container of containers) {
+									message += container.name + ": " + container.state + "\n";
+								}
 
-							return {
-								is_response: true,
-								response: message,
-							};
+								return {
+									is_response: true,
+									response: message,
+								};
+							}
 
 						case "start":
 							if (event.interface.args.length != 2) {

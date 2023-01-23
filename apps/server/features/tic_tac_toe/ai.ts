@@ -3,12 +3,12 @@ import { TicTacToeFields } from "./fields.ts";
 interface IsGameOverReturn {
 	over: boolean;
 	winner: TicTacToeFields | null;
-};
+}
 
 interface Move {
 	x: number;
 	y: number;
-};
+}
 
 export class TicTacToeAi {
 	field: TicTacToeFields[][];
@@ -75,7 +75,7 @@ export class TicTacToeAi {
 	}
 
 	private minmax(player: TicTacToeFields, depth: number, is_maximizing: boolean): number {
-		let game_over = this.is_game_over();
+		const game_over = this.is_game_over();
 
 		if (game_over.over) {
 			if (game_over.winner == TicTacToeFields.FIELD_X) {
@@ -123,7 +123,7 @@ export class TicTacToeAi {
 			for (let j = 0; j < this.field[i].length; j++) {
 				if (this.field[i][j] == TicTacToeFields.FIELD_EMPTY) {
 					this.field[i][j] = TicTacToeFields.FIELD_O;
-					let score = this.minmax(TicTacToeFields.FIELD_X, 0, false);
+					const score = this.minmax(TicTacToeFields.FIELD_X, 0, false);
 					this.field[i][j] = TicTacToeFields.FIELD_EMPTY;
 
 					if (score > best_score) {

@@ -1,4 +1,3 @@
-import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
 import { help_text } from "../../utils/help.ts";
 import { response } from "../../utils/response.ts";
@@ -14,7 +13,7 @@ export default class Repeat implements loadable {
 						return fail;
 					}
 
-					let count = parseInt(event.interface.args[0]);
+					const count = parseInt(event.interface.args[0]);
 
 					if (!event.interface.args[1].startsWith(command_manager.prefix)) {
 						event.interface.args[1] = command_manager.prefix + event.interface.args[1];
@@ -34,7 +33,7 @@ export default class Repeat implements loadable {
 							event.interface.args.shift();
 							event.interface.message = event.interface.args.join(" ");
 							event.interface.command = event.interface.args[0];
-							var command_event = new CommandEvent(event.interface);
+							const command_event = new CommandEvent(event.interface);
 
 							for (let i = 0; i < count; i++) {
 								await command_manager.on_command(command_event);

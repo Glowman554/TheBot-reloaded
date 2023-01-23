@@ -10,22 +10,23 @@ export interface BackupProvider {
 }
 
 export async function backup() {
+	// deno-lint-ignore no-explicit-any
 	if (!(config.get("enabled", "backup") as any)) {
 		return;
 	}
 
-	var client = new supabaseClient(config.get("url", "backup") as string, config.get("token", "backup") as string);
+	const client = new supabaseClient(config.get("url", "backup") as string, config.get("token", "backup") as string);
 
-	var providers: BackupProvider[] = [
+	const providers: BackupProvider[] = [
 		config,
 		new PermissionsBackup(),
 		new KeystoreBackup()
 	];
 
-	var backup_id = random_id();
+	const backup_id = random_id();
 	log("backup", "Starting backup with id " + backup_id);
 
-	var scheduled_for_delete = (await client.tables().get("backups").items().all() as { when: string | number; id: number }[]).map((x) => {
+	const scheduled_for_delete = (await client.tables().get("backups").items().all() as { when: string | number; id: number }[]).map((x) => {
 		x.when = new Date(x.when).getTime();
 		return x;
 	}).sort((a, b) => {
@@ -41,11 +42,11 @@ export async function backup() {
 
 	log("backup", "Going to delete " + scheduled_for_delete.join(", "));
 
-	for (let provider of providers) {
-		var table_name = provider.get_table_name();
-		var table = client.tables().get(table_name);
+	for (const provider of providers) {
+		const table_name = provider.get_table_name();
+		const table = client.tables().get(table_name);
 
-		for (let i of scheduled_for_delete) {
+		for (const i of scheduled_for_delete) {
 			await table.items().delete("backup_id", i);
 		}
 
@@ -57,7 +58,7 @@ export async function backup() {
 		id: backup_id,
 	});
 
-	for (let i of scheduled_for_delete) {
+	for (const i of scheduled_for_delete) {
 		await client.tables().get("backups").items().delete("id", i);
 	}
 

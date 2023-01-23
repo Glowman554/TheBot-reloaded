@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 export interface Image {
 	artists: string[];
 	sources: string[];
@@ -59,7 +60,7 @@ export class FurryApi {
 
 	constructor() {
 		this._methods.forEach((m) => {
-			this.methods[m] = async () => {
+			this.methods[m] = () => {
 				return this.random_image(m);
 			};
 		});
@@ -67,9 +68,9 @@ export class FurryApi {
 
 	async random_image(method: string): Promise<string> {
 		while (true) {
-			var res = await (await fetch(`https://v2.yiff.rest/${method}?limit=1&notes=disabled`)).json() as YiffRestResponse;
+			const res = await (await fetch(`https://v2.yiff.rest/${method}?limit=1&notes=disabled`)).json() as YiffRestResponse;
 			if (!res.success) {
-				if (!!res.info) {
+				if (res.info) {
 					console.log(res.error);
 					await new Promise((r) => setTimeout(r, (res.info?.retryAfter || 1) * 1000));
 					continue;

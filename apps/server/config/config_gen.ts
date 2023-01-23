@@ -1,3 +1,4 @@
+// deno-lint-ignore-file no-explicit-any
 import { ConfigParser, ConfigSections } from "./config.ts";
 
 interface ConfigGen {
@@ -6,12 +7,12 @@ interface ConfigGen {
 	default: any;
 }
 
-var config_gen: ConfigGen[] = [];
+const config_gen: ConfigGen[] = [];
 function config_gen_add(section: string, key: string, default_value: any) {
 	config_gen.push({ section: section, key: key, default: default_value });
 }
 
-async function main() {
+function main() {
 	config_gen_add("root", "log_folder", "./logs");
 	config_gen_add("root", "tmp_folder", "./tmp");
 	config_gen_add("root", "keystore", "./keystore.txt");
@@ -49,30 +50,30 @@ async function main() {
 	config_gen_add("chatbot", "key", undefined);
 	config_gen_add("chatbot", "bid", undefined);
 
-	var cfg: ConfigSections = {};
-	var cfg_override: { [key: string]: any } = {};
+	const cfg: ConfigSections = {};
+	let cfg_override: { [key: string]: any } = {};
 
 	try {
 		cfg_override = JSON.parse(Deno.readTextFileSync(Deno.args[0]));
-	} catch (e) {
+	} catch (_e) {
 		console.log("No config override file found");
 	}
 
-	for (var gen of config_gen) {
-		var save_in_config_override = true;
-		var default_value = gen.default !== undefined ? JSON.stringify(gen.default) : undefined;
+	for (const gen of config_gen) {
+		let save_in_config_override = true;
+		let default_value = gen.default !== undefined ? JSON.stringify(gen.default) : undefined;
 		if (cfg_override[":" + gen.section + "." + gen.key] !== undefined) {
 			default_value = cfg_override[":" + gen.section + "." + gen.key];
 			console.log("Overriding " + gen.section + "." + gen.key + " with " + default_value);
 			save_in_config_override = false;
 		}
 
-		var input = prompt(":" + gen.section + "." + gen.key + (default_value !== undefined ? " [" + default_value + "]" : "") + ": ");
+		const input = prompt(":" + gen.section + "." + gen.key + (default_value !== undefined ? " [" + default_value + "]" : "") + ": ");
 		if (!input && default_value === undefined) {
 			throw new Error("No value given for " + gen.section + "." + gen.key);
 		}
 
-		var value = String(input !== null ? input : default_value);
+		const value = String(input !== null ? input : default_value);
 		if (cfg[gen.section] == null) {
 			console.log("created section " + gen.section);
 			cfg[gen.section] = {};
@@ -82,7 +83,7 @@ async function main() {
 			if (save_in_config_override && default_value != value) {
 				cfg_override[":" + gen.section + "." + gen.key] = JSON.parse(value);
 			}
-		} catch (e) {
+		} catch (_e) {
 			cfg[gen.section][gen.key] = value;
 			if (save_in_config_override && default_value != value) {
 				cfg_override[":" + gen.section + "." + gen.key] = value;
@@ -90,7 +91,7 @@ async function main() {
 		}
 	}
 
-	var config_parser = new ConfigParser("");
+	const config_parser = new ConfigParser("");
 	config_parser.config_sections = cfg;
 
 	Deno.writeTextFileSync(Deno.args[0], JSON.stringify(cfg_override, null, "\t"));

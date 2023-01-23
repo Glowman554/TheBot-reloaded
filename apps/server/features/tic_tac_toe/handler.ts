@@ -10,10 +10,11 @@ import { add_parser, try_parse } from "./parser.ts";
 import { EmojiTicTacToeParser } from "./parser/emoji_parser.ts";
 
 export function init_tic_tac_toe() {
-	var chat_ids = (keystore_get("tic_tac_toe_chat_ids") ?? "").split(";");
+	const chat_ids = (keystore_get("tic_tac_toe_chat_ids") ?? "").split(";");
 
 	command_manager.add_command(
 		new Command("tic_tac_toe", "Enable / disable tic tac toe in this chat!", help_text("Use '<prefix>tic_tac_toe' [enable/disable] to Enable / disable tic tac toe in this chat!"), {
+			// deno-lint-ignore require-await
 			execute: async (event: CommandEvent): Promise<CommandResponse> => {
 				if (event.interface.args.length != 1) {
 					return fail;
@@ -39,16 +40,17 @@ export function init_tic_tac_toe() {
 		} as CommandExecutor, undefined),
 	);
 
-	var handler: EventHandler<CommandEvent> = {
+	const handler: EventHandler<CommandEvent> = {
 		name: "on_message_ce",
+		// deno-lint-ignore require-await
 		async executor(ce: CommandEvent) {
 			if (chat_ids.includes(ce.interface.chat_id)) {
-				let parser = try_parse(ce.interface.message);
+				const parser = try_parse(ce.interface.message);
 
 				if (parser) {
-					let ai = new TicTacToeAi(parser.get_field());
+					const ai = new TicTacToeAi(parser.get_field());
 
-					let move = ai.get_move();
+					const move = ai.get_move();
 
 					if (move.x == -1 || move.y == -1) {
 						ce.interface.send_message("GG");

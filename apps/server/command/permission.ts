@@ -3,21 +3,21 @@ import { BackupProvider, random_id } from "../backup/backup_provider.ts";
 import { config } from "../config/config.ts";
 import { log } from "../logger.ts";
 
-var default_roles: string[] = [];
+const default_roles: string[] = [];
 
 interface PermissionsStore {
 	[key: string]: string[];
 }
 
 function load_permissions_file() {
-	var permission_file = String(config.get("permissions_file"));
-	var permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as PermissionsStore;
+	const permission_file = String(config.get("permissions_file"));
+	const permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as PermissionsStore;
 
 	return permissions;
 }
 
 function save_permissions_file(permissions: PermissionsStore) {
-	var permission_file = String(config.get("permissions_file"));
+	const permission_file = String(config.get("permissions_file"));
 	Deno.writeTextFileSync(permission_file, JSON.stringify(permissions, null, "\t"));
 }
 
@@ -26,10 +26,10 @@ export function check_permission(user: string, permission: string | undefined): 
 		return true;
 	}
 
-	var permissions = load_permissions_file();
+	const permissions = load_permissions_file();
 	// log("debug", "permissions: " + JSON.stringify(permissions, null, "\t"));
 
-	var loaded_user = permissions[user];
+	let loaded_user = permissions[user];
 	// log("debug", "loaded_user: " + JSON.stringify(loaded_user, null, "\t"));
 	if (loaded_user == undefined) {
 		log("permission", "creating new user: " + user);
@@ -38,8 +38,8 @@ export function check_permission(user: string, permission: string | undefined): 
 		save_permissions_file(permissions);
 	}
 
-	for (var i = 0; i < loaded_user.length; i++) {
-		var permissions_of_role = config.get(loaded_user[i], "permissions") as string[];
+	for (let i = 0; i < loaded_user.length; i++) {
+		const permissions_of_role = config.get(loaded_user[i], "permissions") as string[];
 		if (permissions_of_role.includes(permission)) {
 			return true;
 		}
@@ -50,9 +50,9 @@ export function check_permission(user: string, permission: string | undefined): 
 
 export function get_roles(user: string): string[] {
 	log("debug", user);
-	var permissions = load_permissions_file();
+	const permissions = load_permissions_file();
 
-	var loaded_user = permissions[user];
+	let loaded_user = permissions[user];
 	if (loaded_user == undefined) {
 		log("permission", "creating new user: " + user);
 		permissions[user] = default_roles;
@@ -64,9 +64,9 @@ export function get_roles(user: string): string[] {
 }
 
 export function push_role(user: string, permission: string): void {
-	var permissions = load_permissions_file();
+	const permissions = load_permissions_file();
 
-	var loaded_user = permissions[user];
+	const loaded_user = permissions[user];
 	if (loaded_user == undefined) {
 		log("permission", "creating new user: " + user);
 		permissions[user] = [
@@ -81,9 +81,9 @@ export function push_role(user: string, permission: string): void {
 }
 
 export function remove_role(user: string, permission: string): void {
-	var permissions = load_permissions_file();
+	const permissions = load_permissions_file();
 
-	var loaded_user = permissions[user];
+	const loaded_user = permissions[user];
 	if (loaded_user == undefined) {
 		log("permission", "creating new user: " + user);
 		permissions[user] = default_roles;
@@ -100,10 +100,10 @@ export class PermissionsBackup implements BackupProvider {
 	}
 
 	async backup(table: supabaseTable, id: number): Promise<void> {
-		var permission_file = String(config.get("permissions_file"));
-		var permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as { [key: string]: string[] };
+		const permission_file = String(config.get("permissions_file"));
+		const permissions = JSON.parse(Deno.readTextFileSync(permission_file)) as { [key: string]: string[] };
 
-		for (let i in permissions) {
+		for (const i in permissions) {
 			log("permissions", "backing up: " + i);
 			await table.items().add({
 				id: random_id(),

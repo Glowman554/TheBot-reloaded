@@ -20,7 +20,7 @@ export interface AnimeProvider {
 
 export { Gogoanime } from "./provider/gogoanime.ts";
 
-var provider: { [key: string]: AnimeProvider } = {
+const provider: { [key: string]: AnimeProvider } = {
 	"gogoanime": new Gogoanime(),
 };
 

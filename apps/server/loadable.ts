@@ -13,7 +13,7 @@ import repeat from "./command/commands/repeat.ts";
 
 export type loadable = { load(): void };
 
-var loadables: loadable[] = [
+const loadables: loadable[] = [
 	new utils(),
 	new fun(),
 	new animals(),
@@ -28,7 +28,7 @@ var loadables: loadable[] = [
 ];
 
 export function load_all_loadables(): void {
-	for (var i in loadables) {
+	for (const i in loadables) {
 		log("loadable", "Loading loadable " + loadables[i].constructor.name);
 		loadables[i].load();
 	}

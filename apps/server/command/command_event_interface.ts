@@ -1,6 +1,5 @@
 import { CommandEventInterface } from "./command.ts";
 import { from_server, to_server } from "../protocol.ts";
-import { log } from "../logger.ts";
 import { partition } from "./splitter.ts";
 
 export class CommandEventImpl implements CommandEventInterface {
@@ -38,56 +37,50 @@ export class CommandEventImpl implements CommandEventInterface {
 	}
 
 	send_message(message: string): Promise<void> {
-		return new Promise((resolve, reject) => {
+		return new Promise((resolve, _reject) => {
 			partition(message, 2000).forEach((m) => {
-				from_server.send_message(m, this.pkg.id, this.websocket).then(() => {
-					resolve();
-				});
+				from_server.send_message(m, this.pkg.id, this.websocket);
+				resolve();
 			});
 		});
 	}
 
 	send_picture_message(file: string): Promise<void> {
-		return new Promise((resolve, reject) => {
-			var absolute_file = Deno.realPathSync(file);
-			from_server.send_message_media(from_server.message_send_media_pkg_type.picture, absolute_file, this.pkg.id, this.websocket).then(() => {
-				resolve();
-			});
+		return new Promise((resolve, _reject) => {
+			const absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.picture, absolute_file, this.pkg.id, this.websocket);
+			resolve();
 		});
 	}
 
 	send_video_message(file: string): Promise<void> {
-		return new Promise((resolve, reject) => {
-			var absolute_file = Deno.realPathSync(file);
-			from_server.send_message_media(from_server.message_send_media_pkg_type.video, absolute_file, this.pkg.id, this.websocket).then(() => {
-				resolve();
-			});
+		return new Promise((resolve, _reject) => {
+			const absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.video, absolute_file, this.pkg.id, this.websocket);
+			resolve();
 		});
 	}
 
 	send_sticker_message(file: string): Promise<void> {
-		return new Promise((resolve, reject) => {
-			var absolute_file = Deno.realPathSync(file);
-			from_server.send_message_media(from_server.message_send_media_pkg_type.sticker, absolute_file, this.pkg.id, this.websocket).then(() => {
-				resolve();
-			});
+		return new Promise((resolve, _reject) => {
+			const absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.sticker, absolute_file, this.pkg.id, this.websocket);
+			resolve();
 		});
 	}
 
 	send_audio_message(file: string): Promise<void> {
-		return new Promise((resolve, reject) => {
-			var absolute_file = Deno.realPathSync(file);
-			from_server.send_message_media(from_server.message_send_media_pkg_type.audio, absolute_file, this.pkg.id, this.websocket).then(() => {
-				resolve();
-			});
+		return new Promise((resolve, _reject) => {
+			const absolute_file = Deno.realPathSync(file);
+			from_server.send_message_media(from_server.message_send_media_pkg_type.audio, absolute_file, this.pkg.id, this.websocket);
+			resolve();
 		});
 	}
 
 	set_bot_status(status: string): Promise<void> {
-		return new Promise((resolve, reject) => {
-			from_server.send_set_bot_status(status, this.websocket).then(() => {
-				resolve();
-			});
+		return new Promise((resolve, _reject) => {
+			from_server.send_set_bot_status(status, this.websocket);
+			resolve();
 		});
 	}
 }

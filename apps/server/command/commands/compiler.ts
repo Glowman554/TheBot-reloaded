@@ -2,7 +2,7 @@ import { compiler, CompilerResult, init_compiler_api } from "../../api/compiler.
 import { config } from "../../config/config.ts";
 import { loadable } from "../../loadable.ts";
 import { help_text } from "../../utils/help.ts";
-import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, empty, fail } from "../command.ts";
+import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, fail } from "../command.ts";
 import { check_permission } from "../permission.ts";
 
 export default class Compiler implements loadable {
@@ -16,7 +16,7 @@ export default class Compiler implements loadable {
 						return fail;
 					}
 
-					var result: CompilerResult;
+					let result: CompilerResult;
 					if (check_permission(event.interface.user, "run-nojail")) {
 						result = await compiler.run_nojail(event.get_args_or_quote().join(" "));
 					} else {
@@ -38,7 +38,7 @@ export default class Compiler implements loadable {
 						return fail;
 					}
 
-					var result = await compiler.compile_and_run(event.interface.files[0]);
+					const result = await compiler.compile_and_run(event.interface.files[0]);
 
 					return {
 						is_response: true,

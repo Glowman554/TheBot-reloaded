@@ -2,12 +2,12 @@ import { log } from "../logger.ts";
 import { help_text } from "../utils/help.ts";
 import { check_permission } from "./permission.ts";
 
-export var fail = {
+export const fail = {
 	is_response: true,
 	response: "Something is wrong!",
 } as CommandResponse;
 
-export var empty = {
+export const empty = {
 	is_response: false,
 	response: undefined,
 } as CommandResponse;
@@ -72,9 +72,9 @@ export class CommandEvent {
 			return [];
 		}
 
-		var new_array: string[] = [];
+		const new_array: string[] = [];
 
-		for (var i = 1; i < array.length; i++) {
+		for (let i = 1; i < array.length; i++) {
 			new_array.push(array[i]);
 		}
 
@@ -112,7 +112,7 @@ export class CommandManager {
 	add_command(command: Command): void {
 		command.name = this.prefix + command.name;
 
-		for (var i in this.commands) {
+		for (const i in this.commands) {
 			if (this.commands[i].name === command.name) {
 				this.commands[i] = command;
 				log("command", "Updating command " + command.name);
@@ -128,50 +128,54 @@ export class CommandManager {
 		if (command_event.interface.command === this.prefix + "help") {
 			switch (command_event.interface.args.length) {
 				case 0:
-					var help_message = help_text("<bot_name> Help!\n");
+					{
+						let help_message = help_text("<bot_name> Help!\n");
 
-					var longest_name = 0;
-					for (var i in this.commands) {
-						if (check_permission(command_event.interface.user, this.commands[i].perm)) {
-							if (this.commands[i].name.length > longest_name) {
-								longest_name = this.commands[i].name.length;
+						let longest_name = 0;
+						for (const i in this.commands) {
+							if (check_permission(command_event.interface.user, this.commands[i].perm)) {
+								if (this.commands[i].name.length > longest_name) {
+									longest_name = this.commands[i].name.length;
+								}
 							}
 						}
-					}
 
-					for (var i in this.commands) {
-						if (check_permission(command_event.interface.user, this.commands[i].perm)) {
-							var name = this.commands[i].name;
-							var missing_spaces = longest_name - name.length;
-							for (let i = 0; i < missing_spaces; i++) name += " ";
+						for (const i in this.commands) {
+							if (check_permission(command_event.interface.user, this.commands[i].perm)) {
+								let name = this.commands[i].name;
+								const missing_spaces = longest_name - name.length;
+								for (let i = 0; i < missing_spaces; i++) name += " ";
 
-							help_message += `${name} -> ${this.commands[i].help}\n`;
-						}
-					}
-
-					return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
-
-				case 1:
-					var help_message = `${this.prefix + command_event.interface.args[0]} Help!\n\n`;
-					var command = this.commands.find((x) => x.name === this.prefix + command_event.interface.args[0]);
-
-					if (command !== undefined) {
-						if (command.help_long !== undefined) {
-							help_message += `${command.help_long}`;
-						} else {
-							return command_event.interface.send_message("No help available for this command");
+								help_message += `${name} -> ${this.commands[i].help}\n`;
+							}
 						}
 
 						return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
-					} else {
-						return command_event.interface.send_message("Command not found!");
+					}
+
+				case 1:
+					{
+						let help_message = `${this.prefix + command_event.interface.args[0]} Help!\n\n`;
+						const command = this.commands.find((x) => x.name === this.prefix + command_event.interface.args[0]);
+
+						if (command !== undefined) {
+							if (command.help_long !== undefined) {
+								help_message += `${command.help_long}`;
+							} else {
+								return command_event.interface.send_message("No help available for this command");
+							}
+
+							return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
+						} else {
+							return command_event.interface.send_message("Command not found!");
+						}
 					}
 
 				default:
 					return command_event.interface.send_message("Do you relay need help with help!");
 			}
 		} else {
-			var command = this.commands.find((x) => x.name === command_event.interface.command);
+			const command = this.commands.find((x) => x.name === command_event.interface.command);
 
 			if (command === undefined) {
 				return;
@@ -179,7 +183,7 @@ export class CommandManager {
 
 			if (!check_permission(command_event.interface.user, "blacklist")) {
 				if (check_permission(command_event.interface.user, command.perm)) {
-					var result = await command.executor.execute(command_event);
+					const result = await command.executor.execute(command_event);
 
 					if (result.is_response) {
 						if (result.response !== undefined) {
@@ -194,7 +198,7 @@ export class CommandManager {
 	}
 }
 
-export var command_manager: CommandManager;
+export let command_manager: CommandManager;
 export function init_command_manager(prefix: string): void {
 	log("command", "Initializing command manager with prefix " + prefix);
 

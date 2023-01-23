@@ -1,9 +1,11 @@
+// deno-lint-ignore-file no-explicit-any
 import { Route } from "https://deno.land/x/simple_router@0.7/mod.ts";
 import { Command, command_manager } from "../../command/command.ts";
 import { config } from "../../config/config.ts";
 import { log } from "../../logger.ts";
-import getFiles from "https://deno.land/x/getfiles/mod.ts";
+import getFiles from "https://deno.land/x/getfiles@v1.0.0/mod.ts";
 
+// deno-lint-ignore no-namespace
 export namespace v1 {
 	export interface V1Auth {
 		token: string;
@@ -39,7 +41,7 @@ export namespace v1 {
 	}
 
 	async function v1_token_check(req: Request) {
-		var json = await req.json() as V1Auth;
+		const json = await req.json() as V1Auth;
 		if (json.token != config.get("key", "websocket")) {
 			throw new Error("Invalid token!");
 		}
@@ -59,7 +61,7 @@ export namespace v1 {
 	}
 
 	async function v1_config_get(req: Request): Promise<Response> {
-		var json = await v1_token_check(req) as V1ConfigGetRequest;
+		const json = await v1_token_check(req) as V1ConfigGetRequest;
 		return new Response(JSON.stringify(
 			{
 				config: config.get(json.key, json.section),
@@ -81,7 +83,7 @@ export namespace v1 {
 	}
 
 	async function v1_log_get(req: Request): Promise<Response> {
-		var json = await v1_token_check(req) as V1LogGetRequest;
+		const json = await v1_token_check(req) as V1LogGetRequest;
 		return new Response(JSON.stringify(
 			{
 				log: Deno.readTextFileSync(String(config.get("log_folder")) + "/" + json.file + ".txt"),
@@ -103,7 +105,7 @@ export namespace v1 {
 	}
 
 	export function get_handlers() {
-		var handlers: Route[] = [];
+		const handlers: Route[] = [];
 
 		handlers.push({
 			handler: v1_commands_handler,

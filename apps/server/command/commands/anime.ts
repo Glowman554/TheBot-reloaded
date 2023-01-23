@@ -12,9 +12,9 @@ export default class Anime implements loadable {
 						return fail;
 					}
 
-					var result = await query_by_name("gogoanime", event.get_args_or_quote().join(" "));
+					const result = await query_by_name("gogoanime", event.get_args_or_quote().join(" "));
 
-					var text = "";
+					let text = "";
 					result.forEach((r) => text += `${r.name}:\n-> ${r.episodes} episodes. (${r.url})\n\n`);
 
 					return {

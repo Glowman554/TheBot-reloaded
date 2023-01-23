@@ -8,6 +8,7 @@ export default class Fun implements loadable {
 	load(): void {
 		command_manager.add_command(
 			new Command("coinflip", "Flip a coin!", help_text("Use '<prefix>coinflip' to flip a coin!"), {
+				// deno-lint-ignore require-await
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length != 0) {
 						return fail;
@@ -28,7 +29,7 @@ export default class Fun implements loadable {
 						return fail;
 					}
 
-					var file = await download_to_tmp_file(await get_meme());
+					const file = await download_to_tmp_file(await get_meme());
 
 					await event.interface.send_picture_message(file);
 

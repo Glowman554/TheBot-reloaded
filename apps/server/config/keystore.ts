@@ -10,7 +10,7 @@ export interface Keystore {
 let keystore: Keystore | null = null;
 
 export function keystore_load() {
-	let keystore_file = config.get("keystore");
+	const keystore_file = config.get("keystore");
 
 	keystore = {};
 
@@ -18,25 +18,26 @@ export function keystore_load() {
 		if (Deno.statSync(keystore_file).isFile) {
 			log("keystore", "Loading keystore from " + keystore_file);
 
-			let ks = Deno.readTextFileSync(keystore_file);
-			for (let line of ks.split("\n")) {
-				let split = line.split("=", 2);
+			const ks = Deno.readTextFileSync(keystore_file);
+			for (const line of ks.split("\n")) {
+				const split = line.split("=", 2);
 				if (split.length == 2) {
 					log("keystore", "Found " + split[0] + " = " + split[1]);
 					keystore[split[0]] = JSON.parse(split[1]) as string;
 				}
 			}
 		}
-	} catch (e) {}
+	// deno-lint-ignore no-empty
+	} catch (_e) {}
 }
 
 function keystore_save() {
-	let keystore_file = config.get("keystore");
+	const keystore_file = config.get("keystore");
 	log("keystore", "Saving keystore in " + keystore_file);
 
 	let str = "";
 
-	for (let key in keystore) {
+	for (const key in keystore) {
 		str += key + "=" + JSON.stringify(keystore[key]) + "\n";
 	}
 
@@ -69,7 +70,7 @@ export class KeystoreBackup implements BackupProvider {
 
 	async backup(table: supabaseTable, id: number) {
 		if (keystore) {
-			for (let key in keystore) {
+			for (const key in keystore) {
 				log("keystore", "backing up: " + key);
 				await table.items().add({
 					key: key,

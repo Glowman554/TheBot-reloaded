@@ -1,13 +1,14 @@
+// deno-lint-ignore-file require-await no-empty
 import { loadable } from "../../loadable.ts";
 import { help_text } from "../../utils/help.ts";
-import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, empty, fail } from "../command.ts";
+import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, fail } from "../command.ts";
 import { get_roles, push_role, remove_role } from "../permission.ts";
 
 export default class Utils implements loadable {
 	load(): void {
 		command_manager.add_command(
 			new Command("crash", "Crash the bot!", help_text("Use '<prefix>crash' to crash the bot! (Admin only)"), {
-				execute: async (event: CommandEvent): Promise<CommandResponse> => {
+				execute: async (_event: CommandEvent): Promise<CommandResponse> => {
 					throw new Error("Crash!");
 				},
 			} as CommandExecutor, "crash"),
@@ -49,11 +50,11 @@ export default class Utils implements loadable {
 					if (event.interface.args.length == 0) {
 						return fail;
 					}
-					var result = eval(event.interface.args.join(" "));
-					var response = String(result);
+					const result = eval(event.interface.args.join(" "));
+					let response = String(result);
 					try {
 						response = JSON.stringify(result, null, "\t");
-					} catch (e) {}
+					} catch (_e) {}
 
 					return {
 						is_response: true,
@@ -76,8 +77,8 @@ export default class Utils implements loadable {
 								return fail;
 							}
 
-							let user = event.interface.mentions;
-							let role = event.interface.args[2];
+							const user = event.interface.mentions;
+							const role = event.interface.args[2];
 
 							if (user == undefined) {
 								return fail;
@@ -96,13 +97,13 @@ export default class Utils implements loadable {
 								return fail;
 							}
 
-							let user = event.interface.mentions;
+							const user = event.interface.mentions;
 
 							if (user == undefined) {
 								return fail;
 							}
 
-							let roles = get_roles(user.length != 0 ? user[0] : event.interface.args[1]);
+							const roles = get_roles(user.length != 0 ? user[0] : event.interface.args[1]);
 
 							return {
 								is_response: true,
@@ -115,8 +116,8 @@ export default class Utils implements loadable {
 								return fail;
 							}
 
-							let user = event.interface.mentions;
-							let role = event.interface.args[2];
+							const user = event.interface.mentions;
+							const role = event.interface.args[2];
 
 							if (user == undefined) {
 								return fail;

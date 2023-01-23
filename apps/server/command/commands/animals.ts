@@ -15,7 +15,7 @@ export default class Animals implements loadable {
 						return fail;
 					}
 
-					var file = await download_to_tmp_file(await get_fox());
+					const file = await download_to_tmp_file(await get_fox());
 
 					await event.interface.send_picture_message(file);
 
@@ -31,7 +31,7 @@ export default class Animals implements loadable {
 						return fail;
 					}
 
-					var file = await download_to_tmp_file(await get_dog());
+					const file = await download_to_tmp_file(await get_dog());
 
 					await event.interface.send_picture_message(file);
 
@@ -47,7 +47,7 @@ export default class Animals implements loadable {
 						return fail;
 					}
 
-					var file = await download_to_tmp_file(await get_cat());
+					const file = await download_to_tmp_file(await get_cat());
 
 					await event.interface.send_picture_message(file);
 
@@ -63,9 +63,9 @@ export default class Animals implements loadable {
 						return fail;
 					}
 
-					var method = "furry/fursuit";
+					const method = "furry/fursuit";
 					if (event.interface.args.length == 1) {
-						var method = event.interface.args[0];
+						const method = event.interface.args[0];
 						if (method == "list") {
 							return {
 								is_response: true,
@@ -74,7 +74,7 @@ export default class Animals implements loadable {
 						}
 					}
 
-					var file = await download_to_tmp_file(await new FurryApi().methods[method]());
+					const file = await download_to_tmp_file(await new FurryApi().methods[method]());
 
 					await event.interface.send_picture_message(file);
 

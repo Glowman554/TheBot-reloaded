@@ -11,13 +11,13 @@ export class EmojiTicTacToeParser implements TicTacToeParser {
 	}
 
 	parse(s: string): boolean {
-		let split = s.split("\n");
+		const split = s.split("\n");
 		if (split.length != 3) {
 			return false;
 		}
 
 		for (let i = 0; i < split.length; i++) {
-			let line = split[i].replaceAll(" ", "").split("");
+			const line = split[i].replaceAll(" ", "").split("");
 			if (line.length != 3) {
 				return false;
 			}

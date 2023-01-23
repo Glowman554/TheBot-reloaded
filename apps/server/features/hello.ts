@@ -5,9 +5,9 @@ import { EventHandler } from "../event/event_handler.ts";
 import { loadable } from "../loadable.ts";
 
 export function init_hello() {
-	var hello_on = config.get("hello_on") as string[];
+	const hello_on = config.get("hello_on") as string[];
 
-	var handler: EventHandler<CommandEvent> = {
+	const handler: EventHandler<CommandEvent> = {
 		name: "on_message_ce",
 		async executor(ce: CommandEvent) {
 			if (hello_on.includes(ce.interface.message.trim())) {

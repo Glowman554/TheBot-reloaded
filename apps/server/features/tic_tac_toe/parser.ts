@@ -6,9 +6,9 @@ export interface TicTacToeParser {
 	str(): string;
 	get_field():  TicTacToeFields[][];
 	reset(): void;
-};
+}
 
-let parsers: TicTacToeParser[] = [];
+const parsers: TicTacToeParser[] = [];
 
 export function add_parser(parser: TicTacToeParser) {
 	parsers.push(parser);

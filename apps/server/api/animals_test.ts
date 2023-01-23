@@ -1,16 +1,16 @@
 import { get_cat, get_dog, get_fox } from "./animals.ts";
-import { assert } from "https://deno.land/std@0.152.0/testing/asserts.ts";
+import { assert } from "https://deno.land/std@0.173.0/testing/asserts.ts";
 import { download_to_tmp_file } from "./download.ts";
 
 Deno.test("get_fox", async (t) => {
-	var fox: string;
+	let fox: string;
 	await t.step("request fox", async () => {
 		fox = await get_fox();
 		console.log(fox);
 		assert(fox);
 	});
 
-	var fox_file: string;
+	let fox_file: string;
 	await t.step("download fox", async () => {
 		fox_file = await download_to_tmp_file(fox);
 		console.log(fox_file);
@@ -19,14 +19,14 @@ Deno.test("get_fox", async (t) => {
 });
 
 Deno.test("get_cat", async (t) => {
-	var cat: string;
+	let cat: string;
 	await t.step("request cat", async () => {
 		cat = await get_cat();
 		console.log(cat);
 		assert(cat);
 	});
 
-	var cat_file: string;
+	let cat_file: string;
 	await t.step("download cat", async () => {
 		cat_file = await download_to_tmp_file(cat);
 		console.log(cat_file);
@@ -35,14 +35,14 @@ Deno.test("get_cat", async (t) => {
 });
 
 Deno.test("get_dog", async (t) => {
-	var dog: string;
+	let dog: string;
 	await t.step("request dog", async () => {
 		dog = await get_dog();
 		console.log(dog);
 		assert(dog);
 	});
 
-	var dog_file: string;
+	let dog_file: string;
 	await t.step("download dog", async () => {
 		dog_file = await download_to_tmp_file(dog);
 		console.log(dog_file);

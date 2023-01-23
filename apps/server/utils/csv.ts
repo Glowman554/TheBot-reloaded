@@ -50,7 +50,7 @@ export class Csv {
 	}
 
 	query(search: string, column: number) {
-		var rows_found: string[][] = [];
+		const rows_found: string[][] = [];
 
 		this.parsed_document.forEach((row) => {
 			if (row[column].indexOf(search) != -1) {
@@ -71,7 +71,7 @@ export class Csv {
 		|----------|----------|
 		 */
 
-		var max_column_lengths: number[] = [];
+		const max_column_lengths: number[] = [];
 
 		this.parsed_document.forEach((row) => {
 			row.forEach((cell, column) => {
@@ -85,13 +85,13 @@ export class Csv {
 			});
 		});
 
-		var str = "";
+		let str = "";
 
 		this.parsed_document.forEach((row, row_index) => {
 			str += "|";
 
 			row.forEach((cell, column_index) => {
-				var cell_length = cell.length;
+				const cell_length = cell.length;
 
 				if (cell_length < max_column_lengths[column_index]) {
 					cell += Array(max_column_lengths[column_index] - cell_length + 1).join(cell.trim() == "" ? "-" : " ");
@@ -116,7 +116,7 @@ export class Csv {
 }
 
 export function test_csv() {
-	var csv_parser = new Csv();
+	const csv_parser = new Csv();
 
 	csv_parser.push_row(["test1", "test2"]);
 	csv_parser.push_row(["", ""]);

@@ -1,5 +1,5 @@
 export async function get_fox(): Promise<string> {
-	var fox = await (await fetch("https://randomfox.ca/floof/?ref=apilist.fun")).json() as {
+	const fox = await (await fetch("https://randomfox.ca/floof/?ref=apilist.fun")).json() as {
 		image: string;
 		link: string;
 	};
@@ -8,7 +8,7 @@ export async function get_fox(): Promise<string> {
 }
 
 export async function get_dog(): Promise<string> {
-	var dog = await (await fetch("https://dog.ceo/api/breeds/image/random")).json() as {
+	const dog = await (await fetch("https://dog.ceo/api/breeds/image/random")).json() as {
 		message: string;
 		status: string;
 	};
@@ -17,7 +17,7 @@ export async function get_dog(): Promise<string> {
 }
 
 export async function get_cat(): Promise<string> {
-	var cat = await (await fetch("https://api.thecatapi.com/v1/images/search")).json() as {
+	const cat = await (await fetch("https://api.thecatapi.com/v1/images/search")).json() as {
 		id: string;
 		url: string;
 		width: number;

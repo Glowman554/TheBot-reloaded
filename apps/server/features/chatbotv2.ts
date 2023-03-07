@@ -6,10 +6,21 @@ import { get_response } from "../api/chatgpt.ts";
 import { help_text } from "../utils/help.ts";
 import { keystore_get, keystore_set } from "../config/keystore.ts";
 import { ChatGPTMessage } from "../api/chatgpt.ts";
+import { log } from "../logger.ts";
 
 const chats: {
 	[id: string]: ChatGPTMessage[]
 } = {};
+
+function clean_chats() {
+	for (const id in chats) {
+		let to_be_removed = Math.max(chats[id].length - 50, 0);
+		log("chatbotv2", `Removing ${to_be_removed} elements from chat ${id}`)
+		for (let i = 0; i < to_be_removed; i++) {
+			chats[id].shift();
+		}
+	}
+}
 
 export function init_chatbotv2() {
 	const chat_ids = (keystore_get("chatbotv2_chat_ids") ?? "").split(";");
@@ -45,6 +56,7 @@ export function init_chatbotv2() {
 	const handler: EventHandler<CommandEvent> = {
 		name: "on_message_ce",
 		async executor(ce: CommandEvent) {
+			clean_chats();
 			if (chat_ids.includes(ce.interface.chat_id)) {
 				if (ce.interface.message.trim() == "reset") {
 					delete chats[ce.interface.chat_id];

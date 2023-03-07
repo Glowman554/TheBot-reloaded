@@ -7,20 +7,20 @@ services:
     restart: always
     depends_on:
       - server
-  telegram_client:
-    build: apps/telegram_client
-    volumes:
-      - ./data:/data
-    restart: always
-    depends_on:
-      - server
-  whatsapp_client:
-    build: apps/whatsapp_client
-    volumes:
-      - ./data:/data
-    restart: always
-    depends_on:
-      - server
+  #telegram_client:
+  #  build: apps/telegram_client
+  #  volumes:
+  #    - ./data:/data
+  #  restart: always
+  #  depends_on:
+  #    - server
+  #whatsapp_client:
+  #  build: apps/whatsapp_client
+  #  volumes:
+  #    - ./data:/data
+  #  restart: always
+  #  depends_on:
+  #    - server
   docker_proxy:
     build: apps/docker_proxy
     volumes:

@@ -50,6 +50,9 @@ function main() {
 	config_gen_add("chatbot", "key", undefined);
 	config_gen_add("chatbot", "bid", undefined);
 
+	config_gen_add("chatgpt", "key", undefined);
+
+
 	const cfg: ConfigSections = {};
 	let cfg_override: { [key: string]: any } = {};
 

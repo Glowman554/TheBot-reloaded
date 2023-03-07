@@ -14,7 +14,7 @@ const chats: {
 
 function clean_chats() {
 	for (const id in chats) {
-		let to_be_removed = Math.max(chats[id].length - 50, 0);
+		let to_be_removed = Math.max(chats[id].length - 10, 0);
 		log("chatbotv2", `Removing ${to_be_removed} elements from chat ${id}`)
 		for (let i = 0; i < to_be_removed; i++) {
 			chats[id].shift();
@@ -78,7 +78,8 @@ export function init_chatbotv2() {
 
 					ce.interface.send_message(res.content);
 				} catch (e) {
-					ce.interface.send_message("Could not generate response: " + e + "\nMaybe try writing 'reset' to reset the conversation or wait a few minutes!");
+					ce.interface.send_message("Could not generate response: " + e + "\nMaybe wait a few minutes? It might help!");
+					delete chats[ce.interface.chat_id];
 				}
 			}
 		},

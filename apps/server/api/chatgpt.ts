@@ -29,7 +29,16 @@ export async function get_response(chat: ChatGPTMessage[]): Promise<ChatGPTMessa
 		body: JSON.stringify(body)
 	})).json() as {
 		choices: ChatGPTChoice[]
+		error?: {
+			message: string
+		}
 	};
+
+	console.log(res);
+
+	// if (res.error) {
+	// 	throw new Error(res.error.message);
+	// }
 
 	return res.choices[0].message;
 }

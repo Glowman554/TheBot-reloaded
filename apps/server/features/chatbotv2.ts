@@ -72,11 +72,14 @@ export function init_chatbotv2() {
 					content: ce.interface.message
 				});
 
+				try {
+					const res = await get_response(chats[ce.interface.chat_id]);
+					chats[ce.interface.chat_id].push(res);
 
-				const res = await get_response(chats[ce.interface.chat_id]);
-				chats[ce.interface.chat_id].push(res);
-
-				ce.interface.send_message(res.content);
+					ce.interface.send_message(res.content);
+				} catch (e) {
+					ce.interface.send_message("Could not generate response: " + e + "\nMaybe try writing 'reset' to reset the conversation or wait a few minutes!");
+				}
 			}
 		},
 	};

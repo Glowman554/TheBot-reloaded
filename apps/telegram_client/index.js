@@ -173,7 +173,7 @@ export async function handle_message_send_media(pkg) {
 		log("message " + pkg.id + " not found");
 		return;
 	}
-	msg.reply(JSON.stringify(pkg, undefined, "\t"));
+	// msg.reply(JSON.stringify(pkg, undefined, "\t"));
 	switch (pkg.type) {
 		case protocol.from_server.message_send_media_pkg_type.audio:
 			msg.replyWithAudio({ source: pkg.path });

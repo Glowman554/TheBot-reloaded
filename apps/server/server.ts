@@ -159,3 +159,11 @@ function main() {
 }
 
 main();
+
+// TODO:
+// add support for my own programming language to the compiler_server
+// improve chatbot (merge chatbot and chatbotv2 into 1 command)
+// delete all files in tmp on startup
+// add sticker converter
+// add todo command
+// add version command

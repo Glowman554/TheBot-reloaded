@@ -38,6 +38,7 @@ function main() {
 	config_gen_add("whatsapp", "owner", undefined);
 
 	config_gen_add("telegram", "token", undefined);
+	config_gen_add("telegram", "owner", undefined);
 
 	config_gen_add("mikki", "url", undefined);
 	config_gen_add("mikki", "token", undefined);

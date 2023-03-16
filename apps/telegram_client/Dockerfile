@@ -1,18 +1,11 @@
-FROM debian:bullseye-slim
+FROM node:16-bullseye-slim
 
-RUN apt update && apt install -y curl make cmake gcc build-essential libboost-all-dev libssl-dev libcurl3-openssl-dev
-
-WORKDIR /srv
-
-COPY docker_build/. .
-
-WORKDIR /srv/build
-
-RUN cmake ..
-RUN make
-RUN cp telegram_client ../ -v
+RUN apt update && apt install -y python3 make gcc build-essential
 
 WORKDIR /srv
-RUN strip telegram_client
 
-ENTRYPOINT [ "./telegram_client", "/data/connection.json"]
+COPY . .
+
+RUN npm install
+
+ENTRYPOINT [ "node", ".", "/data/connection.json" ]

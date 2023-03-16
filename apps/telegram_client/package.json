@@ -1,0 +1,19 @@
+{
+  "name": "telegram_client",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bot_internal_commands": "^1.0.6",
+    "bot_server_client": "^1.0.15",
+    "download": "^8.0.0",
+    "node-fetch": "^3.3.1",
+    "telegraf": "^4.12.2"
+  }
+}

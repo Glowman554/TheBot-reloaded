@@ -29,6 +29,12 @@ export function init_tmp_files(): void {
 			}
 		}
 	}, 1000);
+
+	for (const i of Deno.readDirSync(config.get("tmp_folder"))) {
+		const file = config.get("tmp_folder") + "/" + i.name;
+		log("tmp", "Deleting " + file);
+		Deno.removeSync(file);
+	}
 }
 
 export function get_temp_file(extension: string, expire_after = 1000 * 60): string {

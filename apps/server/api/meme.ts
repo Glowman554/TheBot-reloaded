@@ -11,6 +11,6 @@ export interface Meme {
 }
 
 export async function get_meme(): Promise<string> {
-    const meme = await (await fetch("https://meme-api.herokuapp.com/gimme")).json() as Meme;
+    const meme = await (await fetch("https://meme-api.com/gimme")).json() as Meme;
     return meme.url;
 }

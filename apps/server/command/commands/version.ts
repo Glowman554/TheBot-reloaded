@@ -7,7 +7,7 @@ import { version } from "../../version.ts";
 export default class Version implements loadable {
 	load(): void {
 		command_manager.add_command(
-			new Command("version", "", help_text("'<prefix>version'"), {
+			new Command("version", "Get the current bot version!", help_text("Use '<prefix>version' to get the current bot version!"), {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length != 0) {
 						return fail;

@@ -164,4 +164,3 @@ main();
 // improve chatbot (merge chatbot and chatbotv2 into 1 command)
 // add sticker converter
 // add todo command
-// add version command

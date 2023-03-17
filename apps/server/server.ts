@@ -162,7 +162,6 @@ main();
 
 // TODO:
 // improve chatbot (merge chatbot and chatbotv2 into 1 command)
-// delete all files in tmp on startup
 // add sticker converter
 // add todo command
 // add version command

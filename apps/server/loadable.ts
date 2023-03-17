@@ -11,6 +11,7 @@ import chatbotv2 from "./features/chatbotv2.ts";
 import tic_tac_toe from "./features/tic_tac_toe/handler.ts";
 import anime from "./command/commands/anime.ts";
 import repeat from "./command/commands/repeat.ts";
+import version from "./command/commands/version.ts";
 
 export type loadable = { load(): void };
 
@@ -26,7 +27,8 @@ const loadables: loadable[] = [
 	new repeat(),
 	new chatbot(),
 	new chatbotv2(),
-	new tic_tac_toe()
+	new tic_tac_toe(),
+	new version()
 ];
 
 export function load_all_loadables(): void {

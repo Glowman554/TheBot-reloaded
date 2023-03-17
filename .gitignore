@@ -10,3 +10,4 @@ permissions.json
 0
 build
 data
+apps/server/version.ts

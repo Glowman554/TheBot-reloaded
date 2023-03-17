@@ -11,7 +11,7 @@ export interface ChatGPTChoice {
 	finish_reason: string;
 }
 
-export async function get_response(chat: ChatGPTMessage[]): Promise<ChatGPTMessage> {
+export async function get_response_gpt(chat: ChatGPTMessage[]): Promise<ChatGPTMessage> {
     const key = config.get("key", "chatgpt");
 
 	const body = {
@@ -34,7 +34,7 @@ export async function get_response(chat: ChatGPTMessage[]): Promise<ChatGPTMessa
 		}
 	};
 
-	console.log(res);
+	// console.log(res);
 
 	// if (res.error) {
 	// 	throw new Error(res.error.message);

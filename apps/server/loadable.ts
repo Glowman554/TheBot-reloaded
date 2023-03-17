@@ -7,7 +7,6 @@ import compiler from "./command/commands/compiler.ts";
 import mikki from "./command/commands/mikki.ts";
 import hello from "./features/hello.ts";
 import chatbot from "./features/chatbot.ts";
-import chatbotv2 from "./features/chatbotv2.ts";
 import tic_tac_toe from "./features/tic_tac_toe/handler.ts";
 import anime from "./command/commands/anime.ts";
 import repeat from "./command/commands/repeat.ts";
@@ -26,7 +25,6 @@ const loadables: loadable[] = [
 	new anime(),
 	new repeat(),
 	new chatbot(),
-	new chatbotv2(),
 	new tic_tac_toe(),
 	new version()
 ];

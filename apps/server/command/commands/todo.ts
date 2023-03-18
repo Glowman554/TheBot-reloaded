@@ -29,7 +29,6 @@ export default class Todo implements loadable {
 
 					switch (event.interface.args.shift()) {
 						case "add":
-							
 							if (event.interface.args.length < 1) {
 								return fail;
 							}

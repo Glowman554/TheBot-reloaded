@@ -159,6 +159,3 @@ function main() {
 }
 
 main();
-
-// TODO:
-// add todo command

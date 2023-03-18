@@ -30,7 +30,7 @@ const loadables: loadable[] = [
 	new tic_tac_toe(),
 	new version(),
 	new sticker(),
-	new untis()
+	new untis(),
 ];
 
 export function load_all_loadables(): void {

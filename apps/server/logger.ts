@@ -7,7 +7,7 @@ export function log(module: string, message: string): void {
 	if (config) {
 		try {
 			log_folder = String(config.get("log_folder"));
-		// deno-lint-ignore no-empty
+			// deno-lint-ignore no-empty
 		} catch (_e) {}
 	}
 

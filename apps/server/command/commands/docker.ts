@@ -16,23 +16,22 @@ export default class Docker implements loadable {
 					}
 
 					switch (event.interface.args[0]) {
-						case "list":
-							{
-								if (event.interface.args.length != 1) {
-									return fail;
-								}
-
-								const containers = await docker.list();
-								let message = "";
-								for (const container of containers) {
-									message += container.name + ": " + container.state + "\n";
-								}
-
-								return {
-									is_response: true,
-									response: message,
-								};
+						case "list": {
+							if (event.interface.args.length != 1) {
+								return fail;
 							}
+
+							const containers = await docker.list();
+							let message = "";
+							for (const container of containers) {
+								message += container.name + ": " + container.state + "\n";
+							}
+
+							return {
+								is_response: true,
+								response: message,
+							};
+						}
 
 						case "start":
 							if (event.interface.args.length != 2) {

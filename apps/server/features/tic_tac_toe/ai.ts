@@ -15,7 +15,7 @@ export class TicTacToeAi {
 
 	constructor(field: TicTacToeFields[][]) {
 		this.field = field;
-		
+
 		if (this.field.length != 3 || this.field[0].length != 3) {
 			throw new Error("Invalid size!");
 		}
@@ -26,7 +26,7 @@ export class TicTacToeAi {
 			if (this.field[i][0] != TicTacToeFields.FIELD_EMPTY && this.field[i][0] == this.field[i][1] && this.field[i][1] == this.field[i][2]) {
 				return {
 					over: true,
-					winner: this.field[i][0]
+					winner: this.field[i][0],
 				};
 			}
 		}
@@ -36,7 +36,7 @@ export class TicTacToeAi {
 			if (this.field[0][i] != TicTacToeFields.FIELD_EMPTY && this.field[0][i] == this.field[1][i] && this.field[1][i] == this.field[2][i]) {
 				return {
 					over: true,
-					winner: this.field[0][i]
+					winner: this.field[0][i],
 				};
 			}
 		}
@@ -45,14 +45,14 @@ export class TicTacToeAi {
 		if (this.field[0][0] != TicTacToeFields.FIELD_EMPTY && this.field[0][0] == this.field[1][1] && this.field[1][1] == this.field[2][2]) {
 			return {
 				over: true,
-				winner: this.field[0][0]
+				winner: this.field[0][0],
 			};
 		}
 
 		if (this.field[0][2] != TicTacToeFields.FIELD_EMPTY && this.field[0][2] == this.field[1][1] && this.field[1][1] == this.field[2][0]) {
 			return {
 				over: true,
-				winner: this.field[0][2]
+				winner: this.field[0][2],
 			};
 		}
 
@@ -62,7 +62,7 @@ export class TicTacToeAi {
 				if (this.field[i][j] == TicTacToeFields.FIELD_EMPTY) {
 					return {
 						over: false,
-						winner: null
+						winner: null,
 					};
 				}
 			}
@@ -70,7 +70,7 @@ export class TicTacToeAi {
 
 		return {
 			over: true,
-			winner: null
+			winner: null,
 		};
 	}
 
@@ -141,7 +141,7 @@ export class TicTacToeAi {
 
 		return {
 			x: best_x,
-			y: best_y
+			y: best_y,
 		};
 	}
 }

@@ -57,8 +57,6 @@ function main() {
 	config_gen_add("untis", "user", undefined);
 	config_gen_add("untis", "pass", undefined);
 
-
-
 	const cfg: ConfigSections = {};
 	let cfg_override: { [key: string]: any } = {};
 

@@ -31,7 +31,6 @@ function message_register(msg) {
 	return id;
 }
 
-
 function message_get(id) {
 	message_cleanup();
 	return messages[id];
@@ -47,7 +46,6 @@ client.add_handler(protocol.from_server.key_auth_response, handle_key_auth_respo
 client.add_handler(protocol.from_server.message_send, handle_message_send);
 client.add_handler(protocol.from_server.message_send_media, handle_message_send_media);
 client.add_handler(protocol.from_server.internal_error, handle_internal_error);
-
 
 var connection_info = JSON.parse(readFileSync(process.argv[2]).toString());
 set_remote_log(connection_info.remote_log);
@@ -83,7 +81,7 @@ async function telegram_download_files(ctx) {
 		for (let i in ctx.message.reply_to_message.photo) {
 			files.push(await telegram_download_file(ctx.message.reply_to_message.photo[i].file_id));
 		}
-	
+
 		if (ctx.message.reply_to_message.document) {
 			files.push(await telegram_download_file(ctx.message.reply_to_message.document.file_id));
 		}
@@ -106,14 +104,13 @@ async function telegram_message_handler(ctx) {
 	var mentions = [];
 	for (let i in ctx.message.entities) {
 		if (ctx.message.entities[i].type == "mention") {
-
 			var substr = message.substring(ctx.message.entities[i].offset, ctx.message.entities[i].offset + ctx.message.entities[i].length);
 			mentions.push(substr);
 		}
 	}
 
 	var files = await telegram_download_files(ctx);
-	
+
 	let id = message_register(ctx);
 	protocol.to_server.send_on_message(message, ctx.message.from.id, ctx.message.chat.id, mentions, ctx.message.reply_to_message ? ctx.message.reply_to_message.text : undefined, files, id);
 }
@@ -151,8 +148,8 @@ export async function handle_key_auth_response(pkg) {
 }
 
 export async function handle_message_send(pkg) {
-	let escapees = [ "_", "*", "[", "]", "(", ")", "~", "`", "#", "+", "-", "=", "|", "{", "}", ".", "!", "<", ">" ];
-	escapees.forEach(e => pkg.message = pkg.message.replaceAll(e, "\\" + e));
+	let escapees = ["_", "*", "[", "]", "(", ")", "~", "`", "#", "+", "-", "=", "|", "{", "}", ".", "!", "<", ">"];
+	escapees.forEach((e) => pkg.message = pkg.message.replaceAll(e, "\\" + e));
 
 	pkg.message = pkg.message.replaceAll("\\<code\\>", "`").replaceAll("\\<bg\\_code\\>", "```\n").replaceAll("\\<bold\\>", "*").replaceAll("\\<italic\\>", "_");
 	log("Answering to message " + pkg.id + " with " + pkg.message);
@@ -197,7 +194,6 @@ export async function handle_internal_error(pkg) {
 		log("Error not caused by a on_message pkg. Can't send informative message.");
 	}
 }
-
 
 process.on("uncaughtException", async (error) => {
 	log(String(error));

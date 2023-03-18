@@ -6,9 +6,9 @@ var url = (await runCommand("git remote get-url origin")).replace("\n", "");
 
 let dirty = false;
 try {
-    await runCommand("git diff --quiet");
+	await runCommand("git diff --quiet");
 } catch (e) {
-    dirty = true;
+	dirty = true;
 }
 
 Deno.writeTextFileSync("version.ts", `export const version = '${url} @ ${branch}:${commit} (${dirty ? "dirty" : "clean"})';`);

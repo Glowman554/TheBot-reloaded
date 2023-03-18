@@ -14,44 +14,43 @@ export default class Version implements loadable {
 						return fail;
 					}
 
-                    const untis = new SimpleUntisClient();
-                    await untis.login(config.get("school", "untis"), config.get("user", "untis"), config.get("pass", "untis"));
+					const untis = new SimpleUntisClient();
+					await untis.login(config.get("school", "untis"), config.get("user", "untis"), config.get("pass", "untis"));
 
-                    var homework_string = "";
-                    var hm = await untis.homeworks(new Date(), new Date(new Date().setDate(new Date().getDate() + 7)));
-                    for (let x of hm.homeworks) {
-                        var subject = hm.lessons.find((lesson) => lesson.id == x.lessonId)?.subject || "no";
-                        var due_date = untis.convertUntisDate("" + x.dueDate).toLocaleDateString();
+					var homework_string = "";
+					var hm = await untis.homeworks(new Date(), new Date(new Date().setDate(new Date().getDate() + 7)));
+					for (let x of hm.homeworks) {
+						var subject = hm.lessons.find((lesson) => lesson.id == x.lessonId)?.subject || "no";
+						var due_date = untis.convertUntisDate("" + x.dueDate).toLocaleDateString();
 
-                        homework_string += `<bold>${subject}<bold>: ${x.text} muss bis zum <code>${due_date}<code> erledigt sein!\n`;
-                    }
+						homework_string += `<bold>${subject}<bold>: ${x.text} muss bis zum <code>${due_date}<code> erledigt sein!\n`;
+					}
 
-                    if (homework_string == "") {
-                        homework_string = "Keine Aufgaben fuer heute!";
-                    }
+					if (homework_string == "") {
+						homework_string = "Keine Aufgaben fuer heute!";
+					}
 
-                    var class_services_string = "";
-                    var cs = await untis.classservices(new Date(), new Date(new Date().setDate(new Date().getDate() + 7)));
+					var class_services_string = "";
+					var cs = await untis.classservices(new Date(), new Date(new Date().setDate(new Date().getDate() + 7)));
 
-                    for (let x of cs.classRoles) {
-                        var due_date = untis.convertUntisDate("" + x.endDate).toLocaleDateString();
-                        class_services_string += `<bold>${x.duty.label}<bold>: ${x.foreName} ${x.longName} bis zum <code>${due_date}<code>\n`;
-                    }
+					for (let x of cs.classRoles) {
+						var due_date = untis.convertUntisDate("" + x.endDate).toLocaleDateString();
+						class_services_string += `<bold>${x.duty.label}<bold>: ${x.foreName} ${x.longName} bis zum <code>${due_date}<code>\n`;
+					}
 
-                    var exams_string = "Klassenarbeiten:\n";
-                    var ex = await untis.exams(new Date(), new Date(new Date().setDate(new Date().getDate() + 7)));
+					var exams_string = "Klassenarbeiten:\n";
+					var ex = await untis.exams(new Date(), new Date(new Date().setDate(new Date().getDate() + 7)));
 
-                    for (let x of ex.exams) {
-                        var date = untis.convertUntisDate("" + x.examDate).toLocaleDateString();
-                        exams_string += `<bold>${x.name}<bold>: ${x.text} am <bold>${date}<bold> in <code>${x.rooms.join(", ")}<code>\n`;
-                    }
+					for (let x of ex.exams) {
+						var date = untis.convertUntisDate("" + x.examDate).toLocaleDateString();
+						exams_string += `<bold>${x.name}<bold>: ${x.text} am <bold>${date}<bold> in <code>${x.rooms.join(", ")}<code>\n`;
+					}
 
-                    await untis.logout();
+					await untis.logout();
 
-
-                    return {
+					return {
 						is_response: true,
-						response: homework_string + "\n\n" + class_services_string + "\n\n" + exams_string
+						response: homework_string + "\n\n" + class_services_string + "\n\n" + exams_string,
 					};
 				},
 			} as CommandExecutor, "untis"),

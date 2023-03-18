@@ -22,7 +22,7 @@ export default class Fun implements loadable {
 			} as CommandExecutor, undefined),
 		);
 
-        command_manager.add_command(
+		command_manager.add_command(
 			new Command("meme", "See a meme!", help_text("Use '<prefix>meme' to see a meme!"), {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length != 0) {

@@ -8,6 +8,8 @@ import { InternalCommands } from "bot_internal_commands";
 
 import download from "download";
 
+import sharp from "sharp";
+
 var messages = {};
 /**
  * @type {InternalCommands} internal_commands
@@ -169,9 +171,20 @@ export async function handle_message_send_media(pkg) {
 		log("message " + pkg.id + " not found");
 		return;
 	}
-	msg.channel.send({
-		files: [pkg.path],
-	});
+
+	if (pkg.type == protocol.from_server.message_send_media_pkg_type.sticker) {
+		const file = await protocol.helper.tmp_file_get("webp", 1000 * 60, client.connection);
+		await sharp(pkg.path).webp().resize(128, 128, {
+			background: { r: 0, g: 0, b: 0, alpha: 0 },
+		}).toFile(file);
+		msg.channel.send({
+			files: [file],
+		});
+	} else {
+		msg.channel.send({
+			files: [pkg.path],
+		});
+	}
 }
 
 export async function handle_internal_error(pkg) {

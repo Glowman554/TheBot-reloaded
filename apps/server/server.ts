@@ -161,5 +161,4 @@ function main() {
 main();
 
 // TODO:
-// add sticker converter
 // add todo command

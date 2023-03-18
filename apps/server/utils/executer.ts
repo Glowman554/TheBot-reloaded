@@ -1,9 +1,9 @@
 export async function runCommand(command: string) {
 	// console.log("cmd: " + command);
 	const proc = Deno.run({
-		cmd: command.split(" ").filter(v => v != ""),
+		cmd: command.split(" ").filter((v) => v != ""),
 		stderr: "null",
-		stdout: "piped"
+		stdout: "piped",
 	});
 
 	const status = await proc.status();

@@ -13,6 +13,7 @@ import repeat from "./command/commands/repeat.ts";
 import version from "./command/commands/version.ts";
 import sticker from "./command/commands/sticker.ts";
 import todo from "./command/commands/todo.ts"
+import untis from "./command/commands/untis.ts";
 
 export type loadable = { load(): void };
 
@@ -30,7 +31,8 @@ const loadables: loadable[] = [
 	new tic_tac_toe(),
 	new version(),
 	new sticker(),
-	new todo()
+	new todo(),
+	new untis()
 ];
 
 export function load_all_loadables(): void {

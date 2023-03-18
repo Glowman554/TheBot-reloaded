@@ -4,7 +4,7 @@ import { TicTacToeFields } from "./fields.ts";
 export interface TicTacToeParser {
 	parse(s: string): boolean;
 	str(): string;
-	get_field():  TicTacToeFields[][];
+	get_field(): TicTacToeFields[][];
 	reset(): void;
 }
 

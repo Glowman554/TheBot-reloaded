@@ -127,49 +127,47 @@ export class CommandManager {
 	async on_command(command_event: CommandEvent): Promise<void> {
 		if (command_event.interface.command === this.prefix + "help") {
 			switch (command_event.interface.args.length) {
-				case 0:
-					{
-						let help_message = help_text("<bot_name> Help!\n");
+				case 0: {
+					let help_message = help_text("<bot_name> Help!\n");
 
-						let longest_name = 0;
-						for (const i in this.commands) {
-							if (check_permission(command_event.interface.user, this.commands[i].perm)) {
-								if (this.commands[i].name.length > longest_name) {
-									longest_name = this.commands[i].name.length;
-								}
+					let longest_name = 0;
+					for (const i in this.commands) {
+						if (check_permission(command_event.interface.user, this.commands[i].perm)) {
+							if (this.commands[i].name.length > longest_name) {
+								longest_name = this.commands[i].name.length;
 							}
 						}
+					}
 
-						for (const i in this.commands) {
-							if (check_permission(command_event.interface.user, this.commands[i].perm)) {
-								let name = this.commands[i].name;
-								const missing_spaces = longest_name - name.length;
-								for (let i = 0; i < missing_spaces; i++) name += " ";
+					for (const i in this.commands) {
+						if (check_permission(command_event.interface.user, this.commands[i].perm)) {
+							let name = this.commands[i].name;
+							const missing_spaces = longest_name - name.length;
+							for (let i = 0; i < missing_spaces; i++) name += " ";
 
-								help_message += `${name} -> ${this.commands[i].help}\n`;
-							}
+							help_message += `${name} -> ${this.commands[i].help}\n`;
+						}
+					}
+
+					return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
+				}
+
+				case 1: {
+					let help_message = `${this.prefix + command_event.interface.args[0]} Help!\n\n`;
+					const command = this.commands.find((x) => x.name === this.prefix + command_event.interface.args[0]);
+
+					if (command !== undefined) {
+						if (command.help_long !== undefined) {
+							help_message += `${command.help_long}`;
+						} else {
+							return command_event.interface.send_message("No help available for this command");
 						}
 
 						return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
+					} else {
+						return command_event.interface.send_message("Command not found!");
 					}
-
-				case 1:
-					{
-						let help_message = `${this.prefix + command_event.interface.args[0]} Help!\n\n`;
-						const command = this.commands.find((x) => x.name === this.prefix + command_event.interface.args[0]);
-
-						if (command !== undefined) {
-							if (command.help_long !== undefined) {
-								help_message += `${command.help_long}`;
-							} else {
-								return command_event.interface.send_message("No help available for this command");
-							}
-
-							return command_event.interface.send_message("<bg_code>" + help_message + "<bg_code>");
-						} else {
-							return command_event.interface.send_message("Command not found!");
-						}
-					}
+				}
 
 				default:
 					return command_event.interface.send_message("Do you relay need help with help!");

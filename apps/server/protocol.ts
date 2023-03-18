@@ -71,9 +71,9 @@ export namespace from_server {
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.message_send,
-data: pkg,
-}));
+			id: from_server.pkg_ids.message_send,
+			data: pkg,
+		}));
 	}
 
 	export function send_message_ack(id: number, socket: WebSocket) {
@@ -82,9 +82,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.message_send_ack,
-data: pkg,
-}));
+			id: from_server.pkg_ids.message_send_ack,
+			data: pkg,
+		}));
 	}
 
 	export function send_internal_error(msg: string, cause: to_server.pkg, socket: WebSocket) {
@@ -94,9 +94,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.internal_error_pkg,
-data: pkg,
-}));
+			id: from_server.pkg_ids.internal_error_pkg,
+			data: pkg,
+		}));
 	}
 
 	// deno-lint-ignore ban-types
@@ -108,9 +108,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.config_response,
-data: pkg,
-}));
+			id: from_server.pkg_ids.config_response,
+			data: pkg,
+		}));
 	}
 
 	export function send_key_auth_response(success: boolean, socket: WebSocket) {
@@ -119,9 +119,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.key_auth_response,
-data: pkg,
-}));
+			id: from_server.pkg_ids.key_auth_response,
+			data: pkg,
+		}));
 	}
 
 	export function send_message_media(type: message_send_media_pkg_type, path: string, id: number, socket: WebSocket) {
@@ -132,9 +132,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.message_send_media,
-data: pkg,
-}));
+			id: from_server.pkg_ids.message_send_media,
+			data: pkg,
+		}));
 	}
 
 	export function send_set_bot_status(status: string, socket: WebSocket) {
@@ -143,9 +143,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.set_bot_status,
-data: pkg,
-}));
+			id: from_server.pkg_ids.set_bot_status,
+			data: pkg,
+		}));
 	}
 
 	export function send_tmp_file_response(path: string, ext: string, socket: WebSocket) {
@@ -155,9 +155,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: from_server.pkg_ids.tmp_file_response,
-data: pkg,
-}));
+			id: from_server.pkg_ids.tmp_file_response,
+			data: pkg,
+		}));
 	}
 }
 
@@ -210,9 +210,9 @@ export namespace to_server {
 		};
 
 		socket.send(JSON.stringify({
-id: to_server.pkg_ids.log,
-data: pkg,
-}));
+			id: to_server.pkg_ids.log,
+			data: pkg,
+		}));
 	}
 
 	export function send_on_message(msg: string, user_id: string, chat_id: string, mentions: string[] | undefined, quote_text: string | undefined, files: string[] | undefined, id: number, socket: WebSocket) {
@@ -227,9 +227,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: to_server.pkg_ids.on_message,
-data: pkg,
-}));
+			id: to_server.pkg_ids.on_message,
+			data: pkg,
+		}));
 	}
 
 	export function send_config_request(section: string, key: string, socket: WebSocket) {
@@ -239,9 +239,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: to_server.pkg_ids.config_request,
-data: pkg,
-}));
+			id: to_server.pkg_ids.config_request,
+			data: pkg,
+		}));
 	}
 
 	export function send_tmp_file_request(ext: string, ttl: number, socket: WebSocket) {
@@ -251,9 +251,9 @@ data: pkg,
 		};
 
 		socket.send(JSON.stringify({
-id: to_server.pkg_ids.tmp_file_request,
-data: pkg,
-}));
+			id: to_server.pkg_ids.tmp_file_request,
+			data: pkg,
+		}));
 	}
 
 	// deno-lint-ignore ban-types

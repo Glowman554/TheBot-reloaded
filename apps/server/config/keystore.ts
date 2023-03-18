@@ -27,7 +27,7 @@ export function keystore_load() {
 				}
 			}
 		}
-	// deno-lint-ignore no-empty
+		// deno-lint-ignore no-empty
 	} catch (_e) {}
 }
 

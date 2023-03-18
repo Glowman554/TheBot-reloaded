@@ -13,9 +13,9 @@ export default class Version implements loadable {
 						return fail;
 					}
 
-                    return {
+					return {
 						is_response: true,
-						response: version
+						response: version,
 					};
 				},
 			} as CommandExecutor, undefined),

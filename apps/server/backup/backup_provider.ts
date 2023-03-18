@@ -20,7 +20,7 @@ export async function backup() {
 	const providers: BackupProvider[] = [
 		config,
 		new PermissionsBackup(),
-		new KeystoreBackup()
+		new KeystoreBackup(),
 	];
 
 	const backup_id = random_id();

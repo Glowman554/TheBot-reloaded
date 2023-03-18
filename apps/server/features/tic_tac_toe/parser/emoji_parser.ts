@@ -42,21 +42,21 @@ export class EmojiTicTacToeParser implements TicTacToeParser {
 
 		return true;
 	}
-	
+
 	str(): string {
 		let ret = "";
 		for (let i = 0; i < this.field.length; i++) {
 			for (let j = 0; j < this.field[i].length; j++) {
 				switch (this.field[i][j]) {
-				case TicTacToeFields.FIELD_EMPTY:
-					ret += "❔";
-					break;
-				case TicTacToeFields.FIELD_O:
-					ret += "⭕";
-					break;
-				case TicTacToeFields.FIELD_X:
-					ret += "❌";
-					break;
+					case TicTacToeFields.FIELD_EMPTY:
+						ret += "❔";
+						break;
+					case TicTacToeFields.FIELD_O:
+						ret += "⭕";
+						break;
+					case TicTacToeFields.FIELD_X:
+						ret += "❌";
+						break;
 				}
 				ret += " ";
 			}
@@ -65,16 +65,16 @@ export class EmojiTicTacToeParser implements TicTacToeParser {
 
 		return ret;
 	}
-	
+
 	get_field(): TicTacToeFields[][] {
 		return this.field;
 	}
 
 	reset(): void {
 		this.field = [
-			[ TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY ],
-			[ TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY ],
-			[ TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY ]
-		]
+			[TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY],
+			[TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY],
+			[TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY, TicTacToeFields.FIELD_EMPTY],
+		];
 	}
 }

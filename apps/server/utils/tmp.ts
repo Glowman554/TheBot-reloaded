@@ -22,7 +22,7 @@ export function init_tmp_files(): void {
 				log("tmp", "Deleting expired tmp file: " + file.file);
 				try {
 					Deno.removeSync(file.file);
-				// deno-lint-ignore no-empty
+					// deno-lint-ignore no-empty
 				} catch (_e) {}
 				tmp_files.splice(i, 1);
 				break;

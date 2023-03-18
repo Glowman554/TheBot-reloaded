@@ -1,4 +1,4 @@
-import { Command, CommandEvent, CommandExecutor, CommandResponse, command_manager, fail } from "../../command/command.ts";
+import { Command, command_manager, CommandEvent, CommandExecutor, CommandResponse, fail } from "../../command/command.ts";
 import { keystore_get, keystore_set } from "../../config/keystore.ts";
 import { event } from "../../event/event.ts";
 import { EventHandler } from "../../event/event_handler.ts";
@@ -34,8 +34,8 @@ export function init_tic_tac_toe() {
 
 				return {
 					is_response: true,
-					response: "OK"
-				}
+					response: "OK",
+				};
 			},
 		} as CommandExecutor, undefined),
 	);
@@ -58,7 +58,7 @@ export function init_tic_tac_toe() {
 						parser.get_field()[move.x][move.y] = TicTacToeFields.FIELD_O;
 
 						ce.interface.send_message(parser.str());
-						
+
 						if (ai.is_game_over().over) {
 							if (ai.is_game_over().winner == TicTacToeFields.FIELD_X) {
 								ce.interface.send_message("You won! How???");
@@ -81,4 +81,3 @@ export default class TicTacToe implements loadable {
 		init_tic_tac_toe();
 	}
 }
-

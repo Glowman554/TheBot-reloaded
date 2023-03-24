@@ -48,7 +48,7 @@ export default class Fun implements loadable {
 
 					const im = await generate(event.interface.args.join(" "), "256x256");
 					for (const i of im.data) {
-						download_to_tmp_file_ext(i.url, "png").then(v => event.interface.send_picture_message(v));
+						download_to_tmp_file_ext(i.url, "png").then((v) => event.interface.send_picture_message(v));
 					}
 
 					return empty;

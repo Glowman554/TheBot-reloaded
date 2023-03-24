@@ -16,8 +16,8 @@ export async function generate(prompt: string, size: ImageSizes): Promise<ImageR
 
 	const body = {
 		prompt: prompt,
-        n: 2,
-        size: size
+		n: 2,
+		size: size,
 	};
 
 	const res = await (await fetch(`https://api.openai.com/v1/images/generations`, {

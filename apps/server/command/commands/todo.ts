@@ -14,7 +14,7 @@ export default class Todo implements loadable {
 		}
 
 		command_manager.add_command(
-			new Command("todo", "!", help_text("'<prefix>todo'!"), {
+			new Command("todo", "Manage your todo list!", help_text("Use '<prefix>todo [add, remove, clear, list]' to manage your todo list!\n\nExample: \n<prefix>todo add something\n<prefix>todo remove 0\n<prefix>todo clear\n<prefix>todo list"), {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length == 0) {
 						return fail;

@@ -12,7 +12,7 @@ export default class Mikki implements loadable {
 		init_mikki_api(config.get("url", "mikki") as string, config.get("token", "mikki") as string);
 
 		command_manager.add_command(
-			new Command("mikki", "Manage Mikki accounts", help_text("Use '<prefix>mikki [page/changelog] [list<page or changelog>/get<page>] [page_id<page>?]' to access the Mikki."), {
+			new Command("mikki", "Access the Mikki!", help_text("Use '<prefix>mikki [page/changelog] [list<page or changelog>/get<page>] [page_id<page>?]' to access the Mikki."), {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length != 2 && event.interface.args.length != 3) {
 						return fail;

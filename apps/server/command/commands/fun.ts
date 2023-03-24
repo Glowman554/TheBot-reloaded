@@ -40,7 +40,7 @@ export default class Fun implements loadable {
 		);
 
 		command_manager.add_command(
-			new Command("image", "!", help_text("'<prefix>image'!"), {
+			new Command("image", "Generate images!", help_text("Use '<prefix>image prompt' to generate images!"), {
 				execute: async (event: CommandEvent): Promise<CommandResponse> => {
 					if (event.interface.args.length == 0) {
 						return fail;

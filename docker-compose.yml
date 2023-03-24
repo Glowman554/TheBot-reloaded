@@ -7,30 +7,30 @@ services:
     restart: always
     depends_on:
       - server
-  telegram_client:
-    build: apps/telegram_client
-    volumes:
-      - ./data:/data
-    restart: always
-    depends_on:
-      - server
-  whatsapp_client:
-    build: apps/whatsapp_client
-    volumes:
-      - ./data:/data
-      - ./data/.wwebjs_auth:/srv/.wwebjs_auth
-    restart: always
-    depends_on:
-      - server
-  docker_proxy:
-    build: apps/docker_proxy
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-    restart: always
-  compiler_server:
-    build: apps/compiler_server
-    privileged: true
-    restart: always
+  # telegram_client:
+  #   build: apps/telegram_client
+  #   volumes:
+  #     - ./data:/data
+  #   restart: always
+  #   depends_on:
+  #     - server
+  # whatsapp_client:
+  #   build: apps/whatsapp_client
+  #   volumes:
+  #     - ./data:/data
+  #     - ./data/.wwebjs_auth:/srv/.wwebjs_auth
+  #   restart: always
+  #   depends_on:
+  #     - server
+  # docker_proxy:
+  #   build: apps/docker_proxy
+  #   volumes:
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   restart: always
+  # compiler_server:
+  #   build: apps/compiler_server
+  #   privileged: true
+  #   restart: always
   server:
     build: apps/server
     volumes:

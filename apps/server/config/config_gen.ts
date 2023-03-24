@@ -51,7 +51,7 @@ function main() {
 	config_gen_add("chatbot", "key", undefined);
 	config_gen_add("chatbot", "bid", undefined);
 
-	config_gen_add("chatgpt", "key", undefined);
+	config_gen_add("openai", "key", undefined);
 
 	config_gen_add("untis", "school", undefined);
 	config_gen_add("untis", "user", undefined);

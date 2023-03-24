@@ -12,7 +12,7 @@ export interface ChatGPTChoice {
 }
 
 export async function get_response_gpt(chat: ChatGPTMessage[]): Promise<ChatGPTMessage> {
-	const key = config.get("key", "chatgpt");
+	const key = config.get("key", "openai");
 
 	const body = {
 		model: "gpt-3.5-turbo",

@@ -13,3 +13,14 @@ export async function download_to_tmp_file(url: string, ttl = 1000 * 60): Promis
 
 	return file;
 }
+
+export async function download_to_tmp_file_ext(url: string, ext: string, ttl = 1000 * 60): Promise<string> {
+	const file = get_temp_file(ext, ttl);
+	log("download", `Downloading ${url} to ${file}`);
+	await download(url, {
+		dir: file.split("/").slice(0, -1).join("/"),
+		file: file.split("/").pop() as string,
+	});
+
+	return file;
+}

@@ -8,6 +8,7 @@ import { help_text } from "../utils/help.ts";
 import { keystore_get, keystore_set } from "../config/keystore.ts";
 import { ChatGPTMessage } from "../api/chatgpt.ts";
 import { log } from "../logger.ts";
+import { get_response_alice } from "../api/alice.ts";
 
 const chats: {
 	[id: string]: ChatGPTMessage[];
@@ -41,7 +42,7 @@ export function init_chatbot() {
 				}
 
 				const chatbot_type = event.interface.args[1];
-				if ((chatbot_type != "chatgpt") && (chatbot_type != "brainshop")) {
+				if ((chatbot_type != "chatgpt") && (chatbot_type != "brainshop") && (chatbot_type != "alice")) {
 					return {
 						is_response: true,
 						response: "Unknown chatbot type",
@@ -117,6 +118,9 @@ export function init_chatbot() {
 						break;
 					case "brainshop":
 						await ce.interface.send_message(await get_response(ce.interface.message, ce.interface.chat_id));
+						break;
+					case "alice":
+						await ce.interface.send_message(await get_response_alice(ce.interface.message, ce.interface.chat_id));
 						break;
 				}
 			}

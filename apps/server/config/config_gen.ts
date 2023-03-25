@@ -53,6 +53,8 @@ function main() {
 
 	config_gen_add("openai", "key", undefined);
 
+	config_gen_add("alice", "url", undefined);
+
 	config_gen_add("untis", "school", undefined);
 	config_gen_add("untis", "user", undefined);
 	config_gen_add("untis", "pass", undefined);

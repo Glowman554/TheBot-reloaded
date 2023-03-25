@@ -34,7 +34,7 @@ export function init_chatbot() {
 	const chat_ids = (ks ? ks.split(";") : []).map((v) => JSON.parse(v)) as ChatbotChatIds[];
 
 	command_manager.add_command(
-		new Command("chatbot", "Enable / disable the chatbot in this chat!", help_text("Use '<prefix>chatbot' [enable/disable] [chatgpt/brainshop] to Enable / disable the chatbot in this chat!"), {
+		new Command("chatbot", "Enable / disable the chatbot in this chat!", help_text("Use '<prefix>chatbot' [enable/disable] [chatgpt/brainshop/alice] to Enable / disable the chatbot in this chat!"), {
 			// deno-lint-ignore require-await
 			execute: async (event: CommandEvent): Promise<CommandResponse> => {
 				if (event.interface.args.length != 2) {
